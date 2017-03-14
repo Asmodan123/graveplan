@@ -73,12 +73,12 @@ public class Grave {
                     placeSize = Integer.parseInt(name.substring(pos + NAME_SIZE_LEN + 1, pos + NAME_SIZE_LEN + 2));
                 }
             } catch (Exception e) {
-                System.err.println("Invalid GraveName " + name + ": " + e.getMessage());
+                System.err.println("InvalGrossid GraveName '" + name + "': " + e.getMessage());
                 return;
             }
         }
         if (rowSize == 0 || placeSize == 0) {
-            System.err.println("Invalid GraveName " + name + " on " + this);
+            System.err.println("Invalid GraveName '" + name + "' on " + this);
         }
     }
 

@@ -64,6 +64,7 @@ public class HTMLPlaceMapWriter {
             // writeColGroup(out, placeMap);
             writeTableHeader(out, placeMap);
             writeTableContent(out, placeMap);
+            writeTableFooter(out, placeMap);
             writeFooter(out);
         }
     }
@@ -95,7 +96,7 @@ public class HTMLPlaceMapWriter {
     private void writeTableHeader(PrintWriter out, PlaceMap placeMap) {
         out.println("      <thead>");
         out.println("        <tr>");
-        out.println("          <th class=\"col\">Reihe \\ Platz</th>");
+        out.println("          <th class=\"col\">Platz &rarr; Reihe&darr;</th>");
         for (int i = placeMap.getPlaceCount() - 1; i >= 0; i--) {
             int place = i - placeMap.getDeltaPlace();
             if (place >= 0) {
@@ -104,8 +105,26 @@ public class HTMLPlaceMapWriter {
             String placeStr = String.format("%02d", place);
             out.println("          <th>" + placeStr + "</th>");
         }
+        out.println("          <th class=\"col\">Platz &larr; Reihe&darr;</th>");
         out.println("        </tr>");
         out.println("      </thead>");
+    }
+
+    private void writeTableFooter(PrintWriter out, PlaceMap placeMap) {
+        out.println("      <tfoot>");
+        out.println("        <tr>");
+        out.println("          <td class=\"reihe\">Reihe&uarr; Platz &rarr;</td>");
+        for (int i = placeMap.getPlaceCount() - 1; i >= 0; i--) {
+            int place = i - placeMap.getDeltaPlace();
+            if (place >= 0) {
+                place++;
+            }
+            String placeStr = String.format("%02d", place);
+            out.println("          <td class=\"reihe\">" + placeStr + "</td>");
+        }
+        out.println("          <td class=\"reihe\">Reihe&uarr; Platz &larr;</td>");
+        out.println("        </tr>");
+        out.println("      </tfoot>");
     }
 
     private void writeTableContent(PrintWriter out, PlaceMap placeMap) {
@@ -160,6 +179,7 @@ public class HTMLPlaceMapWriter {
                     out.println("        <td/>");
                 }
             }
+            out.println("          <td class=\"reihe\">" + rowStr + "</td>");
             out.println("        </tr>");
         }
         out.println("      </tbody>");

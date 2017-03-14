@@ -54,14 +54,24 @@ public class Place {
 
     public int getRowInt() {
         if (rowInt == Integer.MIN_VALUE) {
-            rowInt = Integer.parseInt(row.replaceAll("[^0-9\\-]", ""));
+            String rowStr = row.trim();
+            int i = rowStr.indexOf(" ");
+            if (i > 0) {
+                rowStr = rowStr.substring(0, i - 1);
+            }
+            rowInt = Integer.parseInt(rowStr.replaceAll("[^0-9\\-]", ""));
         }
         return rowInt;
     }
 
     public int getPlaceInt() {
         if (placeInt == Integer.MIN_VALUE) {
-            placeInt = Integer.parseInt(place.replaceAll("[^0-9\\-]", ""));
+            String placeStr = place.trim();
+            int i = placeStr.indexOf(" ");
+            if (i > 0) {
+                placeStr = placeStr.substring(0, i - 1);
+            }
+            placeInt = Integer.parseInt(placeStr.replaceAll("[^0-9\\-]", ""));
         }
         return placeInt;
     }

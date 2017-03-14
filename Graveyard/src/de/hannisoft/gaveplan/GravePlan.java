@@ -21,8 +21,18 @@ public class GravePlan {
     }
 
     public static void main(String[] args) throws Exception {
+        String timestamp = "20170314";
+        String importDir = "/home/johannes/Dokumente/Friedhof/export/";
+        String graveFile = importDir + "Grabstätten_" + timestamp + ".xls";
+        String placeFile = importDir + "Verstorbene_" + timestamp + ".xls";
+        String outputDir = "/home/johannes/tmp/plan/";
+        if (args != null && args.length == 3) {
+            graveFile = args[0];
+            placeFile = args[1];
+            outputDir = args[2];
+        }
         GravePlan gravePlane = new GravePlan();
-        gravePlane.run(args[0], args[1], args[2]);
+        gravePlane.run(graveFile, placeFile, outputDir);
     }
 
 }

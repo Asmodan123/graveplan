@@ -111,16 +111,20 @@ public class Place {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
         StringBuilder sb = new StringBuilder();
-        Owner ow = getGrave().getOwner();
         sb.append("Gabstätte: ").append(getGrave().getId());
         sb.append(";===================");
-        sb.append(";Nutzungsrecht bis ").append(dateFormat.format(getGrave().getValidTo()));
+        if (getGrave().getValidTo() != null) {
+            sb.append(";Nutzungsrecht bis ").append(dateFormat.format(getGrave().getValidTo()));
+        }
         sb.append(";").append(getGrave().getName());
         sb.append(";;Nutzungsberechtigter:");
         sb.append(";-----------------------------------;");
-        sb.append(ow.getFirstName()).append(' ').append(ow.getLastName()).append(';');
-        sb.append(ow.getStreet()).append(';');
-        sb.append(ow.getZipAndTown());
+        Owner ow = getGrave().getOwner();
+        if (ow != null) {
+            sb.append(ow.getFirstName()).append(' ').append(ow.getLastName()).append(';');
+            sb.append(ow.getStreet()).append(';');
+            sb.append(ow.getZipAndTown());
+        }
         return sb.toString();
     }
 

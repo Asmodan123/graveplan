@@ -21,7 +21,7 @@ public class GravePlan {
     }
 
     public static void main(String[] args) throws Exception {
-        String timestamp = "20170314";
+        String timestamp = "20170316";
         String importDir = "/home/johannes/Dokumente/Friedhof/export/";
         String graveFile = importDir + "Grabstätten_" + timestamp + ".xls";
         String placeFile = importDir + "Verstorbene_" + timestamp + ".xls";

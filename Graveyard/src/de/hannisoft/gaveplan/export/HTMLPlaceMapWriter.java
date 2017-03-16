@@ -176,6 +176,7 @@ public class HTMLPlaceMapWriter {
                     out.println(sb.toString());
                 } catch (Exception e) {
                     System.err.println(e.getClass().getSimpleName() + " while printing place " + place + ": " + e.getMessage());
+                    e.printStackTrace();
                     out.println("        <td/>");
                 }
             }

@@ -7,14 +7,15 @@ import de.hannisoft.gaveplan.export.HTMLPlaceMapWriter.OutputType;
 import de.hannisoft.gaveplan.model.PlaceMap;
 
 public class PlaceMapWriter {
-    public void write(String outputDir, Map<String, PlaceMap> placeMaps) throws Exception {
+    public void write(String outputDir, Map<String, PlaceMap> placeMaps, String dueDay) throws Exception {
         // PNGPlaceMapWriter png = new PNGPlaceMapWriter();
 
-        writeHtmlPlaceMap(outputDir, placeMaps, OutputType.RUNTIME);
-        writeHtmlPlaceMap(outputDir, placeMaps, OutputType.REFERENCE);
+        writeHtmlPlaceMap(outputDir, placeMaps, OutputType.RUNTIME, dueDay);
+        writeHtmlPlaceMap(outputDir, placeMaps, OutputType.REFERENCE, dueDay);
     }
 
-    private void writeHtmlPlaceMap(String outputDir, Map<String, PlaceMap> placeMaps, OutputType type) throws Exception {
+    private void writeHtmlPlaceMap(String outputDir, Map<String, PlaceMap> placeMaps, OutputType type, String dueDay)
+            throws Exception {
         switch (type) {
             case REFERENCE:
                 outputDir = outputDir + "belegung/";
@@ -26,7 +27,7 @@ public class PlaceMapWriter {
         HTMLPlaceMapWriter writer = new HTMLPlaceMapWriter(outputDir, type);
         for (Entry<String, PlaceMap> entry : placeMaps.entrySet()) {
             entry.getValue().finishEdit();
-            writer.write(entry.getKey(), entry.getValue());
+            writer.write(entry.getKey(), entry.getValue(), dueDay);
         }
 
     }

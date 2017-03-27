@@ -56,11 +56,11 @@ public class HTMLPlaceMapWriter {
         return new ByteArrayInputStream(sb.toString().getBytes());
     }
 
-    public void write(String field, PlaceMap placeMap) throws IOException {
+    public void write(String field, PlaceMap placeMap, String dueDay) throws IOException {
         File html = new File(dir, field + ".html");
         html.createNewFile();
         try (PrintWriter out = new PrintWriter(html)) {
-            writeHeader(out, field, placeMap.getPlaceCount());
+            writeHeader(out, field, placeMap.getPlaceCount(), dueDay);
             // writeColGroup(out, placeMap);
             writeTableHeader(out, placeMap);
             writeTableContent(out, placeMap);
@@ -69,7 +69,7 @@ public class HTMLPlaceMapWriter {
         }
     }
 
-    private void writeHeader(PrintWriter out, String fieldName, int placeCount) {
+    private void writeHeader(PrintWriter out, String fieldName, int placeCount, String dueDay) {
         out.println("<!doctype html>");
         out.println("<html>");
         out.println("  <head>");
@@ -78,7 +78,7 @@ public class HTMLPlaceMapWriter {
         out.println("    <link rel=\"stylesheet\" href=\"style.css\">");
         out.println("  </head>");
         out.println("  <body>");
-        out.println("    <h1>Feld " + fieldName + "</h1>");
+        out.println("    <h1>Feld " + fieldName + " (" + dueDay + ")</h1>");
         out.println("");
         out.println("    <table width=\"" + String.valueOf(placeCount * 140 + 40) + "\">");
     }

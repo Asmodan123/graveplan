@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum ElementType {
-    UNKONWN(""), RAND("rand"), FELD("feld");
+    UNKONWN(""), RAND("rand"), FELD("feld"), RASTER("raster");
 
     private static final Map<String, ElementType> nameMap = new HashMap<>();
 

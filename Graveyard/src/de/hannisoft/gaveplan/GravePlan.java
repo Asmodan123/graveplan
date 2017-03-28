@@ -1,28 +1,24 @@
 package de.hannisoft.gaveplan;
 
-import java.util.Map;
-
-import de.hannisoft.gaveplan.excelimport.GraveFileReader;
-import de.hannisoft.gaveplan.excelimport.PlaceFileReader;
-import de.hannisoft.gaveplan.export.PlaceMapWriter;
-import de.hannisoft.gaveplan.export.ZipCreator;
-import de.hannisoft.gaveplan.model.Grave;
-import de.hannisoft.gaveplan.model.PlaceMap;
+import de.hannisoft.gaveplan.export.PNGPlaceMapWriter;
 
 public class GravePlan {
     public void run(String graveFile, String placeFile, String outputDir, String timestamp) throws Exception {
-        GraveFileReader graveReader = new GraveFileReader();
-        Map<String, Grave> graves = graveReader.read(graveFile);
+        // GraveFileReader graveReader = new GraveFileReader();
+        // Map<String, Grave> graves = graveReader.read(graveFile);
+        //
+        // PlaceFileReader placeReader = new PlaceFileReader();
+        // Map<String, PlaceMap> placeMaps = placeReader.read(placeFile, graves);
+        //
+        // String dueDay = timestamp.substring(6, 8) + "." + timestamp.substring(4, 6) + "." + timestamp.substring(0, 4);
+        // PlaceMapWriter writer = new PlaceMapWriter();
+        // writer.write(outputDir, placeMaps, dueDay);
 
-        PlaceFileReader placeReader = new PlaceFileReader();
-        Map<String, PlaceMap> placeMaps = placeReader.read(placeFile, graves);
+        PNGPlaceMapWriter pngWriter = new PNGPlaceMapWriter();
+        pngWriter.drawDefaultMap();
 
-        String dueDay = timestamp.substring(6, 8) + "." + timestamp.substring(4, 6) + "." + timestamp.substring(0, 4);
-        PlaceMapWriter writer = new PlaceMapWriter();
-        writer.write(outputDir, placeMaps, dueDay);
-
-        ZipCreator zipper = new ZipCreator();
-        zipper.zipFolder(outputDir, outputDir + "Lageplan_" + timestamp + ".zip");
+        // ZipCreator zipper = new ZipCreator();
+        // zipper.zipFolder(outputDir, outputDir + "Lageplan_" + timestamp + ".zip");
     }
 
     public static void main(String[] args) throws Exception {

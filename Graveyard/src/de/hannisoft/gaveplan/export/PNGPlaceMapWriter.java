@@ -18,22 +18,28 @@ import de.hannisoft.gaveplan.model.Point;
 
 public class PNGPlaceMapWriter {
     private Map<Integer, PlanElement> elements = null;
-    private Graphics2D img;
+    private final Graphics2D img;
+    private final BufferedImage bi;
+    // private static final double xFactor = 2;
+    // private static final double yFactor = 2;
+    // private static final int xDelta = -550;
+    // private static final int yDelta = 0;
+    // private static double rotation = Math.PI / -2;
     private static final double xFactor = 1;
-    private static final double yFactor = 2;
+    private static final double yFactor = 1;
     private static final int xDelta = 0;
-    private static final int yDelta = 800;
-    // private static final double rotation = 0.085;
-    // private static final double rotation = 0.545;
-    private static final double rotation = -0.3;
+    private static final int yDelta = 0;
+    private static double rotation = 0;
 
     public PNGPlaceMapWriter() throws IOException {
         initElements();
 
-        int width = 2000, height = 1000;
-        BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        int width = 750, height = 650;
+        bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         img = bi.createGraphics();
+    }
 
+    public void drawDefaultMap() throws IOException {
         for (PlanElement element : elements.values()) {
             drawElement(element);
         }
@@ -50,8 +56,49 @@ public class PNGPlaceMapWriter {
 
     public void drawElement(PlanElement element) {
         prepareImage(element);
-        img.drawPolygon(element.getXs(), element.getYs(), element.getPoints().size());
+        switch (element.getType()) {
+            case RASTER:
+                break;
+            default:
+                img.drawPolygon(element.getXs(), element.getYs(), element.getPoints().size());
+        }
     }
+
+    //@formatter:off
+    /*
+    private void drawRaster(PlanElement element){
+//        $t_col=$this->getColor(0,0,0);
+        int rowCount = element.getMaxRow()-element.getMinRow()+1;
+        int placeCount = element.getMaxPlace()-element.getMinPlace()+1;
+        double deltaX_Bottom=(points[4]-points[2]) /  rowCount;
+        $DeltaX_Top=($pPoints[6]-$pPoints[0]) /  $AnzReihe;
+        $DeltaX_Left=($pPoints[2]-$pPoints[0]) / $AnzPlatz;
+        $DeltaX_Right=($pPoints[4]-$pPoints[6]) / $AnzPlatz;
+        $DeltaY_Left=($pPoints[3]-$pPoints[1]) / $AnzPlatz;
+        $DeltaY_Right=($pPoints[5]-$pPoints[7]) / $AnzPlatz;
+        $DeltaY_Top=($pPoints[7]-$pPoints[1]) /  $AnzReihe;
+        $DeltaY_Bottom=($pPoints[5]-$pPoints[3]) /  $AnzReihe;
+
+
+        ImageSetThickness($this->im, 1);
+        //echo $AnzReihe." - ".$AnzPlatz." - ".$DeltaY_Left." - ".$DeltaY_Right.' - '.$AnzPlaz.'<br>';
+        for ($i=0; $i<$AnzReihe+1; $i++)
+            imageline($this->im, $pPoints[0]+$DeltaX_Top*$i,
+                                 $pPoints[1]+$DeltaY_Top*$i,
+                                 $pPoints[2]+$DeltaX_Bottom*$i,
+                                 $pPoints[3]+$DeltaY_Bottom*$i,
+                                 $t_col  );
+
+        for ($i=0; $i<$AnzPlatz+1; $i++) {
+            //echo ($pPoints[0]+$DeltaX_Left*$i).' - '.($pPoints[1]+$DeltaY_Left*$i).' - '.($pPoints[2]+$DeltaX_Right*$i).' - '.($pPoints[3]+$DeltaY_Right*$i).'<br>';
+            imageline($this->im, $pPoints[0]+$DeltaX_Left*$i,
+                                 $pPoints[1]+$DeltaY_Left*$i,
+                                 $pPoints[6]+$DeltaX_Right*$i,
+                                 $pPoints[7]+$DeltaY_Right*$i,
+                                 $t_col  );
+        };
+*/
+  //@formatter:on
 
     private void prepareImage(PlanElement element) {
         switch (element.getType()) {
@@ -101,6 +148,10 @@ public class PNGPlaceMapWriter {
 
     private Map<Integer, Point> readPoints() throws IOException {
         Map<Integer, Point> points = new HashMap<>();
+        int minX = 0;
+        int maxX = 0;
+        int minY = 0;
+        int maxY = 0;
         Properties props = new Properties();
         props.load(getClass().getClassLoader().getResourceAsStream("plan/points.properties"));
         for (Entry<Object, Object> prop : props.entrySet()) {
@@ -114,11 +165,26 @@ public class PNGPlaceMapWriter {
                 point.move(xDelta, yDelta);
                 point.rotate(rotation);
                 points.put(pointId, point);
+                // System.out.println(point.toString());
+                if (minX == 0 || point.getX() < minX) {
+                    minX = point.getX();
+                }
+                if (maxX == 0 || point.getX() > maxX) {
+                    maxX = point.getX();
+                }
+                if (minY == 0 || point.getY() < minY) {
+                    minY = point.getY();
+                }
+                if (maxY == 0 || point.getY() > maxY) {
+                    maxY = point.getY();
+                }
             } catch (Exception e) {
                 System.err.println("Can't convert Property to Point of '" + prop.toString() + "': " + e.getMessage());
                 e.printStackTrace();
             }
         }
+        System.out.println("x:[" + minX + " " + maxX + "]");
+        System.out.println("y:[" + minY + " " + maxY + "]");
         return points;
     }
 

@@ -27,9 +27,11 @@ public class Point {
         if (degree == 0) {
             return;
         }
-        double xd = x * Math.cos(degree) - y * Math.sin(degree);
+        double xOld = x;
+        double yOld = y;
+        double xd = xOld * Math.cos(degree) - yOld * Math.sin(degree);
         x = Long.valueOf(Math.round(xd)).intValue();
-        double yd = x * Math.sin(degree) + y * Math.cos(degree);
+        double yd = xOld * Math.sin(degree) + yOld * Math.cos(degree);
         y = Long.valueOf(Math.round(yd)).intValue();
     }
 
@@ -41,5 +43,10 @@ public class Point {
     public void move(int xDelta, int yDelta) {
         x = x + xDelta;
         y = y + yDelta;
+    }
+
+    @Override
+    public String toString() {
+        return id + "=" + x + "," + y;
     }
 }

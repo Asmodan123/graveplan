@@ -2,6 +2,7 @@ package de.hannisoft.gaveplan.export;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -14,6 +15,9 @@ import java.util.Properties;
 import javax.imageio.ImageIO;
 
 import de.hannisoft.gaveplan.model.PlanElement;
+import de.hannisoft.gaveplan.model.PlanElement.CornerPointType;
+import de.hannisoft.gaveplan.model.PlanElement.DeltaType;
+import de.hannisoft.gaveplan.model.PlanElement.EdgeType;
 import de.hannisoft.gaveplan.model.Point;
 
 public class PNGPlaceMapWriter {
@@ -25,8 +29,8 @@ public class PNGPlaceMapWriter {
     // private static final int xDelta = -550;
     // private static final int yDelta = 0;
     // private static double rotation = Math.PI / -2;
-    private static final double xFactor = 1;
-    private static final double yFactor = 1;
+    private static final double xFactor = 3;
+    private static final double yFactor = 3;
     private static final int xDelta = 0;
     private static final int yDelta = 0;
     private static double rotation = 0;
@@ -34,7 +38,7 @@ public class PNGPlaceMapWriter {
     public PNGPlaceMapWriter() throws IOException {
         initElements();
 
-        int width = 750, height = 650;
+        int width = 2000, height = 2000;
         bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         img = bi.createGraphics();
     }
@@ -42,10 +46,20 @@ public class PNGPlaceMapWriter {
     public void drawDefaultMap() throws IOException {
         for (PlanElement element : elements.values()) {
             drawElement(element);
+            drawPoints(element);
         }
         // drawElement(elements.get(1));
 
         ImageIO.write(bi, "PNG", new File("/home/johannes/tmp/plan/Plan.PNG"));
+    }
+
+    private void drawPoints(PlanElement element) {
+        img.setFont(new Font("Arial", Font.PLAIN, 20));
+        img.setColor(Color.BLUE);
+        for (Point p : element.getPoints()) {
+            img.fillArc(p.getX(), p.getY(), 5, 5, 0, 360);
+            img.drawString(p.toString(), p.getX(), p.getY());
+        }
     }
 
     private void initElements() throws IOException {
@@ -57,48 +71,69 @@ public class PNGPlaceMapWriter {
     public void drawElement(PlanElement element) {
         prepareImage(element);
         switch (element.getType()) {
+            case FELD:
+                drawFeld(element);
+                break;
             case RASTER:
+                drawRaster(element);
                 break;
             default:
                 img.drawPolygon(element.getXs(), element.getYs(), element.getPoints().size());
         }
     }
 
-    //@formatter:off
-    /*
-    private void drawRaster(PlanElement element){
-//        $t_col=$this->getColor(0,0,0);
-        int rowCount = element.getMaxRow()-element.getMinRow()+1;
-        int placeCount = element.getMaxPlace()-element.getMinPlace()+1;
-        double deltaX_Bottom=(points[4]-points[2]) /  rowCount;
-        $DeltaX_Top=($pPoints[6]-$pPoints[0]) /  $AnzReihe;
-        $DeltaX_Left=($pPoints[2]-$pPoints[0]) / $AnzPlatz;
-        $DeltaX_Right=($pPoints[4]-$pPoints[6]) / $AnzPlatz;
-        $DeltaY_Left=($pPoints[3]-$pPoints[1]) / $AnzPlatz;
-        $DeltaY_Right=($pPoints[5]-$pPoints[7]) / $AnzPlatz;
-        $DeltaY_Top=($pPoints[7]-$pPoints[1]) /  $AnzReihe;
-        $DeltaY_Bottom=($pPoints[5]-$pPoints[3]) /  $AnzReihe;
+    private void drawFeld(PlanElement element) {
+        img.drawPolygon(element.getXs(), element.getYs(), element.getPoints().size());
+        Point refPoint = element.getCornerPoint(CornerPointType.BOTTOM_LEFT);
+        if (refPoint != null) {
+            img.setFont(new Font("Arial", Font.PLAIN, 20));
 
+            int x = refPoint.getX() + 10;
+            int y = refPoint.getY() - 10;
+            img.drawString(element.getName(), x, y);
+        }
+    }
 
-        ImageSetThickness($this->im, 1);
-        //echo $AnzReihe." - ".$AnzPlatz." - ".$DeltaY_Left." - ".$DeltaY_Right.' - '.$AnzPlaz.'<br>';
-        for ($i=0; $i<$AnzReihe+1; $i++)
-            imageline($this->im, $pPoints[0]+$DeltaX_Top*$i,
-                                 $pPoints[1]+$DeltaY_Top*$i,
-                                 $pPoints[2]+$DeltaX_Bottom*$i,
-                                 $pPoints[3]+$DeltaY_Bottom*$i,
-                                 $t_col  );
+    private void drawRaster(PlanElement element) {
+        img.setColor(Color.BLACK);
+        img.setStroke(new BasicStroke(1));
 
-        for ($i=0; $i<$AnzPlatz+1; $i++) {
-            //echo ($pPoints[0]+$DeltaX_Left*$i).' - '.($pPoints[1]+$DeltaY_Left*$i).' - '.($pPoints[2]+$DeltaX_Right*$i).' - '.($pPoints[3]+$DeltaY_Right*$i).'<br>';
-            imageline($this->im, $pPoints[0]+$DeltaX_Left*$i,
-                                 $pPoints[1]+$DeltaY_Left*$i,
-                                 $pPoints[6]+$DeltaX_Right*$i,
-                                 $pPoints[7]+$DeltaY_Right*$i,
-                                 $t_col  );
-        };
-*/
-  //@formatter:on
+        float deltaX_Bottom = element.getDelta(DeltaType.X, EdgeType.BOTTOM);
+        float deltaX_Left = element.getDelta(DeltaType.X, EdgeType.LEFT);
+        float deltaX_Right = element.getDelta(DeltaType.X, EdgeType.RIGHT);
+        float deltaX_Top = element.getDelta(DeltaType.X, EdgeType.TOP);
+        float deltaY_Bottom = element.getDelta(DeltaType.Y, EdgeType.BOTTOM);
+        float deltaY_Left = element.getDelta(DeltaType.Y, EdgeType.LEFT);
+        float deltaY_Right = element.getDelta(DeltaType.Y, EdgeType.RIGHT);
+        float deltaY_Top = element.getDelta(DeltaType.Y, EdgeType.TOP);
+        Point p1 = element.getCornerPoint(CornerPointType.TOP_LEFT);
+        Point p2 = element.getCornerPoint(CornerPointType.BOTTOM_LEFT);
+        int refx1 = p1.getX();
+        int refy1 = p1.getY();
+        int refx2 = p2.getX();
+        int refy2 = p2.getY();
+        for (int i = 0; i < element.getPlaceCount() + 1; i++) {
+            int x1 = refx1 + Math.round(i * deltaX_Top);
+            int y1 = refy1 + Math.round(i * deltaY_Top);
+            int x2 = refx2 + Math.round(i * deltaX_Bottom);
+            int y2 = refy2 + Math.round(i * deltaY_Bottom);
+            img.drawLine(x1, y1, x2, y2);
+        }
+
+        p1 = element.getCornerPoint(CornerPointType.TOP_LEFT);
+        p2 = element.getCornerPoint(CornerPointType.TOP_RIGHT);
+        refx1 = p1.getX();
+        refy1 = p1.getY();
+        refx2 = p2.getX();
+        refy2 = p2.getY();
+        for (int i = 0; i <= element.getRowCount(); i++) {
+            int x1 = refx1 + Math.round(i * deltaX_Left);
+            int y1 = refy1 + Math.round(i * deltaY_Left);
+            int x2 = refx2 + Math.round(i * deltaX_Right);
+            int y2 = refy2 + Math.round(i * deltaY_Right);
+            img.drawLine(x1, y1, x2, y2);
+        }
+    }
 
     private void prepareImage(PlanElement element) {
         switch (element.getType()) {

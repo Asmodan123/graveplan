@@ -16,7 +16,13 @@ import jxl.Workbook;
 import jxl.WorkbookSettings;
 import jxl.read.biff.BiffException;
 
-public class PlaceFileReader {
+public class PlaceFileReader extends AbstractXMLFileReader {
+    private static final String COL_GARVE_ID = "Grabstätte";
+    private static final String COL_PLACE = "Grabstelle";
+    private static final String COL_LAST_NAME = "Nachname";
+    private static final String COL_FIRST_NAME = "Vorname";
+    private static final String COL_DOD = "Sterbedatum";
+
     public Map<String, PlaceMap> read(String inputFile, Map<String, Grave> graves) throws IOException {
         Map<String, PlaceMap> placeMaps = new HashMap<>();
         File inputWorkbook = new File(inputFile);
@@ -26,18 +32,18 @@ public class PlaceFileReader {
         try {
             w = Workbook.getWorkbook(inputWorkbook, ws);
             Sheet sheet = w.getSheet(0);
-
+            initColumnMap(sheet, 1);
             DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
             for (int i = 2; i < sheet.getRows(); i++) {
-                String graveId = sheet.getCell(4, i).getContents();
+                String graveId = getContent(COL_GARVE_ID, i);
                 Grave grave = graves.get(graveId);
                 if (grave != null) {
-                    String[] placeString = sheet.getCell(5, i).getContents().split("\\/");
+                    String[] placeString = getContent(COL_PLACE, i).split("\\/");
                     String row = placeString[0];
                     String placeNo = placeString[1];
-                    String lastName = sheet.getCell(1, i).getContents();
-                    String firstName = sheet.getCell(2, i).getContents();
-                    String dateOfDeath = sheet.getCell(7, i).getContents();
+                    String lastName = getContent(COL_LAST_NAME, i);
+                    String firstName = getContent(COL_FIRST_NAME, i);
+                    String dateOfDeath = getContent(COL_DOD, i);
 
                     try {
                         Place place = new Place(grave, row, placeNo);

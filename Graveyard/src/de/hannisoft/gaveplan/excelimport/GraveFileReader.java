@@ -15,7 +15,23 @@ import jxl.Workbook;
 import jxl.WorkbookSettings;
 import jxl.read.biff.BiffException;
 
-public class GraveFileReader {
+public class GraveFileReader extends AbstractXMLFileReader {
+    private static final String COL_ROW = "Reihe";
+    private static final String COL_PLACE = "Grabstätte";
+    private static final String COL_TYPE = "Grabart";
+    private static final String COL_NAME = "Grabname";
+    private static final String COL_VALID_FROM = "Nutzungsbeginn";
+    private static final String COL_VALID_TO = "Nutzungsende";
+    private static final String COL_SIZE = "Grabstellenanzahl";
+    private static final String COL_LAST_NAME = "Nachname";
+    private static final String COL_FIRST_NAME = "Vorname";
+    private static final String COL_STREET = "Straße";
+    private static final String COL_BUILDING_NO = "Hausnr.";
+    private static final String COL_ZIP = "PLZ";
+    private static final String COL_CITY = "Ort";
+    private static final String COL_SALUTAION = "Anrede";
+    private static final String COL_SALUTATION_LETTER = "Briefanrede";
+
     public Map<String, Grave> read(String inputFile) throws IOException {
         Map<String, Grave> graves = new HashMap<>();
         File inputWorkbook = new File(inputFile);
@@ -25,6 +41,7 @@ public class GraveFileReader {
         try {
             w = Workbook.getWorkbook(inputWorkbook, ws);
             Sheet sheet = w.getSheet(0);
+            initColumnMap(sheet, 0);
 
             DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
             for (int i = 1; i < sheet.getRows(); i++) {
@@ -32,21 +49,21 @@ public class GraveFileReader {
                 if (field == null || field.trim().isEmpty()) {
                     continue;
                 }
-                String row = sheet.getCell(2, i).getContents();
-                String place = sheet.getCell(3, i).getContents();
-                String type = sheet.getCell(4, i).getContents();
-                String name = sheet.getCell(5, i).getContents();
-                String validFrom = sheet.getCell(6, i).getContents();
-                String validTo = sheet.getCell(7, i).getContents();
-                String size = sheet.getCell(17, i).getContents();
+                String row = getContent(COL_ROW, i);
+                String place = getContent(COL_PLACE, i);
+                String type = getContent(COL_TYPE, i);
+                String name = getContent(COL_NAME, i);
+                String validFrom = getContent(COL_VALID_FROM, i);
+                String validTo = getContent(COL_VALID_TO, i);
+                String size = getContent(COL_SIZE, i);
 
                 Owner owner = new Owner();
-                owner.setLastName(sheet.getCell(9, i).getContents());
-                owner.setFirstName(sheet.getCell(10, i).getContents());
-                owner.setStreet(sheet.getCell(11, i).getContents() + " " + sheet.getCell(12, i).getContents());
-                owner.setZipAndTown(sheet.getCell(13, i).getContents() + " " + sheet.getCell(14, i).getContents());
-                owner.setSaluation(sheet.getCell(15, i).getContents());
-                owner.setSaluationLetter(sheet.getCell(16, i).getContents());
+                owner.setLastName(getContent(COL_LAST_NAME, i));
+                owner.setFirstName(getContent(COL_FIRST_NAME, i));
+                owner.setStreet(getContent(COL_STREET, i) + " " + getContent(COL_BUILDING_NO, i));
+                owner.setZipAndTown(getContent(COL_ZIP, i) + " " + getContent(COL_CITY, i));
+                owner.setSaluation(getContent(COL_SALUTAION, i));
+                owner.setSaluationLetter(getContent(COL_SALUTATION_LETTER, i));
 
                 try {
                     Grave grave = new Grave(field, row, place);

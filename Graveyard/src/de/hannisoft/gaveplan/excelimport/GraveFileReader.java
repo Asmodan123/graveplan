@@ -16,6 +16,7 @@ import jxl.WorkbookSettings;
 import jxl.read.biff.BiffException;
 
 public class GraveFileReader extends AbstractXMLFileReader {
+    private static final String COL_FIELD = "Feld";
     private static final String COL_ROW = "Reihe";
     private static final String COL_PLACE = "Grabstätte";
     private static final String COL_TYPE = "Grabart";
@@ -45,7 +46,7 @@ public class GraveFileReader extends AbstractXMLFileReader {
 
             DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
             for (int i = 1; i < sheet.getRows(); i++) {
-                String field = sheet.getCell(1, i).getContents();
+                String field = getContent(COL_FIELD, i);
                 if (field == null || field.trim().isEmpty()) {
                     continue;
                 }

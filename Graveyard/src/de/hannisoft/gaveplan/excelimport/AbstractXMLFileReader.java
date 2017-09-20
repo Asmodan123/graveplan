@@ -19,7 +19,9 @@ public abstract class AbstractXMLFileReader {
             if (content == null || content.trim().isEmpty()) {
                 break;
             }
-            columnIndex.put(content, i);
+            if (!columnIndex.containsKey(content)) {
+                columnIndex.put(content, i);
+            }
         }
     }
 

@@ -2,6 +2,7 @@ package de.hannisoft.gaveplan;
 
 import java.util.Map;
 
+import de.hannisoft.gaveplan.excelimport.GraveCriteriaFileReader;
 import de.hannisoft.gaveplan.excelimport.GraveFileReader;
 import de.hannisoft.gaveplan.excelimport.PlaceFileReader;
 import de.hannisoft.gaveplan.export.PlaceMapWriter;
@@ -10,12 +11,24 @@ import de.hannisoft.gaveplan.model.Grave;
 import de.hannisoft.gaveplan.model.PlaceMap;
 
 public class GravePlan {
-    public void run(String graveFile, String placeFile, String outputDir, String timestamp) throws Exception {
+    public static final String FILE_TOKEN_GRAVE = "Grabstätten_";
+    public static final String FILE_TOKEN_PLACE = "Verstorbene_";
+    public static final String FILE_TOKEN_CRITERIA = "Auswahlkriterien_";
+    public static final String FILE_ENDING = ".xls";
+
+    public void run(String importDir, String outputDir, String timestamp) throws Exception {
+        String graveFile = importDir + FILE_TOKEN_GRAVE + timestamp + FILE_ENDING;
+        String placeFile = importDir + FILE_TOKEN_PLACE + timestamp + FILE_ENDING;
+        String criteriaFile = importDir + FILE_TOKEN_CRITERIA + timestamp + FILE_ENDING;
+
         GraveFileReader graveReader = new GraveFileReader();
         Map<String, Grave> graves = graveReader.read(graveFile);
 
         PlaceFileReader placeReader = new PlaceFileReader();
         Map<String, PlaceMap> placeMaps = placeReader.read(placeFile, graves);
+
+        GraveCriteriaFileReader criteruaReader = new GraveCriteriaFileReader();
+        criteruaReader.read(criteriaFile, graves);
 
         String dueDay = timestamp.substring(6, 8) + "." + timestamp.substring(4, 6) + "." + timestamp.substring(0, 4);
         PlaceMapWriter writer = new PlaceMapWriter();
@@ -29,18 +42,16 @@ public class GravePlan {
     }
 
     public static void main(String[] args) throws Exception {
-        String timestamp = "20170919";
         String importDir = "/home/johannes/Dokumente/Friedhof/export/";
-        String graveFile = importDir + "Grabstätten_" + timestamp + ".xls";
-        String placeFile = importDir + "Verstorbene_" + timestamp + ".xls";
         String outputDir = "/home/johannes/tmp/plan/";
+        String timestamp = "20171108";
         if (args != null && args.length == 3) {
-            graveFile = args[0];
-            placeFile = args[1];
-            outputDir = args[2];
+            importDir = args[0];
+            outputDir = args[1];
+            timestamp = args[2];
         }
         GravePlan gravePlane = new GravePlan();
-        gravePlane.run(graveFile, placeFile, outputDir, timestamp);
+        gravePlane.run(importDir, outputDir, timestamp);
     }
 
 }

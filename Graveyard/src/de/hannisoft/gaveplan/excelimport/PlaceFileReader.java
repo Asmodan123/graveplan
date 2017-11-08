@@ -16,7 +16,7 @@ import jxl.Workbook;
 import jxl.WorkbookSettings;
 import jxl.read.biff.BiffException;
 
-public class PlaceFileReader extends AbstractXMLFileReader {
+public class PlaceFileReader extends AbstractXLSFileReader {
     private static final String COL_GARVE_ID = "Grabstätte";
     private static final String COL_PLACE = "Grabstelle";
     private static final String COL_LAST_NAME = "Nachname";

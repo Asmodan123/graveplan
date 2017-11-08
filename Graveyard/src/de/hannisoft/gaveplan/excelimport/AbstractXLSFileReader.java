@@ -6,7 +6,7 @@ import java.util.Map;
 import jxl.Cell;
 import jxl.Sheet;
 
-public abstract class AbstractXMLFileReader {
+public abstract class AbstractXLSFileReader {
     private Map<String, Integer> columnIndex = null;
     private Sheet sheet = null;
 

@@ -1,6 +1,7 @@
 package de.hannisoft.gaveplan.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class Grave {
     private int placeSize = 0;
 
     private List<Place> places = new ArrayList<>();
+    private List<String> criterias = null;
 
     public Grave(String field, String row, String place) {
         this.field = field;
@@ -32,7 +34,11 @@ public class Grave {
         this.rowInt = Integer.parseInt(row.replaceAll("[^0-9\\-]", ""));
         this.place = place;
         this.placeInt = Integer.parseInt(place.replaceAll("[^0-9\\-]", ""));
-        this.id = field + "/" + row + "/" + place;
+        this.id = createId(field, row, place);
+    }
+
+    public static String createId(String field, String row, String place) {
+        return new StringBuilder().append(field).append("/").append(row).append("/").append(place).toString();
     }
 
     public String getId() {
@@ -139,5 +145,20 @@ public class Grave {
 
     public int getPlaceSize() {
         return placeSize;
+    }
+
+    public List<String> getCriterias() {
+        return criterias == null ? Collections.emptyList() : criterias;
+    }
+
+    public void addCriteria(String crit) {
+        if (crit == null || crit.trim().isEmpty()) {
+            return;
+        }
+
+        if (criterias == null) {
+            criterias = new ArrayList<>();
+        }
+        criterias.add(crit);
     }
 }

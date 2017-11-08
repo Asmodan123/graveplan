@@ -15,7 +15,7 @@ import jxl.Workbook;
 import jxl.WorkbookSettings;
 import jxl.read.biff.BiffException;
 
-public class GraveFileReader extends AbstractXMLFileReader {
+public class GraveFileReader extends AbstractXLSFileReader {
     private static final String COL_FIELD = "Feld";
     private static final String COL_ROW = "Reihe";
     private static final String COL_PLACE = "Grabstätte";

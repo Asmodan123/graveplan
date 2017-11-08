@@ -116,8 +116,11 @@ public class PlaceMap {
                         continue;
                     }
                     Grave grave = place.getGrave();
-                    if (!place.isEmpty()) {
-                        place.addClasses(PlaceClass.BELEGT);
+                    boolean isBroached = grave.isBroached();
+                    if (isBroached) {
+                        place.addClasses(PlaceClass.BROACHED);
+                    } else if (!place.isEmpty()) {
+                        place.addClasses(PlaceClass.BUSY);
                     }
 
                     if (place.isRef()) {
@@ -140,8 +143,8 @@ public class PlaceMap {
                         place.addClasses(PlaceClass.S);
                     }
 
-                    if (place.getDeceased() == null) {
-                        place.addClasses(PlaceClass.FREI);
+                    if (!isBroached && place.getDeceased() == null) {
+                        place.addClasses(PlaceClass.FREE);
                     }
 
                     addRuntime(place);

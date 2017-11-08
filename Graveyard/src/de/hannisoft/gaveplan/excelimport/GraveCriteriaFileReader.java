@@ -32,8 +32,8 @@ public class GraveCriteriaFileReader extends AbstractXLSFileReader {
                 String crit2 = getContent(COL_CRIT_2, i);
                 String crit3 = getContent(COL_CRIT_3, i);
 
-                if (crit1 == null || crit1.trim().isEmpty() && crit2 == null || crit2.trim().isEmpty() && crit3 == null
-                        || crit3.trim().isEmpty()) {
+                if ((crit1 == null || crit1.trim().isEmpty()) && (crit2 == null || crit2.trim().isEmpty())
+                        && (crit3 == null || crit3.trim().isEmpty())) {
                     continue;
                 }
 

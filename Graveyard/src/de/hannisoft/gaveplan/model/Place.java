@@ -113,6 +113,13 @@ public class Place {
         StringBuilder sb = new StringBuilder();
         sb.append("Gabstätte: ").append(getGrave().getId());
         sb.append(";===================");
+        if (!getGrave().getCriterias().isEmpty()) {
+            sb.append(";");
+            for (String crit : getGrave().getCriterias()) {
+                sb.append(crit).append(", ");
+            }
+            sb.setLength(sb.length() - 2);
+        }
         if (getGrave().getValidTo() != null) {
             sb.append(";Nutzungsrecht bis ").append(dateFormat.format(getGrave().getValidTo()));
         }

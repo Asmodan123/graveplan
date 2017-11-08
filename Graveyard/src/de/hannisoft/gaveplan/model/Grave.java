@@ -161,4 +161,8 @@ public class Grave {
         }
         criterias.add(crit);
     }
+
+    public boolean isBroached() {
+        return criterias != null && criterias.contains("abgeräumt");
+    }
 }

@@ -183,4 +183,12 @@ public class PlanElement {
     public int getRowCount() {
         return getMaxRow() - getMinRow() + 1;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getType()).append(" ").append(getName()).append(" [").append(minRow).append(", ").append(maxRow).append("] / [")
+                .append(minPlace).append(", ").append(maxPlace).append("]");
+        return sb.toString();
+    }
 }

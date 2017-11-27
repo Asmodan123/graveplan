@@ -44,7 +44,7 @@ public class GravePlan {
     public static void main(String[] args) throws Exception {
         String importDir = "/home/johannes/Dokumente/Friedhof/export/";
         String outputDir = "/home/johannes/tmp/plan/";
-        String timestamp = "20171108";
+        String timestamp = "20171127";
         if (args != null && args.length == 3) {
             importDir = args[0];
             outputDir = args[1];

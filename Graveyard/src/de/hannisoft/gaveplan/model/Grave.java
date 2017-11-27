@@ -165,4 +165,8 @@ public class Grave {
     public boolean isBroached() {
         return criterias != null && criterias.contains("abgeräumt");
     }
+
+    public boolean isStele() {
+        return criterias != null && criterias.contains("Stele");
+    }
 }

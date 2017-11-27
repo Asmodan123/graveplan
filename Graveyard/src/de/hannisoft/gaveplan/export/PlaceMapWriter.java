@@ -4,7 +4,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import de.hannisoft.gaveplan.export.HTMLPlaceMapWriter.OutputType;
+import de.hannisoft.gaveplan.model.ElementType;
 import de.hannisoft.gaveplan.model.PlaceMap;
+import de.hannisoft.gaveplan.model.PlanElement;
+import de.hannisoft.gaveplan.properties.ElementsReader;
 
 public class PlaceMapWriter {
     public void write(String outputDir, Map<String, PlaceMap> placeMaps, String dueDay) throws Exception {
@@ -24,9 +27,11 @@ public class PlaceMapWriter {
                 outputDir = outputDir + "laufzeit/";
                 break;
         }
+        ElementsReader elementReader = new ElementsReader();
+        Map<String, PlanElement> fieldElements = elementReader.readElements(ElementType.FELD);
         HTMLPlaceMapWriter writer = new HTMLPlaceMapWriter(outputDir, type);
         for (Entry<String, PlaceMap> entry : placeMaps.entrySet()) {
-            entry.getValue().finishEdit();
+            entry.getValue().finishEdit(fieldElements);
             writer.write(entry.getKey(), entry.getValue(), dueDay);
         }
 

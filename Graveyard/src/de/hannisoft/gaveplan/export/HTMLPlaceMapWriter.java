@@ -44,6 +44,7 @@ public class HTMLPlaceMapWriter {
             sb.append("td.free {background-color: #B3FFB3}\n");
             sb.append("td.ref {background-color: #81BEF7}\n");
             sb.append("td.broached {background-color: #FFA500}\n");
+            sb.append("td.stele {background-color: #FF0000}\n");
         } else {
             for (int i = 0; i * 7 < 255; i++) {
                 // td.ref {background-color: #81BEF7}

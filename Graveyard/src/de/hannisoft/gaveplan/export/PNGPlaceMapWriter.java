@@ -7,10 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Properties;
 
 import javax.imageio.ImageIO;
 
@@ -19,6 +16,9 @@ import de.hannisoft.gaveplan.model.PlanElement.CornerPointType;
 import de.hannisoft.gaveplan.model.PlanElement.DeltaType;
 import de.hannisoft.gaveplan.model.PlanElement.EdgeType;
 import de.hannisoft.gaveplan.model.Point;
+import de.hannisoft.gaveplan.properties.ElementPointsReader;
+import de.hannisoft.gaveplan.properties.ElementsReader;
+import de.hannisoft.gaveplan.properties.PointsReader;
 
 public class PNGPlaceMapWriter {
     private Map<Integer, PlanElement> elements = null;
@@ -34,6 +34,9 @@ public class PNGPlaceMapWriter {
     private static final int xDelta = 0;
     private static final int yDelta = 0;
     private static double rotation = 0;
+
+    private ElementsReader elementsReader = new ElementsReader();
+    private PointsReader pointsReader = new PointsReader(xFactor, yFactor, xDelta, yDelta, rotation);
 
     public PNGPlaceMapWriter() throws IOException {
         initElements();
@@ -63,8 +66,10 @@ public class PNGPlaceMapWriter {
     }
 
     private void initElements() throws IOException {
-        elements = readElements();
-        readElementPoints();
+        elements = elementsReader.readElements();
+        Map<Integer, Point> points = pointsReader.readPoints();
+        ElementPointsReader elementPointsReader = new ElementPointsReader();
+        elementPointsReader.readElementPoints(elements, points);
 
     }
 
@@ -148,106 +153,6 @@ public class PNGPlaceMapWriter {
             default:
                 break;
         }
-    }
-
-    private void readElementPoints() throws IOException {
-        Map<Integer, Point> points = readPoints();
-
-        Properties props = new Properties();
-        props.load(getClass().getClassLoader().getResourceAsStream("plan/elementPoints.properties"));
-        for (Entry<Object, Object> prop : props.entrySet()) {
-            try {
-                int elementId = Integer.parseInt(prop.getKey().toString());
-                PlanElement pElement = elements.get(elementId);
-                if (pElement != null) {
-                    String[] elementPoints = prop.getValue().toString().split("\\,");
-                    for (String ePoint : elementPoints) {
-                        int pointId = Integer.parseInt(ePoint);
-                        Point point = points.get(pointId);
-                        if (point != null) {
-                            pElement.addPoint(point);
-                        } else {
-                            System.err.println("Pint with id " + pointId + " not found");
-                        }
-                    }
-                } else {
-                    System.err.println("Element with id " + elementId + " not found");
-                }
-            } catch (Exception e) {
-                System.err.println("Can't read ElementPoints of '" + prop.toString() + "': " + e.getMessage());
-                e.printStackTrace();
-            }
-        }
-
-    }
-
-    private Map<Integer, Point> readPoints() throws IOException {
-        Map<Integer, Point> points = new HashMap<>();
-        int minX = 0;
-        int maxX = 0;
-        int minY = 0;
-        int maxY = 0;
-        Properties props = new Properties();
-        props.load(getClass().getClassLoader().getResourceAsStream("plan/points.properties"));
-        for (Entry<Object, Object> prop : props.entrySet()) {
-            try {
-                int pointId = Integer.parseInt(prop.getKey().toString());
-                String[] coords = prop.getValue().toString().split("\\,");
-                int x = Integer.parseInt(coords[0]);
-                int y = Integer.parseInt(coords[1]);
-                Point point = new Point(pointId, x, y);
-                point.scale(xFactor, yFactor);
-                point.move(xDelta, yDelta);
-                point.rotate(rotation);
-                points.put(pointId, point);
-                // System.out.println(point.toString());
-                if (minX == 0 || point.getX() < minX) {
-                    minX = point.getX();
-                }
-                if (maxX == 0 || point.getX() > maxX) {
-                    maxX = point.getX();
-                }
-                if (minY == 0 || point.getY() < minY) {
-                    minY = point.getY();
-                }
-                if (maxY == 0 || point.getY() > maxY) {
-                    maxY = point.getY();
-                }
-            } catch (Exception e) {
-                System.err.println("Can't convert Property to Point of '" + prop.toString() + "': " + e.getMessage());
-                e.printStackTrace();
-            }
-        }
-        System.out.println("x:[" + minX + " " + maxX + "]");
-        System.out.println("y:[" + minY + " " + maxY + "]");
-        return points;
-    }
-
-    private Map<Integer, PlanElement> readElements() throws IOException {
-        Map<Integer, PlanElement> elements = new HashMap<>();
-        Properties props = new Properties();
-        props.load(getClass().getClassLoader().getResourceAsStream("plan/elements.properties"));
-        for (Entry<Object, Object> prop : props.entrySet()) {
-            try {
-                int elementId = Integer.parseInt(prop.getKey().toString());
-                String[] values = (prop.getValue().toString()).split("\\,");
-                String type = values[0];
-                PlanElement pEelement = new PlanElement(elementId, type);
-                pEelement.setMinRow(Integer.parseInt(values[1]));
-                pEelement.setMaxRow(Integer.parseInt(values[2]));
-                pEelement.setMinPlace(Integer.parseInt(values[3]));
-                pEelement.setMaxPlace(Integer.parseInt(values[4]));
-                if (values.length > 5) {
-                    pEelement.setName(values[5]);
-                }
-
-                elements.put(elementId, pEelement);
-            } catch (Exception e) {
-                System.err.println("Can't read ElementProperty: '" + prop.toString() + "': " + e.getMessage());
-                e.printStackTrace();
-            }
-        }
-        return elements;
     }
 
 }

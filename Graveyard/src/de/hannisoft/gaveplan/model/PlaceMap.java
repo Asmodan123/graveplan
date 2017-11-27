@@ -3,6 +3,7 @@ package de.hannisoft.gaveplan.model;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 public class PlaceMap {
@@ -20,9 +21,9 @@ public class PlaceMap {
         this.field = field;
     }
 
-    public void finishEdit() {
+    public void finishEdit(Map<String, PlanElement> fieldElements) {
         fillupMissingPlaces();
-        initMinMaxValues();
+        initMinMaxValues(fieldElements);
         fillPlaceArray();
         setPlaceClasses();
     }
@@ -54,7 +55,25 @@ public class PlaceMap {
         }
     }
 
-    private void initMinMaxValues() {
+    private void initMinMaxValues(Map<String, PlanElement> fieldElements) {
+        PlanElement fe = fieldElements.get(field);
+        if (fe == null) {
+            initMinMaxValuesFromGaves();
+        } else {
+            System.out.println("Found FieldElement of PlaceMap " + field + " " + fe.toString());
+            rowCount = fe.getMaxRow() - fe.getMinRow() + (fe.getMinRow() < 0 ? 0 : 1);
+            placeCount = fe.getMaxPlace() - fe.getMinPlace() + (fe.getMinPlace() < 0 ? 0 : 1);
+            deltaRow = fe.getMinRow() < 0 ? Math.abs(fe.getMinRow()) : 0;
+            deltaPlace = fe.getMinPlace() < 0 ? Math.abs(fe.getMinPlace()) : 0;
+            System.out.println("Initialized MinMaxValues of PlaceMap " + field + ": rowCount=" + rowCount + " / placeCount="
+                    + placeCount + " / " + deltaRow + " / deltaPlace=" + deltaPlace);// TODO Auto-generated method stub
+            // initMinMaxValuesFromGaves();
+            System.out.println("");
+        }
+
+    }
+
+    private void initMinMaxValuesFromGaves() {
         int minRow = 1;
         int maxRow = 1;
         int minPlace = 1;
@@ -121,6 +140,10 @@ public class PlaceMap {
                         place.addClasses(PlaceClass.BROACHED);
                     } else if (!place.isEmpty()) {
                         place.addClasses(PlaceClass.BUSY);
+                    }
+
+                    if (grave.isStele()) {
+                        place.addClasses(PlaceClass.STELE);
                     }
 
                     if (place.isRef()) {

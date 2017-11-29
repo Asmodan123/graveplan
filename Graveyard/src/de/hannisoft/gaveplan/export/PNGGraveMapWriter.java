@@ -20,7 +20,7 @@ import de.hannisoft.gaveplan.properties.ElementPointsReader;
 import de.hannisoft.gaveplan.properties.ElementsReader;
 import de.hannisoft.gaveplan.properties.PointsReader;
 
-public class PNGPlaceMapWriter {
+public class PNGGraveMapWriter {
     private Map<Integer, PlanElement> elements = null;
     private final Graphics2D img;
     private final BufferedImage bi;
@@ -38,7 +38,7 @@ public class PNGPlaceMapWriter {
     private ElementsReader elementsReader = new ElementsReader();
     private PointsReader pointsReader = new PointsReader(xFactor, yFactor, xDelta, yDelta, rotation);
 
-    public PNGPlaceMapWriter() throws IOException {
+    public PNGGraveMapWriter() throws IOException {
         initElements();
 
         int width = 2000, height = 2000;

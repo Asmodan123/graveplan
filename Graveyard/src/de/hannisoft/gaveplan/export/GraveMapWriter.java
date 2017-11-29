@@ -3,21 +3,21 @@ package de.hannisoft.gaveplan.export;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import de.hannisoft.gaveplan.export.HTMLPlaceMapWriter.OutputType;
+import de.hannisoft.gaveplan.export.HTMLGraveMapWriter.OutputType;
 import de.hannisoft.gaveplan.model.ElementType;
-import de.hannisoft.gaveplan.model.PlaceMap;
+import de.hannisoft.gaveplan.model.GraveMap;
 import de.hannisoft.gaveplan.model.PlanElement;
 import de.hannisoft.gaveplan.properties.ElementsReader;
 
-public class PlaceMapWriter {
-    public void write(String outputDir, Map<String, PlaceMap> placeMaps, String dueDay) throws Exception {
-        // PNGPlaceMapWriter png = new PNGPlaceMapWriter();
+public class GraveMapWriter {
+    public void write(String outputDir, Map<String, GraveMap> graveMaps, String dueDay) throws Exception {
+        // PNGGraveMapWriter png = new PNGGraveMapWriter();
 
-        writeHtmlPlaceMap(outputDir, placeMaps, OutputType.RUNTIME, dueDay);
-        writeHtmlPlaceMap(outputDir, placeMaps, OutputType.REFERENCE, dueDay);
+        writeHtmlGraveMap(outputDir, graveMaps, OutputType.RUNTIME, dueDay);
+        writeHtmlGraveMap(outputDir, graveMaps, OutputType.REFERENCE, dueDay);
     }
 
-    private void writeHtmlPlaceMap(String outputDir, Map<String, PlaceMap> placeMaps, OutputType type, String dueDay)
+    private void writeHtmlGraveMap(String outputDir, Map<String, GraveMap> placeMaps, OutputType type, String dueDay)
             throws Exception {
         switch (type) {
             case REFERENCE:
@@ -29,8 +29,8 @@ public class PlaceMapWriter {
         }
         ElementsReader elementReader = new ElementsReader();
         Map<String, PlanElement> fieldElements = elementReader.readElements(ElementType.FELD);
-        HTMLPlaceMapWriter writer = new HTMLPlaceMapWriter(outputDir, type);
-        for (Entry<String, PlaceMap> entry : placeMaps.entrySet()) {
+        HTMLGraveMapWriter writer = new HTMLGraveMapWriter(outputDir, type);
+        for (Entry<String, GraveMap> entry : placeMaps.entrySet()) {
             entry.getValue().finishEdit(fieldElements);
             writer.write(entry.getKey(), entry.getValue(), dueDay);
         }

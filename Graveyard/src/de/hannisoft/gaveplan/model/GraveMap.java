@@ -6,32 +6,32 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-public class PlaceMap {
+public class GraveMap {
     private final String field;
-    private Set<Grave> graves = new HashSet<>();
+    private Set<GraveSite> graveSites = new HashSet<>();
 
     private int rowCount = -1;
     private int placeCount = -1;
     private int deltaRow = 0;
     private int deltaPlace = 0;
 
-    private Place[][] placeArray = null;
+    private Grave[][] graveArray = null;
 
-    public PlaceMap(String field) {
+    public GraveMap(String field) {
         this.field = field;
     }
 
     public void finishEdit(Map<String, PlanElement> fieldElements) {
-        fillupMissingPlaces();
+        fillupMissingGraves();
         initMinMaxValues(fieldElements);
-        fillPlaceArray();
-        setPlaceClasses();
+        fillGraveArray();
+        setGraveClasses();
     }
 
-    private void fillupMissingPlaces() {
-        for (Grave grave : graves) {
+    private void fillupMissingGraves() {
+        for (GraveSite grave : graveSites) {
             HashSet<String> places = new HashSet<>();
-            for (Place plc : grave.getPlaces()) {
+            for (Grave plc : grave.getGraves()) {
                 places.add(plc.getId());
             }
             for (int i = 0; i < grave.getRowSize(); i++) {
@@ -42,11 +42,11 @@ public class PlaceMap {
                         int plc = (grave.getPlaceInt() + j);
                         String placeStr = String.format("%02d", plc);
                         if (!places.contains(rowStr + "/" + placeStr)) {
-                            grave.getPlaces().add(new Place(grave, rowStr, placeStr));
+                            grave.getGraves().add(new Grave(grave, rowStr, placeStr));
                         }
                     } catch (Exception e) {
                         System.err.println(e.getClass().getSimpleName() + " while filling missing places of " + grave.toString()
-                                + " into PlaceMap: " + e.getMessage());
+                                + " into GraveMap: " + e.getMessage());
                         e.printStackTrace();
                     }
                 }
@@ -60,12 +60,12 @@ public class PlaceMap {
         if (fe == null) {
             initMinMaxValuesFromGaves();
         } else {
-            System.out.println("Found FieldElement of PlaceMap " + field + " " + fe.toString());
+            System.out.println("Found FieldElement of GraveMap " + field + " " + fe.toString());
             rowCount = fe.getMaxRow() - fe.getMinRow() + (fe.getMinRow() < 0 ? 0 : 1);
             placeCount = fe.getMaxPlace() - fe.getMinPlace() + (fe.getMinPlace() < 0 ? 0 : 1);
             deltaRow = fe.getMinRow() < 0 ? Math.abs(fe.getMinRow()) : 0;
             deltaPlace = fe.getMinPlace() < 0 ? Math.abs(fe.getMinPlace()) : 0;
-            System.out.println("Initialized MinMaxValues of PlaceMap " + field + ": rowCount=" + rowCount + " / placeCount="
+            System.out.println("Initialized MinMaxValues of GraveMap " + field + ": rowCount=" + rowCount + " / placeCount="
                     + placeCount + " / " + deltaRow + " / deltaPlace=" + deltaPlace);// TODO Auto-generated method stub
             // initMinMaxValuesFromGaves();
             System.out.println("");
@@ -78,9 +78,9 @@ public class PlaceMap {
         int maxRow = 1;
         int minPlace = 1;
         int maxPlace = 1;
-        for (Grave grave : graves) {
-            for (Place place : grave.getPlaces()) {
-                int row = place.getRowInt();
+        for (GraveSite graveSite : graveSites) {
+            for (Grave grave : graveSite.getGraves()) {
+                int row = grave.getRowInt();
                 if (row < minRow) {
                     minRow = row;
                 }
@@ -88,7 +88,7 @@ public class PlaceMap {
                     maxRow = row;
                 }
 
-                int plc = place.getPlaceInt();
+                int plc = grave.getPlaceInt();
                 if (plc < minPlace) {
                     minPlace = plc;
                 }
@@ -97,82 +97,82 @@ public class PlaceMap {
                 }
             }
         }
-        System.out.println("Found MinMaxValues of PlaceMap " + field + ": Rows=[" + minRow + ", " + maxRow + "] Place=["
+        System.out.println("Found MinMaxValues of GraveMap " + field + ": Rows=[" + minRow + ", " + maxRow + "] Grave=["
                 + minPlace + ", " + maxPlace + "]");
         rowCount = maxRow - minRow + (minRow < 0 ? 0 : 1);
         placeCount = maxPlace - minPlace + (minPlace < 0 ? 0 : 1);
         deltaRow = minRow < 0 ? Math.abs(minRow) : 0;
         deltaPlace = minPlace < 0 ? Math.abs(minPlace) : 0;
-        System.out.println("Initialized MinMaxValues of PlaceMap " + field + ": rowCount=" + rowCount + " / placeCount="
+        System.out.println("Initialized MinMaxValues of GraveMap " + field + ": rowCount=" + rowCount + " / placeCount="
                 + placeCount + " / " + deltaRow + " / deltaPlace=" + deltaPlace);
     }
 
-    private void fillPlaceArray() {
-        placeArray = new Place[rowCount][placeCount];
-        for (Grave grave : graves) {
-            for (Place place : grave.getPlaces()) {
+    private void fillGraveArray() {
+        graveArray = new Grave[rowCount][placeCount];
+        for (GraveSite graveSite : graveSites) {
+            for (Grave grave : graveSite.getGraves()) {
                 try {
-                    int row = deltaRow + place.getRowInt() - (place.getRowInt() > 0 ? 1 : 0);
-                    int plc = deltaPlace + place.getPlaceInt() - (place.getPlaceInt() > 0 ? 1 : 0);
-                    placeArray[row][plc] = place;
+                    int row = deltaRow + grave.getRowInt() - (grave.getRowInt() > 0 ? 1 : 0);
+                    int plc = deltaPlace + grave.getPlaceInt() - (grave.getPlaceInt() > 0 ? 1 : 0);
+                    graveArray[row][plc] = grave;
                 } catch (Exception e) {
-                    System.err.println(e.getClass().getSimpleName() + " while filling Place " + place.toString()
-                            + " into PlaceMap: " + e.getMessage());
+                    System.err.println(e.getClass().getSimpleName() + " while filling Grave " + grave.toString()
+                            + " into GraveMap: " + e.getMessage());
                     e.printStackTrace();
                 }
             }
         }
     }
 
-    private void setPlaceClasses() {
-        for (int i = 0; i < placeArray.length; i++) {
-            Place[] placeRow = placeArray[i];
-            for (int j = 0; j < placeRow.length; j++) {
-                Place place = null;
+    private void setGraveClasses() {
+        for (int i = 0; i < graveArray.length; i++) {
+            Grave[] graveRow = graveArray[i];
+            for (int j = 0; j < graveRow.length; j++) {
+                Grave grave = null;
                 try {
-                    place = placeRow[j];
-                    if (place == null) {
+                    grave = graveRow[j];
+                    if (grave == null) {
                         continue;
                     }
-                    Grave grave = place.getGrave();
-                    boolean isBroached = grave.isBroached();
+                    GraveSite graveSite = grave.getGraveSite();
+                    boolean isBroached = graveSite.isBroached();
                     if (isBroached) {
-                        place.addClasses(PlaceClass.BROACHED);
-                    } else if (!place.isEmpty()) {
-                        place.addClasses(PlaceClass.BUSY);
+                        grave.addClasses(GraveClass.BROACHED);
+                    } else if (!grave.isEmpty()) {
+                        grave.addClasses(GraveClass.BUSY);
                     }
 
-                    if (grave.isStele()) {
-                        place.addClasses(PlaceClass.STELE);
+                    if (graveSite.isStele()) {
+                        grave.addClasses(GraveClass.STELE);
                     }
 
-                    if (place.isRef()) {
-                        place.addClasses(PlaceClass.REF);
+                    if (grave.isRef()) {
+                        grave.addClasses(GraveClass.REF);
                     }
 
-                    if (!hasNeighborPlaceEqualGrave(i, j + 1, grave)) {
-                        place.addClasses(PlaceClass.W);
+                    if (!hasNeighborGraveInEqualGraveSite(i, j + 1, graveSite)) {
+                        grave.addClasses(GraveClass.W);
                     }
 
-                    if (!hasNeighborPlaceEqualGrave(i, j - 1, grave)) {
-                        place.addClasses(PlaceClass.O);
+                    if (!hasNeighborGraveInEqualGraveSite(i, j - 1, graveSite)) {
+                        grave.addClasses(GraveClass.O);
                     }
 
-                    if (!hasNeighborPlaceEqualGrave(i + 1, j, grave)) {
-                        place.addClasses(PlaceClass.N);
+                    if (!hasNeighborGraveInEqualGraveSite(i + 1, j, graveSite)) {
+                        grave.addClasses(GraveClass.N);
                     }
 
-                    if (!hasNeighborPlaceEqualGrave(i - 1, j, grave)) {
-                        place.addClasses(PlaceClass.S);
+                    if (!hasNeighborGraveInEqualGraveSite(i - 1, j, graveSite)) {
+                        grave.addClasses(GraveClass.S);
                     }
 
-                    if (!isBroached && place.getDeceased() == null) {
-                        place.addClasses(PlaceClass.FREE);
+                    if (!isBroached && grave.getDeceased() == null) {
+                        grave.addClasses(GraveClass.FREE);
                     }
 
-                    addRuntime(place);
+                    addRuntime(grave);
                 } catch (Exception e) {
-                    System.err.println(e.getClass().getSimpleName() + " while initialising Place's classes of " + place + ": "
+                    System.err.println(e.getClass().getSimpleName() + " while initialising Grave's classes of " + grave + ": "
                             + e.getMessage());
                     e.printStackTrace();
                 }
@@ -180,27 +180,27 @@ public class PlaceMap {
         }
     }
 
-    private void addRuntime(Place place) {
-        if (place != null && place.getGrave() != null && place.getGrave().getValidFrom() != null) {
+    private void addRuntime(Grave grave) {
+        if (grave != null && grave.getGraveSite() != null && grave.getGraveSite().getValidFrom() != null) {
             Calendar validTo = Calendar.getInstance(Locale.GERMANY);
-            validTo.setTime(place.getGrave().getValidTo());
+            validTo.setTime(grave.getGraveSite().getValidTo());
             Calendar now = Calendar.getInstance(Locale.GERMANY);
             int diff = validTo.get(Calendar.YEAR) - now.get(Calendar.YEAR);
-            place.setRuntimeYear(diff);
+            grave.setRuntimeYear(diff);
         }
     }
 
-    private boolean hasNeighborPlaceEqualGrave(int row, int place, Grave grave) {
-        Place neighbor = null;
+    private boolean hasNeighborGraveInEqualGraveSite(int row, int place, GraveSite graveSite) {
+        Grave neighbor = null;
         if (row >= 0 && row < rowCount && place >= 0 && place < placeCount) {
-            neighbor = placeArray[row][place];
+            neighbor = graveArray[row][place];
         }
 
-        return neighbor != null && neighbor.getGrave() == grave;
+        return neighbor != null && neighbor.getGraveSite() == graveSite;
     }
 
-    public void addGrave(Grave grave) {
-        graves.add(grave);
+    public void addGraveSite(GraveSite graveSite) {
+        graveSites.add(graveSite);
 
     }
 
@@ -224,7 +224,7 @@ public class PlaceMap {
         return deltaPlace;
     }
 
-    public Place getPlace(int row, int place) {
-        return placeArray[row][place];
+    public Grave getGrave(int row, int place) {
+        return graveArray[row][place];
     }
 }

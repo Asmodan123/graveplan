@@ -1,52 +1,47 @@
 package de.hannisoft.gaveplan.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
 
 public class Grave {
-    public static final String NAME_SIZE = "plangröße=";
-    private static final int NAME_SIZE_LEN = NAME_SIZE.length();
-
-    private final String field;
+    private final GraveSite graveSite;
     private final String row;
-    private final int rowInt;
-    private final String place;
-    private final int placeInt;
     private final String id;
+    private int rowInt = Integer.MIN_VALUE;
+    private final String place;
+    private int placeInt = Integer.MIN_VALUE;
+    private String deceased;
+    private Date dateOfDeatch;
+    private Collection<GraveClass> classes = new HashSet<>();
+    private int runtimeYear = 0;
 
-    private GraveType type;
-    private String name;
-    private Date validFrom;
-    private Date validTo;
-    private Owner owner;
-    private int size;
-    private int rowSize = 0;
-    private int placeSize = 0;
-
-    private List<Place> places = new ArrayList<>();
-    private List<String> criterias = null;
-
-    public Grave(String field, String row, String place) {
-        this.field = field;
+    public Grave(GraveSite graveSite, String row, String place) {
+        this.graveSite = graveSite;
         this.row = row;
-        this.rowInt = Integer.parseInt(row.replaceAll("[^0-9\\-]", ""));
         this.place = place;
-        this.placeInt = Integer.parseInt(place.replaceAll("[^0-9\\-]", ""));
-        this.id = createId(field, row, place);
+        this.id = row + "/" + place;
     }
 
-    public static String createId(String field, String row, String place) {
-        return new StringBuilder().append(field).append("/").append(row).append("/").append(place).toString();
+    public String getDeceased() {
+        return deceased;
     }
 
-    public String getId() {
-        return id;
+    public void setDeceased(String deceased) {
+        this.deceased = deceased;
     }
 
-    public String getField() {
-        return field;
+    public Date getDateOfDeatch() {
+        return dateOfDeatch;
+    }
+
+    public void setDateOfDeatch(Date dateOfDeatch) {
+        this.dateOfDeatch = dateOfDeatch;
+    }
+
+    public GraveSite getGraveSite() {
+        return graveSite;
     }
 
     public String getRow() {
@@ -57,116 +52,105 @@ public class Grave {
         return place;
     }
 
-    public GraveType getType() {
-        return type;
-    }
-
-    public void setType(GraveType type) {
-        this.type = type;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-        if (name != null) {
-            try {
-                int pos = name.toLowerCase().indexOf(NAME_SIZE);
-                if (pos > -1) {
-                    rowSize = Integer.parseInt(name.substring(pos + NAME_SIZE_LEN, pos + NAME_SIZE_LEN + 1));
-                    placeSize = Integer.parseInt(name.substring(pos + NAME_SIZE_LEN + 1, pos + NAME_SIZE_LEN + 2));
-                }
-            } catch (Exception e) {
-                System.err.println("InvalGrossid GraveName '" + name + "': " + e.getMessage());
-                return;
+    public int getRowInt() {
+        if (rowInt == Integer.MIN_VALUE) {
+            String rowStr = row.trim();
+            int i = rowStr.indexOf(" ");
+            if (i > 0) {
+                rowStr = rowStr.substring(0, i - 1);
             }
+            rowInt = Integer.parseInt(rowStr.replaceAll("[^0-9\\-]", ""));
         }
-        if (rowSize == 0 || placeSize == 0) {
-            System.err.println("Invalid GraveName '" + name + "' on " + this);
+        return rowInt;
+    }
+
+    public int getPlaceInt() {
+        if (placeInt == Integer.MIN_VALUE) {
+            String placeStr = place.trim();
+            int i = placeStr.indexOf(" ");
+            if (i > 0) {
+                placeStr = placeStr.substring(0, i - 1);
+            }
+            placeInt = Integer.parseInt(placeStr.replaceAll("[^0-9\\-]", ""));
         }
+        return placeInt;
     }
 
-    public Date getValidFrom() {
-        return validFrom;
+    public Collection<GraveClass> getClasses() {
+        return classes;
     }
 
-    public void setValidFrom(Date validFrom) {
-        this.validFrom = validFrom;
+    public String getClassesStirng() {
+        StringBuilder sb = new StringBuilder();
+        for (GraveClass classs : classes) {
+            sb.append(classs.toString().toLowerCase()).append(' ');
+        }
+        if (runtimeYear != 0) {
+            sb.append("LZ").append(runtimeYear);
+        }
+        return sb.toString();
     }
 
-    public Date getValidTo() {
-        return validTo;
+    public void addClasses(GraveClass classes) {
+        this.classes.add(classes);
     }
 
-    public void setValidTo(Date validTo) {
-        this.validTo = validTo;
+    public boolean isEmpty() {
+        return deceased == null || deceased.trim().isEmpty();
     }
 
-    public Owner getOwner() {
-        return owner;
+    public boolean isRef() {
+        return row.equals(graveSite.getRow()) && place.equals(graveSite.getPlace());
     }
 
-    public void setOwner(Owner owner) {
-        this.owner = owner;
+    public String getId() {
+        return id;
     }
 
-    public List<Place> getPlaces() {
-        return places;
-    }
+    public String getReference() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
+        StringBuilder sb = new StringBuilder();
+        sb.append("Gabstätte: ").append(getGraveSite().getId());
+        sb.append(";===================");
+        if (!getGraveSite().getCriterias().isEmpty()) {
+            sb.append(";");
+            for (String crit : getGraveSite().getCriterias()) {
+                sb.append(crit).append(", ");
+            }
+            sb.setLength(sb.length() - 2);
+        }
+        if (getGraveSite().getValidTo() != null) {
+            sb.append(";Nutzungsrecht bis ").append(dateFormat.format(getGraveSite().getValidTo()));
+        }
+        sb.append(";").append(getGraveSite().getName());
+        sb.append(";;Nutzungsberechtigter:");
+        sb.append(";-----------------------------------;");
+        Owner ow = getGraveSite().getOwner();
+        if (ow != null) {
+            sb.append(ow.getFirstName()).append(' ').append(ow.getLastName()).append(';');
+            sb.append(ow.getStreet()).append(';');
+            sb.append(ow.getZipAndTown());
+        }
+        return sb.toString();
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(" ").append(id);
+        sb.append(graveSite.getField());
+        sb.append('/').append(row);
+        sb.append('/').append(place);
+        sb.append(' ').append(deceased);
+        sb.append(" ref=").append(graveSite);
         return sb.toString();
     }
 
-    public int getRowInt() {
-        return rowInt;
+    public int getRuntimeYear() {
+        return runtimeYear;
     }
 
-    public int getPlaceInt() {
-        return placeInt;
-    }
-
-    public int getRowSize() {
-        return rowSize;
-    }
-
-    public int getPlaceSize() {
-        return placeSize;
-    }
-
-    public List<String> getCriterias() {
-        return criterias == null ? Collections.emptyList() : criterias;
-    }
-
-    public void addCriteria(String crit) {
-        if (crit == null || crit.trim().isEmpty()) {
-            return;
-        }
-
-        if (criterias == null) {
-            criterias = new ArrayList<>();
-        }
-        criterias.add(crit);
-    }
-
-    public boolean isBroached() {
-        return criterias != null && criterias.contains("abgeräumt");
-    }
-
-    public boolean isStele() {
-        return criterias != null && criterias.contains("Stele");
+    public void setRuntimeYear(int runtimeYear) {
+        this.runtimeYear = runtimeYear;
     }
 }

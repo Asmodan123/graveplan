@@ -4,13 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import de.hannisoft.gaveplan.model.Grave;
+import de.hannisoft.gaveplan.model.GraveSite;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.WorkbookSettings;
 import jxl.read.biff.BiffException;
 
-public class GraveCriteriaFileReader extends AbstractXLSFileReader {
+public class GraveSiteCriteriaFileReader extends AbstractXLSFileReader {
     private static final String COL_FIELD = "Feld";
     private static final String COL_ROW = "Reihe";
     private static final String COL_PLACE = "Grabstätte";
@@ -18,7 +18,7 @@ public class GraveCriteriaFileReader extends AbstractXLSFileReader {
     private static final String COL_CRIT_2 = "Auswahlkriterium 2";
     private static final String COL_CRIT_3 = "Auswahlkriterium 3";
 
-    public void read(String inputFile, Map<String, Grave> graves) throws IOException {
+    public void read(String inputFile, Map<String, GraveSite> graves) throws IOException {
         File inputWorkbook = new File(inputFile);
         Workbook w;
         WorkbookSettings ws = new WorkbookSettings();
@@ -40,8 +40,8 @@ public class GraveCriteriaFileReader extends AbstractXLSFileReader {
                 String field = getContent(COL_FIELD, i);
                 String row = getContent(COL_ROW, i);
                 String place = getContent(COL_PLACE, i);
-                String graveId = Grave.createId(field, row, place);
-                Grave grave = graves.get(graveId);
+                String graveId = GraveSite.createId(field, row, place);
+                GraveSite grave = graves.get(graveId);
                 if (grave != null) {
                     grave.addCriteria(crit1);
                     grave.addCriteria(crit2);

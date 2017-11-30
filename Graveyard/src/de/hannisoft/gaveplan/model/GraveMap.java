@@ -14,6 +14,7 @@ public class GraveMap {
     private int placeCount = -1;
     private int deltaRow = 0;
     private int deltaPlace = 0;
+    private boolean finished = false;
 
     private Grave[][] graveArray = null;
 
@@ -22,10 +23,14 @@ public class GraveMap {
     }
 
     public void finishEdit(Map<String, PlanElement> fieldElements) {
+        if (finished) {
+            return;
+        }
         fillupMissingGraves();
         initMinMaxValues(fieldElements);
         fillGraveArray();
         setGraveClasses();
+        finished = true;
     }
 
     private void fillupMissingGraves() {
@@ -201,7 +206,10 @@ public class GraveMap {
 
     public void addGraveSite(GraveSite graveSite) {
         graveSites.add(graveSite);
+    }
 
+    public Set<GraveSite> graveSites() {
+        return graveSites;
     }
 
     public String getField() {

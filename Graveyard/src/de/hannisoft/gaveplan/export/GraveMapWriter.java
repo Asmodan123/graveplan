@@ -1,5 +1,7 @@
 package de.hannisoft.gaveplan.export;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -12,9 +14,9 @@ import de.hannisoft.gaveplan.properties.ElementsReader;
 public class GraveMapWriter {
     public void write(String outputDir, Map<String, GraveMap> graveMaps, String dueDay) throws Exception {
         // PNGGraveMapWriter png = new PNGGraveMapWriter();
-
         writeHtmlGraveMap(outputDir, graveMaps, OutputType.RUNTIME, dueDay);
         writeHtmlGraveMap(outputDir, graveMaps, OutputType.REFERENCE, dueDay);
+        writeHtmlGraveSiteFiles(outputDir, graveMaps, dueDay);
     }
 
     private void writeHtmlGraveMap(String outputDir, Map<String, GraveMap> placeMaps, OutputType type, String dueDay)
@@ -34,6 +36,14 @@ public class GraveMapWriter {
             entry.getValue().finishEdit(fieldElements);
             writer.write(entry.getKey(), entry.getValue(), dueDay);
         }
-
     }
+
+    private void writeHtmlGraveSiteFiles(String outputDir, Map<String, GraveMap> graveMaps, String dueDay) throws IOException {
+        File graveSiteDir = new File(outputDir, "grabstätten");
+        HTMLGraveSiteWriter writer = new HTMLGraveSiteWriter(graveSiteDir);
+        for (GraveMap graveMap : graveMaps.values()) {
+            writer.write(graveMap.graveSites(), dueDay);
+        }
+    }
+
 }

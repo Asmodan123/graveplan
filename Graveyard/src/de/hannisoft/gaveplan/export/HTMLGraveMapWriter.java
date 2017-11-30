@@ -33,7 +33,7 @@ public class HTMLGraveMapWriter {
             }
         }
         exportResource("style.css", getBackgroundStyles());
-        exportResource("grave.js", null);
+        // exportResource("grave.js", null);
     }
 
     private InputStream getBackgroundStyles() {
@@ -83,16 +83,6 @@ public class HTMLGraveMapWriter {
         out.println("    <h1>Feld " + fieldName + " (" + dueDay + ")</h1>");
         out.println("");
         out.println("    <table width=\"" + String.valueOf(graveCount * 140 + 40) + "\">");
-    }
-
-    private void writeColGroup(PrintWriter out, GraveMap graveMap) {
-        out.println("      <colgroup>");
-        out.println("        <col span=\"1\" style=\"width:50\" />");
-        long size = 10;
-        for (int i = 0; i < graveMap.getPlaceCount(); i++) {
-            out.println("        <col span=\"1\" style=\"width:" + String.valueOf(size) + "%;\" />");
-        }
-        out.println("      </colgroup>");
     }
 
     private void writeTableHeader(PrintWriter out, GraveMap gaveMap) {
@@ -153,12 +143,19 @@ public class HTMLGraveMapWriter {
                         sb.append("          <td class=\"");
                         sb.append(grave.getClassesStirng());
                         sb.append("\"");
-                        if (grave.isRef()) {
-                            sb.append("data-owner=\"");
-                            sb.append(escapeHtml4(grave.getReference()));
-                            sb.append("\"");
-                        }
+                        sb.append(" style=\"cursor:pointer\" ");
+                        sb.append(" onclick=\"location.href='../grabst&auml;tten/").append(grave.getGraveSite().getFileName())
+                                .append("'\" ");
                         sb.append(">");
+                        // if (grave.isRef()) {
+                        // sb.append("data-owner=\"");
+                        // sb.append(escapeHtml4(grave.getReference()));
+                        // sb.append("\"");
+                        // }
+                        // sb.append(">");
+
+                        sb.append("<a href=\"../grabst&auml;tten/").append(grave.getGraveSite().getFileName())
+                                .append("\" style=\"text-decoration:none;color:black\"><div style=\"display: block;\">");
                         if (grave.getDeceased() != null) {
                             sb.append(escapeHtml4(grave.getDeceased()));
                         }
@@ -173,6 +170,7 @@ public class HTMLGraveMapWriter {
                                 sb.append(dateFormat.format(grave.getGraveSite().getValidTo()));
                             }
                         }
+                        sb.append("</div></a>");
                         sb.append("</td>");
                     }
                     out.println(sb.toString());
@@ -190,7 +188,7 @@ public class HTMLGraveMapWriter {
 
     private void writeFooter(PrintWriter out) {
         out.println("    </table>");
-        out.println("    <script src=\"grave.js\"></script>");
+        // out.println(" <script src=\"grave.js\"></script>");
         out.println("  </body>");
         out.println("</html>");
     }

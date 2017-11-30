@@ -27,7 +27,7 @@ public class HTMLGraveSiteWriter {
 
     public void write(Collection<GraveSite> graveSites, String dueDay) throws IOException {
         for (GraveSite graveSite : graveSites) {
-            File graveSiteFile = new File(dir, getFileName(graveSite));
+            File graveSiteFile = new File(dir, graveSite.getFileName());
             graveSiteFile.createNewFile();
             try (PrintWriter out = new PrintWriter(graveSiteFile)) {
                 writeHeader(out, graveSite.getId(), dueDay);
@@ -72,11 +72,6 @@ public class HTMLGraveSiteWriter {
         out.println("    <br/>");
     }
 
-    private String getFileName(GraveSite graveSite) {
-        return new StringBuilder().append(graveSite.getField()).append("_").append(graveSite.getRow()).append("_")
-                .append(graveSite.getPlace()).append(".html").toString();
-    }
-
     private void writeTableHeader(PrintWriter out, GraveSite graveSite) {
         out.println("    <table width=\"" + String.valueOf(graveSite.getPlaceSize() * 140 + 40) + "\">");
 
@@ -110,7 +105,7 @@ public class HTMLGraveSiteWriter {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         for (int i = graveSite.getRowSize() - 1; i >= 0; i--) {
             out.println("        <tr>");
-            int row = graveSite.getRowInt() - i;
+            int row = graveSite.getRowInt() + i;
             String rowStr = String.format("%02d", row);
             out.println("          <td class=\"reihe\">" + rowStr + "</td>");
             for (int j = graveSite.getPlaceSize() - 1; j >= 0; j--) {

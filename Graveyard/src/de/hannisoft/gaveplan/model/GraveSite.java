@@ -15,6 +15,7 @@ public class GraveSite {
     private final String place;
     private final int placeInt;
     private final String id;
+    private final String fileName;
 
     private GraveSiteType type;
     private String name;
@@ -35,10 +36,16 @@ public class GraveSite {
         this.place = place;
         this.placeInt = Integer.parseInt(place.replaceAll("[^0-9\\-]", ""));
         this.id = createId(field, row, place);
+        this.fileName = getFileName(this);
     }
 
     public static String createId(String field, String row, String place) {
         return new StringBuilder().append(field).append("/").append(row).append("/").append(place).toString();
+    }
+
+    public static String getFileName(GraveSite graveSite) {
+        return new StringBuilder().append(graveSite.getField()).append("_").append(graveSite.getRow()).append("_")
+                .append(graveSite.getPlace()).append(".html").toString();
     }
 
     public String getId() {
@@ -145,6 +152,10 @@ public class GraveSite {
 
     public int getPlaceSize() {
         return placeSize;
+    }
+
+    public String getFileName() {
+        return fileName;
     }
 
     public List<String> getCriterias() {

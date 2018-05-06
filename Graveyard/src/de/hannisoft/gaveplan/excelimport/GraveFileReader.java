@@ -8,9 +8,9 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.hannisoft.gaveplan.model.GraveSite;
 import de.hannisoft.gaveplan.model.Grave;
 import de.hannisoft.gaveplan.model.GraveMap;
+import de.hannisoft.gaveplan.model.GraveSite;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.WorkbookSettings;
@@ -23,7 +23,8 @@ public class GraveFileReader extends AbstractXLSFileReader {
     private static final String COL_FIRST_NAME = "Vorname";
     private static final String COL_DOD = "Sterbedatum";
 
-    public Map<String, GraveMap> read(String inputFile, Map<String, GraveSite> graveSites) throws IOException {
+    public Map<String, GraveMap> read(String inputFile, final Map<String, GraveSite> graveSites) throws IOException {
+        Map<String, GraveSite> sites = new HashMap<String, GraveSite>(graveSites);
         Map<String, GraveMap> graveMaps = new HashMap<>();
         File inputWorkbook = new File(inputFile);
         Workbook w;
@@ -36,7 +37,7 @@ public class GraveFileReader extends AbstractXLSFileReader {
             DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
             for (int i = 2; i < sheet.getRows(); i++) {
                 String graveId = getContent(COL_GARVE_ID, i);
-                GraveSite graveSite = graveSites.get(graveId);
+                GraveSite graveSite = sites.remove(graveId);
                 if (graveSite != null) {
                     String[] graveString = getContent(COL_PLACE, i).split("\\/");
                     String row = graveString[0];
@@ -68,6 +69,15 @@ public class GraveFileReader extends AbstractXLSFileReader {
             }
         } catch (BiffException e) {
             e.printStackTrace();
+        }
+        for (GraveSite graveSite : sites.values()) {
+            String field = graveSite.getField();
+            GraveMap placeMap = graveMaps.get(field);
+            if (placeMap == null) {
+                placeMap = new GraveMap(field);
+                graveMaps.put(field, placeMap);
+            }
+            placeMap.addGraveSite(graveSite);
         }
         return graveMaps;
     }

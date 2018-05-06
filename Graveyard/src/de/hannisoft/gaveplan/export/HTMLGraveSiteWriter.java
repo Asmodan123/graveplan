@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.List;
 
 import de.hannisoft.gaveplan.model.Grave;
 import de.hannisoft.gaveplan.model.GraveSite;
@@ -31,11 +32,26 @@ public class HTMLGraveSiteWriter {
             graveSiteFile.createNewFile();
             try (PrintWriter out = new PrintWriter(graveSiteFile)) {
                 writeHeader(out, graveSite.getId(), dueDay);
+                writeCriterias(out, graveSite.getCriterias());
                 writeOwner(out, graveSite);
                 writeTableHeader(out, graveSite);
                 writeTableBody(out, graveSite);
                 writeFooter(out);
             }
+        }
+    }
+
+    private void writeCriterias(PrintWriter out, List<String> criterias) {
+        if (!criterias.isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            for (String crit : criterias) {
+                sb.append(crit).append(", ");
+            }
+            sb.setLength(sb.length() - 2);
+            out.print("Auswahlkriterien: ");
+            out.print(sb.toString());
+            out.print("<br/>");
+            out.print("<br/>");
         }
     }
 

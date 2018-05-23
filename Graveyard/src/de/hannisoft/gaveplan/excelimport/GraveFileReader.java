@@ -22,9 +22,10 @@ public class GraveFileReader extends AbstractXLSFileReader {
     private static final String COL_LAST_NAME = "Nachname";
     private static final String COL_FIRST_NAME = "Vorname";
     private static final String COL_DOD = "Sterbedatum";
+    private static final String COL_FUNERAL_DATE = "Bestattungsdatum";
 
     public Map<String, GraveMap> read(String inputFile, final Map<String, GraveSite> graveSites) throws IOException {
-        Map<String, GraveSite> sites = new HashMap<String, GraveSite>(graveSites);
+        Map<String, GraveSite> emptyGraveSites = new HashMap<String, GraveSite>(graveSites);
         Map<String, GraveMap> graveMaps = new HashMap<>();
         File inputWorkbook = new File(inputFile);
         Workbook w;
@@ -37,7 +38,8 @@ public class GraveFileReader extends AbstractXLSFileReader {
             DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
             for (int i = 2; i < sheet.getRows(); i++) {
                 String graveId = getContent(COL_GARVE_ID, i);
-                GraveSite graveSite = sites.remove(graveId);
+                emptyGraveSites.remove(graveId);
+                GraveSite graveSite = graveSites.get(graveId);
                 if (graveSite != null) {
                     String[] graveString = getContent(COL_PLACE, i).split("\\/");
                     String row = graveString[0];
@@ -45,7 +47,9 @@ public class GraveFileReader extends AbstractXLSFileReader {
                     String lastName = getContent(COL_LAST_NAME, i);
                     String firstName = getContent(COL_FIRST_NAME, i);
                     String dateOfDeath = getContent(COL_DOD, i);
-
+                    if (dateOfDeath == null || dateOfDeath.trim().isEmpty()) {
+                        dateOfDeath = getContent(COL_FUNERAL_DATE, i);
+                    }
                     try {
                         Grave grave = new Grave(graveSite, row, placeNo);
                         grave.setDeceased(firstName + " " + lastName);
@@ -70,7 +74,7 @@ public class GraveFileReader extends AbstractXLSFileReader {
         } catch (BiffException e) {
             e.printStackTrace();
         }
-        for (GraveSite graveSite : sites.values()) {
+        for (GraveSite graveSite : emptyGraveSites.values()) {
             String field = graveSite.getField();
             GraveMap placeMap = graveMaps.get(field);
             if (placeMap == null) {

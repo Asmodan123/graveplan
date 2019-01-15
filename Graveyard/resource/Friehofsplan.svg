@@ -968,18 +968,22 @@
            d="m 107.50122,191.09474 10.49857,3.86963 -1.60361,26.45973 -10.71028,-3.0341 z"
            style="fill:#000000;fill-opacity:0.00392157;stroke:#00fe00;stroke-width:0.465;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       </a>
-      <text
-         transform="scale(1.0331861,0.96787985)"
-         id="text328-5-7-6-3"
-         y="205.17336"
-         x="91.535912"
-         style="font-style:normal;font-weight:normal;font-size:5.43083954px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:0.13577101;stroke-opacity:1"
-         xml:space="preserve"><tspan
-           id="tspan1173-3-1-5"
-           style="fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:0.13577101;stroke-opacity:1"
-           y="205.17336"
-           x="91.535912"
-           sodipodi:role="line">G3</tspan></text>
+      <a
+         xlink:href="../belegung/G3.html"
+         id="a4602-7">
+							<text
+								 transform="scale(1.0331861,0.96787985)"
+								 id="text328-5-7-6-3"
+								 y="205.17336"
+								 x="91.535912"
+								 style="font-style:normal;font-weight:normal;font-size:5.43083954px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:0.13577101;stroke-opacity:1"
+								 xml:space="preserve"><tspan
+									 id="tspan1173-3-1-5"
+									 style="fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:0.13577101;stroke-opacity:1"
+									 y="205.17336"
+									 x="91.535912"
+									 sodipodi:role="line">G3</tspan></text>
+      </a>
     </g>
   </g>
   <g

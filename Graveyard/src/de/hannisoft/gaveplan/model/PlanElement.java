@@ -27,6 +27,7 @@ public class PlanElement {
     private int minPlace = 0;
     private int maxPlace = 0;
     private String name = null;
+    private String title = null;
     private ArrayList<Point> points = new ArrayList<>();
     private Map<CornerPointType, Point> cornerPoints = new HashMap<>();
 
@@ -78,6 +79,14 @@ public class PlanElement {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getTitle() {
+		return title;
+	}
+    
+    public void setTitle(String title) {
+		this.title = title;
+	}
 
     public List<Point> getPoints() {
         return points;
@@ -191,4 +200,12 @@ public class PlanElement {
                 .append(minPlace).append(", ").append(maxPlace).append("]");
         return sb.toString();
     }
+
+	public String getLabel() {
+        String label = getName();
+        if (getTitle() != null) {
+        	label += " " +getTitle();
+        }
+		return label;
+	}
 }

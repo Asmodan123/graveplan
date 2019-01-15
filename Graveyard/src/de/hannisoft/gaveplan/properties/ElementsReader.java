@@ -27,7 +27,9 @@ public class ElementsReader {
                 if (values.length > 5) {
                     pEelement.setName(values[5]);
                 }
-
+                if (values.length > 6) {
+                	pEelement.setTitle(values[6]);
+                }
                 elements.put(elementId, pEelement);
             } catch (Exception e) {
                 System.err.println("Can't read ElementProperty: '" + prop.toString() + "': " + e.getMessage());

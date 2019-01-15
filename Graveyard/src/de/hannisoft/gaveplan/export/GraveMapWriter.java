@@ -34,7 +34,7 @@ public class GraveMapWriter {
         HTMLGraveMapWriter writer = new HTMLGraveMapWriter(outputDir, type);
         for (Entry<String, GraveMap> entry : placeMaps.entrySet()) {
             entry.getValue().finishEdit(fieldElements);
-            writer.write(entry.getKey(), entry.getValue(), dueDay);
+            writer.write(entry.getValue(), dueDay);
         }
     }
 

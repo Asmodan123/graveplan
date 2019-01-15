@@ -22,6 +22,7 @@ public class GraveFileReader extends AbstractXLSFileReader {
     private static final String COL_LAST_NAME = "Nachname";
     private static final String COL_FIRST_NAME = "Vorname";
     private static final String COL_DOD = "Sterbedatum";
+    private static final String COL_DOB = "Geburtsdatum";
     private static final String COL_FUNERAL_DATE = "Bestattungsdatum";
 
     public Map<String, GraveMap> read(String inputFile, final Map<String, GraveSite> graveSites) throws IOException {
@@ -36,6 +37,7 @@ public class GraveFileReader extends AbstractXLSFileReader {
             Sheet sheet = w.getSheet(0);
             initColumnMap(sheet, 1);
             DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+            DateFormat dobFormat = new SimpleDateFormat("yyyy-MM-dd");
             for (int i = 2; i < sheet.getRows(); i++) {
                 String graveId = getContent(COL_GARVE_ID, i);
                 emptyGraveSites.remove(graveId);
@@ -50,11 +52,15 @@ public class GraveFileReader extends AbstractXLSFileReader {
                     if (dateOfDeath == null || dateOfDeath.trim().isEmpty()) {
                         dateOfDeath = getContent(COL_FUNERAL_DATE, i);
                     }
+                    String dateOfBirth = getContent(COL_DOB, i);
                     try {
                         Grave grave = new Grave(graveSite, row, placeNo);
                         grave.setDeceased(firstName + " " + lastName);
                         if (dateOfDeath != null && !dateOfDeath.trim().isEmpty()) {
                             grave.setDateOfDeatch(format.parse(dateOfDeath));
+                        }
+                        if (dateOfBirth != null && !dateOfBirth.trim().isEmpty()) {
+                        	grave.setDateOfBirth(dobFormat.parse(dateOfBirth));
                         }
                         graveSite.getGraves().add(grave);
 

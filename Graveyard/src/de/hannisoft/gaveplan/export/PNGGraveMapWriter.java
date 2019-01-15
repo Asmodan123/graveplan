@@ -95,7 +95,7 @@ public class PNGGraveMapWriter {
 
             int x = refPoint.getX() + 10;
             int y = refPoint.getY() - 10;
-            img.drawString(element.getName(), x, y);
+            img.drawString(element.getLabel(), x, y);
         }
     }
 

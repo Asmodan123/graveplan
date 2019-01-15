@@ -4,15 +4,14 @@ import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 
 import de.hannisoft.gaveplan.model.Grave;
 import de.hannisoft.gaveplan.model.GraveMap;
+import de.hannisoft.gaveplan.model.PlanElement;
 
 public class HTMLGraveMapWriter {
     public enum OutputType {
@@ -21,6 +20,7 @@ public class HTMLGraveMapWriter {
 
     private final File dir;
     private final OutputType type;
+    private FileExporter exporter = new FileExporter();
 
     public HTMLGraveMapWriter(String outputDir, OutputType outputType) throws Exception {
         this.type = outputType;
@@ -32,7 +32,7 @@ public class HTMLGraveMapWriter {
                 file.delete();
             }
         }
-        exportResource("style.css", getBackgroundStyles());
+        exporter.exportResource(dir, "style.css", getBackgroundStyles());
         // exportResource("grave.js", null);
     }
 
@@ -58,11 +58,11 @@ public class HTMLGraveMapWriter {
         return new ByteArrayInputStream(sb.toString().getBytes());
     }
 
-    public void write(String field, GraveMap graveMap, String dueDay) throws IOException {
-        File html = new File(dir, field + ".html");
+    public void write(GraveMap graveMap, String dueDay) throws IOException {
+        File html = new File(dir, graveMap.getFieldName() + ".html");
         html.createNewFile();
         try (PrintWriter out = new PrintWriter(html)) {
-            writeHeader(out, field, graveMap.getPlaceCount(), dueDay);
+            writeHeader(out, graveMap.getField(), graveMap.getPlaceCount(), dueDay);
             // writeColGroup(out, placeMap);
             writeTableHeader(out, graveMap);
             writeTableContent(out, graveMap);
@@ -71,16 +71,16 @@ public class HTMLGraveMapWriter {
         }
     }
 
-    private void writeHeader(PrintWriter out, String fieldName, int graveCount, String dueDay) {
+    private void writeHeader(PrintWriter out, PlanElement field, int graveCount, String dueDay) {
         out.println("<!doctype html>");
         out.println("<html>");
         out.println("  <head>");
         out.println("    <meta charset=\"utf-8\">");
-        out.println("    <title>Feld " + fieldName + "</title>");
+        out.println("    <title>Feld " + field.getLabel() + "</title>");
         out.println("    <link rel=\"stylesheet\" href=\"style.css\">");
         out.println("  </head>");
         out.println("  <body>");
-        out.println("    <h1>Feld " + fieldName + " (" + dueDay + ")</h1>");
+        out.println("    <h1>Feld " + field.getLabel() + " (" + dueDay + ")</h1>");
         out.println("");
         out.println("    <table width=\"" + String.valueOf(graveCount * 140 + 40) + "\">");
     }
@@ -160,6 +160,10 @@ public class HTMLGraveMapWriter {
                             sb.append(escapeHtml4(grave.getDeceased()));
                         }
                         if (type == OutputType.REFERENCE) {
+                            if (grave.getDateOfBirth() != null) {
+                                sb.append("<br/>* ");
+                                sb.append(dateFormat.format(grave.getDateOfBirth()));
+                            }
                             if (grave.getDateOfDeatch() != null) {
                                 sb.append("<br/>+ ");
                                 sb.append(dateFormat.format(grave.getDateOfDeatch()));
@@ -193,32 +197,4 @@ public class HTMLGraveMapWriter {
         out.println("</html>");
     }
 
-    private void exportResource(String resourceName, InputStream addContent) throws Exception {
-        InputStream stream = null;
-        OutputStream resStreamOut = null;
-        try {
-            stream = getClass().getClassLoader().getResourceAsStream(resourceName);
-            if (stream == null) {
-                throw new Exception("Cannot get resource \"" + resourceName + "\" from Jar file.");
-            }
-
-            int readBytes;
-            byte[] buffer = new byte[4096];
-            resStreamOut = new FileOutputStream(new File(dir, resourceName));
-            while ((readBytes = stream.read(buffer)) > 0) {
-                resStreamOut.write(buffer, 0, readBytes);
-            }
-
-            if (addContent != null) {
-                while ((readBytes = addContent.read(buffer)) > 0) {
-                    resStreamOut.write(buffer, 0, readBytes);
-                }
-            }
-        } catch (Exception ex) {
-            throw ex;
-        } finally {
-            stream.close();
-            resStreamOut.close();
-        }
-    }
 }

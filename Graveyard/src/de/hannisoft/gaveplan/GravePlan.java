@@ -1,10 +1,12 @@
 package de.hannisoft.gaveplan;
 
+import java.io.File;
 import java.util.Map;
 
 import de.hannisoft.gaveplan.excelimport.GraveFileReader;
 import de.hannisoft.gaveplan.excelimport.GraveSiteCriteriaFileReader;
 import de.hannisoft.gaveplan.excelimport.GraveSiteFileReader;
+import de.hannisoft.gaveplan.export.FileExporter;
 import de.hannisoft.gaveplan.export.GraveMapWriter;
 import de.hannisoft.gaveplan.export.ZipCreator;
 import de.hannisoft.gaveplan.model.GraveMap;
@@ -33,6 +35,8 @@ public class GravePlan {
         String dueDay = timestamp.substring(6, 8) + "." + timestamp.substring(4, 6) + "." + timestamp.substring(0, 4);
         GraveMapWriter writer = new GraveMapWriter();
         writer.write(outputDir, graveMaps, dueDay);
+
+        exportAdditionalFiles(outputDir);
         //
         // PNGGraveMapWriter pngWriter = new PNGGraveMapWriter();
         // pngWriter.drawDefaultMap();
@@ -41,10 +45,22 @@ public class GravePlan {
         zipper.zipFolder(outputDir, outputDir + "Lageplan_" + timestamp + ".zip");
     }
 
+    private void exportAdditionalFiles(String outputDir) throws Exception {
+        FileExporter exporter = new FileExporter();
+        File destPath = new File(outputDir);
+        exporter.exportResource(destPath, "Friedhofsplan.html");
+
+        destPath = new File(outputDir, "plan");
+        destPath.mkdirs();
+        exporter.exportResource(destPath, "satellit.png");
+        exporter.exportResource(destPath, "Friehofsplan.svg");
+
+    }
+
     public static void main(String[] args) throws Exception {
         String importDir = "/home/johannes/Dokumente/Friedhof/export/";
         String outputDir = "/home/johannes/tmp/plan2/";
-        String timestamp = "20180910";
+        String timestamp = "20190115";
         if (args != null && args.length == 3) {
             importDir = args[0];
             outputDir = args[1];

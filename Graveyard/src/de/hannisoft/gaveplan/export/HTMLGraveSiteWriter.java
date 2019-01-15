@@ -31,7 +31,7 @@ public class HTMLGraveSiteWriter {
             File graveSiteFile = new File(dir, graveSite.getFileName());
             graveSiteFile.createNewFile();
             try (PrintWriter out = new PrintWriter(graveSiteFile)) {
-                writeHeader(out, graveSite.getId(), dueDay);
+                writeHeader(out, graveSite, dueDay);
                 writeCriterias(out, graveSite.getCriterias());
                 writeOwner(out, graveSite);
                 writeTableHeader(out, graveSite);
@@ -103,16 +103,17 @@ public class HTMLGraveSiteWriter {
 
     }
 
-    private void writeHeader(PrintWriter out, String graveSiteName, String dueDay) {
+    private void writeHeader(PrintWriter out, GraveSite graveSite, String dueDay) {
         out.println("<!doctype html>");
         out.println("<html>");
         out.println("  <head>");
         out.println("    <meta charset=\"utf-8\">");
-        out.println("    <title>Feld " + graveSiteName + "</title>");
+        out.println("    <title>Feld " + graveSite.getId() + "</title>");
         out.println("    <link rel=\"stylesheet\" href=\"../belegung/style.css\">");
         out.println("  </head>");
         out.println("  <body>");
-        out.println("    <h1>Gabst&auml;tte " + graveSiteName + " (" + dueDay + ")</h1>");
+        out.println("    <h1>Gabst&auml;tte " + graveSite.getId() + " (" + dueDay + ")</h1>");
+        out.println("    <h3>" + graveSite.getType().getName()+"</h3>");
         // out.println(" <table width=\"" + String.valueOf(graveCount * 140 + 40) + "\">");
     }
 
@@ -135,6 +136,10 @@ public class HTMLGraveSiteWriter {
                             }
                             if (grave.getDeceased() != null) {
                                 sb.append(escapeHtml4(grave.getDeceased()));
+                            }
+                            if (grave.getDateOfBirth() != null) {
+                            	sb.append("<br/>* ");
+                            	sb.append(dateFormat.format(grave.getDateOfBirth()));
                             }
                             if (grave.getDateOfDeatch() != null) {
                                 sb.append("<br/>+ ");

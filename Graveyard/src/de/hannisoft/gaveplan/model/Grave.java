@@ -13,6 +13,7 @@ public class Grave {
     private final String place;
     private int placeInt = Integer.MIN_VALUE;
     private String deceased;
+    private Date dateOfBirth;
     private Date dateOfDeatch;
     private Collection<GraveClass> classes = new HashSet<>();
     private int runtimeYear = 0;
@@ -36,7 +37,15 @@ public class Grave {
         return dateOfDeatch;
     }
 
-    public void setDateOfDeatch(Date dateOfDeatch) {
+    public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public void setDateOfDeatch(Date dateOfDeatch) {
         this.dateOfDeatch = dateOfDeatch;
     }
 

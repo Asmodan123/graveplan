@@ -7,7 +7,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class GraveMap {
-    private final String field;
+	private final String fieldName;
+	private PlanElement field;
     private Set<GraveSite> graveSites = new HashSet<>();
 
     private int rowCount = -1;
@@ -18,8 +19,8 @@ public class GraveMap {
 
     private Grave[][] graveArray = null;
 
-    public GraveMap(String field) {
-        this.field = field;
+    public GraveMap(String fieldName) {
+        this.fieldName = fieldName;
     }
 
     public void finishEdit(Map<String, PlanElement> fieldElements) {
@@ -61,21 +62,20 @@ public class GraveMap {
     }
 
     private void initMinMaxValues(Map<String, PlanElement> fieldElements) {
-        PlanElement fe = fieldElements.get(field);
-        if (fe == null) {
+        field = fieldElements.get(fieldName);
+        if (field == null) {
             initMinMaxValuesFromGaves();
         } else {
-            System.out.println("Found FieldElement of GraveMap " + field + " " + fe.toString());
-            rowCount = fe.getMaxRow() - fe.getMinRow() + (fe.getMinRow() < 0 ? 0 : 1);
-            placeCount = fe.getMaxPlace() - fe.getMinPlace() + (fe.getMinPlace() < 0 ? 0 : 1);
-            deltaRow = fe.getMinRow() < 0 ? Math.abs(fe.getMinRow()) : 0;
-            deltaPlace = fe.getMinPlace() < 0 ? Math.abs(fe.getMinPlace()) : 0;
+            System.out.println("Found FieldElement of GraveMap " + field + " " + field.toString());
+            rowCount = field.getMaxRow() - field.getMinRow() + (field.getMinRow() < 0 ? 0 : 1);
+            placeCount = field.getMaxPlace() - field.getMinPlace() + (field.getMinPlace() < 0 ? 0 : 1);
+            deltaRow = field.getMinRow() < 0 ? Math.abs(field.getMinRow()) : 0;
+            deltaPlace = field.getMinPlace() < 0 ? Math.abs(field.getMinPlace()) : 0;
             System.out.println("Initialized MinMaxValues of GraveMap " + field + ": rowCount=" + rowCount + " / placeCount="
                     + placeCount + " / " + deltaRow + " / deltaPlace=" + deltaPlace);// TODO Auto-generated method stub
             // initMinMaxValuesFromGaves();
             System.out.println("");
         }
-
     }
 
     private void initMinMaxValuesFromGaves() {
@@ -108,6 +108,12 @@ public class GraveMap {
         placeCount = maxPlace - minPlace + (minPlace < 0 ? 0 : 1);
         deltaRow = minRow < 0 ? Math.abs(minRow) : 0;
         deltaPlace = minPlace < 0 ? Math.abs(minPlace) : 0;
+        field = new PlanElement(this.hashCode(), "feld");
+        field.setName(fieldName);
+        field.setMinPlace(minPlace);
+        field.setMaxPlace(maxPlace);
+        field.setMinRow(minRow);
+        field.setMaxRow(maxRow);
         System.out.println("Initialized MinMaxValues of GraveMap " + field + ": rowCount=" + rowCount + " / placeCount="
                 + placeCount + " / " + deltaRow + " / deltaPlace=" + deltaPlace);
     }
@@ -212,8 +218,12 @@ public class GraveMap {
         return graveSites;
     }
 
-    public String getField() {
-        return field;
+    public String getFieldName() {
+        return field.getName();
+    }
+
+    public PlanElement getField() {
+    	return field;
     }
 
     public int getRowCount() {

@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import de.hannisoft.gaveplan.model.GraveSite;
 import de.hannisoft.gaveplan.model.GraveSiteType;
@@ -34,7 +34,7 @@ public class GraveSiteFileReader extends AbstractXLSFileReader {
     private static final String COL_SALUTATION_LETTER = "Briefanrede";
 
     public Map<String, GraveSite> read(String inputFile) throws IOException {
-        Map<String, GraveSite> graves = new HashMap<>();
+        Map<String, GraveSite> graves = new TreeMap<>();
         File inputWorkbook = new File(inputFile);
         Workbook w;
         WorkbookSettings ws = new WorkbookSettings();

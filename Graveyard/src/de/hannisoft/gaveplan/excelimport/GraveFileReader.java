@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import de.hannisoft.gaveplan.model.Grave;
 import de.hannisoft.gaveplan.model.GraveMap;
@@ -26,8 +26,8 @@ public class GraveFileReader extends AbstractXLSFileReader {
     private static final String COL_FUNERAL_DATE = "Bestattungsdatum";
 
     public Map<String, GraveMap> read(String inputFile, final Map<String, GraveSite> graveSites) throws IOException {
-        Map<String, GraveSite> emptyGraveSites = new HashMap<String, GraveSite>(graveSites);
-        Map<String, GraveMap> graveMaps = new HashMap<>();
+        Map<String, GraveSite> emptyGraveSites = new TreeMap<String, GraveSite>(graveSites);
+        Map<String, GraveMap> graveMaps = new TreeMap<>();
         File inputWorkbook = new File(inputFile);
         Workbook w;
         WorkbookSettings ws = new WorkbookSettings();
@@ -60,7 +60,7 @@ public class GraveFileReader extends AbstractXLSFileReader {
                             grave.setDateOfDeatch(format.parse(dateOfDeath));
                         }
                         if (dateOfBirth != null && !dateOfBirth.trim().isEmpty()) {
-                        	grave.setDateOfBirth(dobFormat.parse(dateOfBirth));
+                            grave.setDateOfBirth(dobFormat.parse(dateOfBirth));
                         }
                         graveSite.getGraves().add(grave);
 

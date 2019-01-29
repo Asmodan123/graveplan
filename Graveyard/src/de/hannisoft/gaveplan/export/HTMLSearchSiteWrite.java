@@ -138,7 +138,9 @@ public class HTMLSearchSiteWrite {
     private void writeTD_Feld(PrintWriter out, GraveSite graveSite) {
         out.print("          <td><a href=\"../belegung/");
         out.print(graveSite.getField());
-        out.print(".html\">");
+        out.print(".html#");
+        out.print(graveSite.getId().replace('/', '_'));
+        out.print("\">");
         out.print(graveSite.getField());
         out.println("</a></td>");
     }

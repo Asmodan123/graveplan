@@ -141,8 +141,9 @@ public class HTMLGraveMapWriter {
                     } else {
                         sb.append("          <td class=\"");
                         sb.append(grave.getClassesStirng());
-                        sb.append("\"");
-                        sb.append(" style=\"cursor:pointer\" ");
+                        sb.append("\" id=\"");
+                        sb.append(grave.getGraveSite().getId().replace('/', '_'));
+                        sb.append("\" style=\"cursor:pointer\" ");
                         sb.append(" onclick=\"location.href='../grabst&auml;tten/").append(grave.getGraveSite().getFileName())
                                 .append("'\" ");
                         sb.append(">");

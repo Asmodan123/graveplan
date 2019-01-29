@@ -1,0 +1,34 @@
+#searchInput {
+	background-image: url('searchicon.png');
+	background-position: 10px 12px;
+	background-repeat: no-repeat;
+	width: 100%;
+	font-size: 16px;
+	padding: 12px 20px 12px 40px;
+	border: 1px solid #ddd;
+	margin-bottom: 12px;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+th {
+	border: 1px solid black;
+	background-color: #D8D8D8;
+	font-weight: bold;
+}
+
+td {
+	border: 1px solid black;
+	text-align: center;
+	text-decoration: none;
+}
+
+td.left {
+	text-align: left;
+}
+
+tr:hover:not (.header ) {
+	background-color: #f8f9b3;
+}

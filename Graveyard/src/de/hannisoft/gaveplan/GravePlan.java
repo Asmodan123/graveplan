@@ -55,6 +55,12 @@ public class GravePlan {
         exporter.exportResource(destPath, "satellit.png");
         exporter.exportResource(destPath, "Friehofsplan.svg");
 
+        destPath = new File(outputDir, "suche");
+        destPath.mkdirs();
+        exporter.exportResource(destPath, "search.css");
+        exporter.exportResource(destPath, "search.js");
+        exporter.exportResource(destPath, "searchicon.png");
+
     }
 
     public static void main(String[] args) throws Exception {

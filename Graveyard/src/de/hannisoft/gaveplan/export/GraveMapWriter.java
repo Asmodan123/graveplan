@@ -17,6 +17,7 @@ public class GraveMapWriter {
         writeHtmlGraveMap(outputDir, graveMaps, OutputType.RUNTIME, dueDay);
         writeHtmlGraveMap(outputDir, graveMaps, OutputType.REFERENCE, dueDay);
         writeHtmlGraveSiteFiles(outputDir, graveMaps, dueDay);
+        writeHtmlSearchSiteFiles(outputDir, graveMaps, dueDay);
     }
 
     private void writeHtmlGraveMap(String outputDir, Map<String, GraveMap> placeMaps, OutputType type, String dueDay)
@@ -44,6 +45,12 @@ public class GraveMapWriter {
         for (GraveMap graveMap : graveMaps.values()) {
             writer.write(graveMap.graveSites(), dueDay);
         }
+    }
+
+    private void writeHtmlSearchSiteFiles(String outputDir, Map<String, GraveMap> graveMaps, String dueDay) throws IOException {
+        File graveSiteDir = new File(outputDir, "suche");
+        HTMLSearchSiteWrite writer = new HTMLSearchSiteWrite(graveSiteDir);
+        writer.write(graveMaps, dueDay);
     }
 
 }

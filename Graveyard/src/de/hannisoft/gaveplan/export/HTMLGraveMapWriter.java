@@ -33,7 +33,6 @@ public class HTMLGraveMapWriter {
             }
         }
         exporter.exportResource(dir, "style.css", getBackgroundStyles());
-        // exportResource("grave.js", null);
     }
 
     private InputStream getBackgroundStyles() {
@@ -164,9 +163,9 @@ public class HTMLGraveMapWriter {
                                 sb.append("<br/>* ");
                                 sb.append(dateFormat.format(grave.getDateOfBirth()));
                             }
-                            if (grave.getDateOfDeatch() != null) {
+                            if (grave.getDateOfDeath() != null) {
                                 sb.append("<br/>+ ");
-                                sb.append(dateFormat.format(grave.getDateOfDeatch()));
+                                sb.append(dateFormat.format(grave.getDateOfDeath()));
                             }
                         } else {
                             if (grave.getGraveSite() != null && grave.getGraveSite().getValidTo() != null) {
@@ -192,7 +191,6 @@ public class HTMLGraveMapWriter {
 
     private void writeFooter(PrintWriter out) {
         out.println("    </table>");
-        // out.println(" <script src=\"grave.js\"></script>");
         out.println("  </body>");
         out.println("</html>");
     }

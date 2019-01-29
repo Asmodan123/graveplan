@@ -141,9 +141,9 @@ public class HTMLGraveSiteWriter {
                             	sb.append("<br/>* ");
                             	sb.append(dateFormat.format(grave.getDateOfBirth()));
                             }
-                            if (grave.getDateOfDeatch() != null) {
+                            if (grave.getDateOfDeath() != null) {
                                 sb.append("<br/>+ ");
-                                sb.append(dateFormat.format(grave.getDateOfDeatch()));
+                                sb.append(dateFormat.format(grave.getDateOfDeath()));
                             }
                         } catch (Exception e) {
                             System.err.println(

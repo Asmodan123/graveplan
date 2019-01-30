@@ -5,18 +5,19 @@ function onSearchFieldKeyup() {
 }
 
 function searchList() {
-	var input, filter, ul, trs, a, i, txtValue, style;
+	var input, filter, ul, trs, tokens, i, txtValue, style;
 	input = document.getElementById("searchInput");
-	filter = input.value.toUpperCase();
-	var tokens = filter.split(" ");
+	filter = input.value.toUpperCase().trim();
+	tokens = filter.split(" ");
 	ul = document.getElementById("searchResult");
 	trs = ul.getElementsByTagName("tr");
 	for (i = 0; i < trs.length; i++) {
 		txtValue = trs[i].dataset.search;
-		style = "";
+		style = "none";
 		for (j = 0; j < tokens.length; j++) {
-			if (txtValue.toUpperCase().indexOf(tokens[j]) == -1) {
-				style = "none";
+			if (tokens[j].length > 2
+					&& txtValue.toUpperCase().indexOf(tokens[j]) > -1) {
+				style = "";
 				break;
 			}
 		}

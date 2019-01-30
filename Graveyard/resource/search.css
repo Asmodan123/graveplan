@@ -29,6 +29,6 @@ td.left {
 	text-align: left;
 }
 
-tr:hover:not (.header ) {
+tr:hover td {
 	background-color: #f8f9b3;
 }

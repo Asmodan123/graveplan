@@ -53,10 +53,9 @@ public class HTMLSearchSiteWrite {
         out.println("    <table width=\"100%\">");
         out.println("      <thead>");
         out.println("        <tr>");
-        out.println("          <th>Feld</th>");
         out.println("          <th>Grabstätte</th>");
         out.println("          <th>Grabart</th>");
-        out.println("          <th>Größe</th>");
+        out.println("          <th>Merkmale</th>");
         out.println("          <th>Laufzeit bis</th>");
         out.println("          <th>Nutzungsrecht</th>");
         out.println("          <th>Verstorbene</th>");
@@ -71,10 +70,9 @@ public class HTMLSearchSiteWrite {
                 out.print("        <tr data-search=\"");
                 writeSearchData(out, graveSite);
                 out.println("\" style=\"display:none\">");
-                writeTD_Feld(out, graveSite);
                 writeTD_Grabstaette(out, graveSite);
                 writeTD_Grabart(out, graveSite);
-                writeTD_Groesse(out, graveSite);
+                writeTD_Merkmale(out, graveSite);
                 writeTD_Laufzeit(out, graveSite);
                 writeTD_Nutzer(out, graveSite);
                 writeTD_Verstorbene(out, graveSite);
@@ -87,7 +85,7 @@ public class HTMLSearchSiteWrite {
     private void writeSearchData(PrintWriter out, GraveSite graveSite) {
         out.print(graveSite.getField());
         out.print(" ");
-        out.print(graveSite.getField());
+        out.print(graveSite.getId());
         out.print(" ");
         out.print(graveSite.getName());
         out.print(" ");
@@ -135,33 +133,39 @@ public class HTMLSearchSiteWrite {
         }
     }
 
-    private void writeTD_Feld(PrintWriter out, GraveSite graveSite) {
+    private void writeTD_Grabstaette(PrintWriter out, GraveSite graveSite) {
         out.print("          <td><a href=\"../belegung/");
         out.print(graveSite.getField());
         out.print(".html#");
         out.print(graveSite.getId().replace('/', '_'));
         out.print("\">");
         out.print(graveSite.getField());
-        out.println("</a></td>");
-    }
-
-    private void writeTD_Grabstaette(PrintWriter out, GraveSite graveSite) {
-        out.print("          <td><a href=\"../grabstätten/");
+        out.println("</a>/<a href=\"../grabstätten/");
         out.print(graveSite.getFileName());
         out.print("\">");
-        out.print(graveSite.getId());
+        out.print(graveSite.getRow());
+        out.print("/");
+        out.print(graveSite.getPlace());
         out.println("</a></td>");
     }
 
     private void writeTD_Grabart(PrintWriter out, GraveSite graveSite) {
         out.print("          <td class=\"left\">");
         out.print(graveSite.getType().getName());
+        if (graveSite.getSize() > 1) {
+            out.print(" (");
+            out.print(graveSite.getSize());
+            out.print(")");
+        }
         out.println("</td>");
     }
 
-    private void writeTD_Groesse(PrintWriter out, GraveSite graveSite) {
-        out.print("          <td>");
-        out.print(graveSite.getSize());
+    private void writeTD_Merkmale(PrintWriter out, GraveSite graveSite) {
+        out.print("          <td class=\"left\">");
+        for (String criteria : graveSite.getCriterias()) {
+            out.print(criteria);
+            out.print(" / ");
+        }
         out.println("</td>");
     }
 

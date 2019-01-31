@@ -83,23 +83,23 @@ public class HTMLSearchSiteWrite {
     }
 
     private void writeSearchData(PrintWriter out, GraveSite graveSite) {
-        out.print(graveSite.getField());
+        out.print(graveSite.getField().toUpperCase());
         out.print(" ");
-        out.print(graveSite.getId());
+        out.print(graveSite.getId().toUpperCase());
         out.print(" ");
-        out.print(graveSite.getName());
+        out.print(graveSite.getName().toUpperCase());
         out.print(" ");
-        out.print(graveSite.getPlace());
+        out.print(graveSite.getPlace().toUpperCase());
         out.print(" ");
         out.print(graveSite.getRow());
         for (String criteria : graveSite.getCriterias()) {
             out.print(" ");
-            out.print(criteria);
+            out.print(criteria.toUpperCase());
         }
         out.print(" ");
-        out.print(graveSite.getType());
+        out.print(graveSite.getType().toString().toUpperCase());
         out.print(" ");
-        out.print(graveSite.getType().name());
+        out.print(graveSite.getType().name().toUpperCase());
         if (graveSite.getValidFrom() != null) {
             out.print(" ");
             out.print(dateFormat.format(graveSite.getValidFrom()));
@@ -110,17 +110,17 @@ public class HTMLSearchSiteWrite {
         }
         Owner owner = graveSite.getOwner();
         out.print(" ");
-        out.print(owner.getFirstName());
+        out.print(owner.getFirstName().toUpperCase());
         out.print(" ");
-        out.print(owner.getLastName());
+        out.print(owner.getLastName().toUpperCase());
         out.print(" ");
-        out.print(owner.getStreet());
+        out.print(owner.getStreet().toUpperCase());
         out.print(" ");
-        out.print(owner.getZipAndTown());
+        out.print(owner.getZipAndTown().toUpperCase());
         for (Grave grave : graveSite.getGraves()) {
             if (!grave.isEmpty()) {
                 out.print(" ");
-                out.print(grave.getDeceased());
+                out.print(grave.getDeceased().toUpperCase());
                 if (grave.getDateOfBirth() != null) {
                     out.print(" ");
                     out.print(dateFormat.format(grave.getDateOfBirth()));

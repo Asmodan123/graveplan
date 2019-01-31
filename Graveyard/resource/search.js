@@ -16,7 +16,7 @@ function searchList() {
 		style = "none";
 		for (j = 0; j < tokens.length; j++) {
 			if (tokens[j].length > 2
-					&& txtValue.toUpperCase().indexOf(tokens[j]) > -1) {
+					&& txtValue.indexOf(tokens[j]) > -1) {
 				style = "";
 				break;
 			}

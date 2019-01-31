@@ -141,8 +141,10 @@ public class HTMLGraveMapWriter {
                     } else {
                         sb.append("          <td class=\"");
                         sb.append(grave.getClassesStirng());
-                        sb.append("\" id=\"");
-                        sb.append(grave.getGraveSite().getId().replace('/', '_'));
+                        if (grave.isRef()) {
+                            sb.append("\" id=\"");
+                            sb.append(grave.getGraveSite().getId().replace('/', '_'));
+                        }
                         sb.append("\" style=\"cursor:pointer\" ");
                         sb.append(" onclick=\"location.href='../grabst&auml;tten/").append(grave.getGraveSite().getFileName())
                                 .append("'\" ");

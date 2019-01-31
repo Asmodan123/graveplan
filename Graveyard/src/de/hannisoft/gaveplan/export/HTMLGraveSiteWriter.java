@@ -110,10 +110,34 @@ public class HTMLGraveSiteWriter {
         out.println("    <meta charset=\"utf-8\">");
         out.println("    <title>Feld " + graveSite.getId() + "</title>");
         out.println("    <link rel=\"stylesheet\" href=\"../belegung/style.css\">");
+        out.println("    <link rel=\"stylesheet\" href=\"../plan/nav.css\">");
         out.println("  </head>");
         out.println("  <body>");
+        out.println("    <ul>");
+        out.println("      <li><a href=\"../Friedhofsplan.html\">Übersicht</a></li>");
+        out.println("      <li><a href=\"../suche/Suche.html\">Suche</a></li>");
+        out.print("      <li><a href=\"../belegung/");
+        out.print(graveSite.getField());
+        out.print(".html#");
+        out.print(graveSite.getId().replace('/', '_'));
+        out.print("\">Belegung - Feld ");
+        out.print(graveSite.getField());
+        out.println("</a></li>");
+        out.print("      <li><a href=\"../laufzeit/");
+        out.print(graveSite.getField());
+        out.print(".html#");
+        out.print(graveSite.getId().replace('/', '_'));
+        out.print("\">Restlaufzeit - Feld ");
+        out.print(graveSite.getField());
+        out.println("</a></li>");
+        out.print("      <li><a class=\"active\" href=\"#\">Grabstst&auml;tte ");
+        out.print(graveSite.getId());
+        out.print("</a></li>");
+        out.println(
+                "      <li style=\"float: right\"><a href=\"mailto:johannes.ahlers@gmx.de?subject=Frage zum Friedhofsplan\">Hilfe</a></li>");
+        out.println("    </ul>");
         out.println("    <h1>Gabst&auml;tte " + graveSite.getId() + " (" + dueDay + ")</h1>");
-        out.println("    <h3>" + graveSite.getType().getName()+"</h3>");
+        out.println("    <h3>" + graveSite.getType().getName() + "</h3>");
         // out.println(" <table width=\"" + String.valueOf(graveCount * 140 + 40) + "\">");
     }
 
@@ -138,8 +162,8 @@ public class HTMLGraveSiteWriter {
                                 sb.append(escapeHtml4(grave.getDeceased()));
                             }
                             if (grave.getDateOfBirth() != null) {
-                            	sb.append("<br/>* ");
-                            	sb.append(dateFormat.format(grave.getDateOfBirth()));
+                                sb.append("<br/>* ");
+                                sb.append(dateFormat.format(grave.getDateOfBirth()));
                             }
                             if (grave.getDateOfDeath() != null) {
                                 sb.append("<br/>+ ");

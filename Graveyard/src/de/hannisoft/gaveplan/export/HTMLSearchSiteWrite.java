@@ -44,9 +44,16 @@ public class HTMLSearchSiteWrite {
         out.println("    <meta charset=\"utf-8\" name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
         out.println("    <title>Suche</title>");
         out.println("    <link rel=\"stylesheet\" href=\"search.css\">");
+        out.println("    <link rel=\"stylesheet\" href=\"../plan/nav.css\">");
         out.println("    <script src=\"search.js\"></script>");
         out.println("  </head>");
         out.println("  <body>");
+        out.println("    <ul>");
+        out.println("      <li><a href=\"../Friedhofsplan.html\">Übersicht</a></li>");
+        out.println("      <li><a class=\"active\" href=\"#\">Suche</a></li>");
+        out.println(
+                "      <li style=\"float: right\"><a href=\"mailto:johannes.ahlers@gmx.de?subject=Frage zum Friedhofsplan\">Hilfe</a></li>");
+        out.println("    </ul>");
         out.println("    <h1>Suche auf dem Friedhof (Stand: " + dueDay + ")</h1>");
         out.println(
                 "    <input type=\"text\" id=\"searchInput\" onkeyup=\"onSearchFieldKeyup()\" placeholder=\"Suchtext eingeben...\" title=\"Suchtext\">");

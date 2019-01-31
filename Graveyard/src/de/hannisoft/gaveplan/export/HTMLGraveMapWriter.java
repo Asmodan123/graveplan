@@ -77,8 +77,34 @@ public class HTMLGraveMapWriter {
         out.println("    <meta charset=\"utf-8\">");
         out.println("    <title>Feld " + field.getLabel() + "</title>");
         out.println("    <link rel=\"stylesheet\" href=\"style.css\">");
+        out.println("    <link rel=\"stylesheet\" href=\"../plan/nav.css\">");
         out.println("  </head>");
         out.println("  <body>");
+        out.println("    <ul>");
+        out.println("      <li><a href=\"../Friedhofsplan.html\">Übersicht</a></li>");
+        out.println("      <li><a href=\"../suche/Suche.html\">Suche</a></li>");
+        if (type == OutputType.REFERENCE) {
+            out.print("      <li><a class=\"active\" href=\"#\">Belegung - Feld ");
+            out.print(field.getName());
+            out.println("</a></li>");
+            out.print("      <li><a href=\"../laufzeit/");
+            out.print(field.getName());
+            out.print(".html\">Restlaufzeit - Feld ");
+            out.print(field.getName());
+            out.println("</a></li>");
+        } else {
+            out.print("      <li><a href=\"../belegung/");
+            out.print(field.getName());
+            out.print(".html\">Belegung - Feld ");
+            out.print(field.getName());
+            out.println("</a></li>");
+            out.print("      <li><a class=\"active\" href=\"#\">Restlaufzeit - Feld ");
+            out.print(field.getName());
+            out.print("</a></li>");
+        }
+        out.println(
+                "      <li style=\"float: right\"><a href=\"mailto:johannes.ahlers@gmx.de?subject=Frage zum Friedhofsplan\">Hilfe</a></li>");
+        out.println("    </ul>");
         out.println("    <h1>Feld " + field.getLabel() + " (" + dueDay + ")</h1>");
         out.println("");
         out.println("    <table width=\"" + String.valueOf(graveCount * 140 + 40) + "\">");

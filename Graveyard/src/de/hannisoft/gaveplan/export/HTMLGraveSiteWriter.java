@@ -113,6 +113,7 @@ public class HTMLGraveSiteWriter {
         out.println("    <link rel=\"stylesheet\" href=\"../plan/nav.css\">");
         out.println("  </head>");
         out.println("  <body>");
+        out.println(HTMLConstants.INSIDE_ZIP);
         out.println("    <ul>");
         out.println("      <li><a href=\"../Friedhofsplan.html\">Übersicht</a></li>");
         out.println("      <li><a href=\"../suche/Suche.html\">Suche</a></li>");

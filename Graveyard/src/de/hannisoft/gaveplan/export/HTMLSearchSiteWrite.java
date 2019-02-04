@@ -48,6 +48,7 @@ public class HTMLSearchSiteWrite {
         out.println("    <script src=\"search.js\"></script>");
         out.println("  </head>");
         out.println("  <body>");
+        out.println(HTMLConstants.INSIDE_ZIP);
         out.println("    <ul>");
         out.println("      <li><a href=\"../Friedhofsplan.html\">Übersicht</a></li>");
         out.println("      <li><a class=\"active\" href=\"#\">Suche</a></li>");

@@ -17,6 +17,9 @@ public class GravePlan {
     public static final String FILE_TOKEN_GRAVE = "Verstorbene_";
     public static final String FILE_TOKEN_CRITERIA = "Auswahlkriterien_";
     public static final String FILE_ENDING = ".xls";
+    public static String importDir = "/home/johannes/Dokumente/Friedhof/export/";
+    public static String outputDir = "/home/johannes/tmp/plan2/";
+    public static String timestamp = "20190519";
 
     public void run(String importDir, String outputDir, String timestamp) throws Exception {
         String graveSiteFile = importDir + FILE_TOKEN_GRAVE_SITE + timestamp + FILE_ENDING;
@@ -65,9 +68,6 @@ public class GravePlan {
     }
 
     public static void main(String[] args) throws Exception {
-        String importDir = "/home/johannes/Dokumente/Friedhof/export/";
-        String outputDir = "/home/johannes/tmp/plan2/";
-        String timestamp = "20190129";
         if (args != null && args.length == 3) {
             importDir = args[0];
             outputDir = args[1];

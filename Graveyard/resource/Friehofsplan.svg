@@ -26,15 +26,15 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.56"
-     inkscape:cx="336.86319"
-     inkscape:cy="380.30241"
+     inkscape:zoom="1.8756036"
+     inkscape:cx="690.14421"
+     inkscape:cy="206.826"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
      objecttolerance="41"
-     inkscape:window-width="3840"
-     inkscape:window-height="2097"
+     inkscape:window-width="1366"
+     inkscape:window-height="705"
      inkscape:window-x="0"
      inkscape:window-y="41"
      inkscape:window-maximized="1"
@@ -61,7 +61,7 @@
      id="layer1"
      transform="translate(0.21189949,-38.0919)">
     <image
-       sodipodi:absref="/home/jahlers/tmp/plan2/plan/satellit.png"
+       sodipodi:absref="/home/johannes/tmp/plan2/plan/satellit.png"
        xlink:href="satellit.png"
        sodipodi:insensitive="true"
        width="302.06512"
@@ -880,13 +880,13 @@
              style="fill:#000000;fill-opacity:0.00392157;stroke:#00fe00;stroke-width:0.39684254;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
           <text
              id="text328-5-4"
-             y="233.62741"
+             y="250"
              x="177.91028"
              style="font-style:normal;font-weight:normal;font-size:16.9637394px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:0.42409351;stroke-opacity:1"
              xml:space="preserve"><tspan
                id="tspan1173-9"
                style="fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:0.42409351;stroke-opacity:1"
-               y="233.62741"
+               y="250"
                x="177.91028"
                sodipodi:role="line">N1</tspan></text>
         </g>
@@ -970,21 +970,52 @@
       </a>
       <a
          xlink:href="../belegung/G3.html"
-         id="a4602-7">
-							<text
-								 transform="scale(1.0331861,0.96787985)"
-								 id="text328-5-7-6-3"
-								 y="205.17336"
-								 x="91.535912"
-								 style="font-style:normal;font-weight:normal;font-size:5.43083954px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:0.13577101;stroke-opacity:1"
-								 xml:space="preserve"><tspan
-									 id="tspan1173-3-1-5"
-									 style="fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:0.13577101;stroke-opacity:1"
-									 y="205.17336"
-									 x="91.535912"
-									 sodipodi:role="line">G3</tspan></text>
+         id="a5311">
+        <text
+           transform="scale(1.0331861,0.96787985)"
+           id="text328-5-7-6-3"
+           y="205.17336"
+           x="91.535912"
+           style="font-style:normal;font-weight:normal;font-size:5.43083954px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:0.13577101;stroke-opacity:1"
+           xml:space="preserve"><tspan
+             id="tspan1173-3-1-5"
+             style="fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:0.13577101;stroke-opacity:1"
+             y="205.17336"
+             x="91.535912"
+             sodipodi:role="line">G3</tspan></text>
       </a>
     </g>
+    <a
+       xlink:href="../belegung/N3.html"
+       transform="matrix(0.49861614,0,0,0.43690197,91.788383,152.60832)"
+       id="a4658-5"
+       target="_parent">
+      <g
+         id="g4656-6">
+        <a
+           xlink:href="../belegung/N3.html"
+           id="a4614-2"
+           target="_parent">
+          <path
+             sodipodi:nodetypes="ccccc"
+             inkscape:connector-curvature="0"
+             id="rect3884-3-6-5-9"
+             d="m 197.92162,144.33861 22.28807,10.70176 -10.83545,21.86141 -20.39719,-10.72629 z"
+             style="fill:#000000;fill-opacity:0.00392157;stroke:#00fe00;stroke-width:0.80000001;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        </a>
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-weight:normal;font-size:16.9637394px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:0.42409351;stroke-opacity:1"
+           x="192"
+           y="165.78899"
+           id="text328-3-43-1"><tspan
+             sodipodi:role="line"
+             x="192"
+             y="165.78899"
+             style="fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:0.42409351;stroke-opacity:1"
+             id="tspan1153-0-2">N3</tspan></text>
+      </g>
+    </a>
   </g>
   <g
      inkscape:groupmode="layer"

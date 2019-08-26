@@ -19,7 +19,7 @@ public class GravePlan {
     public static final String FILE_ENDING = ".xls";
     public static String importDir = "/home/johannes/Dokumente/Friedhof/export/";
     public static String outputDir = "/home/johannes/tmp/plan2/";
-    public static String timestamp = "20190519";
+    public static String timestamp = "20190826";
 
     public void run(String importDir, String outputDir, String timestamp) throws Exception {
         String graveSiteFile = importDir + FILE_TOKEN_GRAVE_SITE + timestamp + FILE_ENDING;

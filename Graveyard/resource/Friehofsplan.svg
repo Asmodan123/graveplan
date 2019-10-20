@@ -26,9 +26,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.8756036"
-     inkscape:cx="690.14421"
-     inkscape:cy="206.826"
+     inkscape:zoom="1.63"
+     inkscape:cx="984.44445"
+     inkscape:cy="676.00829"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -63,32 +63,32 @@
     <image
        sodipodi:absref="/home/johannes/tmp/plan2/plan/satellit.png"
        xlink:href="satellit.png"
-       sodipodi:insensitive="true"
-       width="302.06512"
-       height="258.98373"
-       preserveAspectRatio="none"
-       id="image3861"
+       y="38.0919"
        x="-0.21189949"
-       y="38.0919" />
+       id="image3861"
+       preserveAspectRatio="none"
+       height="258.98373"
+       width="302.06512"
+       sodipodi:insensitive="true" />
     <a
        xlink:href="../belegung/N1.html"
-       id="a4611"
-       target="_parent" />
+       target="_parent"
+       id="a4611" />
     <a
        xlink:href="../belegung/N2.html"
-       id="a4608"
-       target="_parent" />
+       target="_parent"
+       id="a4608" />
     <a
        xlink:href="../belegung/A.html"
-       id="a4774"
-       target="_parent">
+       target="_parent"
+       id="a4774">
       <g
          id="g4772">
         <a
            xlink:href="../belegung/A.html"
-           style="fill:#000000;fill-opacity:0.00392157"
+           id="a4590"
            target="_parent"
-           id="a4590">
+           style="fill:#000000;fill-opacity:0.00392157">
           <path
              sodipodi:nodetypes="ccccc"
              inkscape:connector-curvature="0"
@@ -98,8 +98,8 @@
         </a>
         <a
            xlink:href="../belegung/A.html"
-           id="a926"
-           target="_parent">
+           target="_parent"
+           id="a926">
           <text
              id="text328"
              y="216.20485"
@@ -116,14 +116,14 @@
     </a>
     <a
        xlink:href="../belegung/B.html"
-       id="a4853"
-       target="_parent">
+       target="_parent"
+       id="a4853">
       <g
          id="g4851">
         <a
            xlink:href="../belegung/B.html"
-           id="a4632"
-           target="_parent">
+           target="_parent"
+           id="a4632">
           <path
              sodipodi:nodetypes="ccccc"
              inkscape:connector-curvature="0"
@@ -146,17 +146,17 @@
     </a>
     <a
        xlink:href="../belegung/G.html"
-       id="a4728"
+       target="_parent"
        transform="translate(-0.52916667)"
-       target="_parent">
+       id="a4728">
       <g
          id="g4726">
         <a
            xlink:href="../belegung/G.html"
-           style="fill:#000000;fill-opacity:0.00392157"
-           id="a4599"
+           target="_parent"
            transform="translate(0.66838891)"
-           target="_parent">
+           id="a4599"
+           style="fill:#000000;fill-opacity:0.00392157">
           <path
              sodipodi:nodetypes="ccccc"
              inkscape:connector-curvature="0"
@@ -167,8 +167,8 @@
         </a>
         <a
            xlink:href="../belegung/G.html"
-           id="a4630"
-           target="_parent">
+           target="_parent"
+           id="a4630">
           <g
              id="g4718">
             <text
@@ -188,15 +188,15 @@
     </a>
     <a
        xlink:href="../belegung/D1.html"
-       id="a4744"
-       target="_parent">
+       target="_parent"
+       id="a4744">
       <g
          id="g4742">
         <a
            xlink:href="../belegung/D1.html"
-           style="fill:#000000;fill-opacity:0.00392157"
+           target="_parent"
            id="a4596"
-           target="_parent">
+           style="fill:#000000;fill-opacity:0.00392157">
           <path
              sodipodi:nodetypes="ccccc"
              inkscape:connector-curvature="0"
@@ -206,9 +206,9 @@
         </a>
         <a
            xlink:href="../belegung/D1.html"
-           id="a4619"
+           target="_parent"
            transform="translate(1.2031,-7.7533113)"
-           target="_parent">
+           id="a4619">
           <text
              id="text328-2"
              y="233.29233"
@@ -225,15 +225,15 @@
     </a>
     <a
        xlink:href="../belegung/G2.html"
-       id="a4700"
-       target="_parent">
+       target="_parent"
+       id="a4700">
       <g
          id="g4698">
         <a
            xlink:href="../belegung/G2.html"
-           style="fill:#000000;fill-opacity:0.00392157"
+           target="_parent"
            id="a4605"
-           target="_parent">
+           style="fill:#000000;fill-opacity:0.00392157">
           <path
              sodipodi:nodetypes="ccccc"
              inkscape:connector-curvature="0"
@@ -243,8 +243,8 @@
         </a>
         <a
            xlink:href="../belegung/G2.html"
-           id="a4639"
-           target="_parent">
+           target="_parent"
+           id="a4639">
           <text
              id="text328-5-7"
              y="231.37872"
@@ -261,15 +261,15 @@
     </a>
     <a
        xlink:href="../belegung/G1.html"
-       id="a4634"
-       target="_parent">
+       target="_parent"
+       id="a4634">
       <g
          id="g4714">
         <a
            xlink:href="../belegung/G1.html"
-           id="a4602"
+           target="_parent"
            style="fill:#000000;fill-opacity:0.00392157"
-           target="_parent">
+           id="a4602">
           <path
              style="fill:#000000;fill-opacity:0.00392157;stroke:#00fe00;stroke-width:0.465;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
              d="m 107.17537,194.56347 10.82442,0.4009 -1.60361,26.45973 -10.02262,-0.53453 z"
@@ -292,14 +292,14 @@
     </a>
     <a
        xlink:href="../belegung/E1.html"
-       id="a4840"
-       target="_parent">
+       target="_parent"
+       id="a4840">
       <g
          id="g4838">
         <a
            xlink:href="../belegung/E1.html"
-           id="a4629"
-           target="_parent">
+           target="_parent"
+           id="a4629">
           <path
              sodipodi:nodetypes="ccccc"
              inkscape:connector-curvature="0"
@@ -322,14 +322,14 @@
     </a>
     <a
        xlink:href="../belegung/E2.html"
-       id="a4827"
-       target="_parent">
+       target="_parent"
+       id="a4827">
       <g
          id="g4825">
         <a
            xlink:href="../belegung/E2.html"
-           id="a4626"
-           target="_parent">
+           target="_parent"
+           id="a4626">
           <path
              sodipodi:nodetypes="ccccc"
              inkscape:connector-curvature="0"
@@ -352,14 +352,14 @@
     </a>
     <a
        xlink:href="../belegung/E3.html"
-       id="a4814"
-       target="_parent">
+       target="_parent"
+       id="a4814">
       <g
          id="g4812">
         <a
            xlink:href="../belegung/E3.html"
-           id="a4623"
-           target="_parent">
+           target="_parent"
+           id="a4623">
           <path
              sodipodi:nodetypes="ccccc"
              inkscape:connector-curvature="0"
@@ -382,14 +382,14 @@
     </a>
     <a
        xlink:href="../belegung/H.html"
-       id="a4801"
-       target="_parent">
+       target="_parent"
+       id="a4801">
       <g
          id="g4799">
         <a
            xlink:href="../belegung/H.html"
-           id="a4620"
-           target="_parent">
+           target="_parent"
+           id="a4620">
           <path
              sodipodi:nodetypes="ccccc"
              inkscape:connector-curvature="0"
@@ -412,14 +412,14 @@
     </a>
     <a
        xlink:href="../belegung/C3.html"
-       id="a4866"
-       target="_parent">
+       target="_parent"
+       id="a4866">
       <g
          id="g4864">
         <a
            xlink:href="../belegung/C3.html"
-           id="a4635"
-           target="_parent">
+           target="_parent"
+           id="a4635">
           <path
              sodipodi:nodetypes="ccccc"
              inkscape:connector-curvature="0"
@@ -442,14 +442,14 @@
     </a>
     <a
        xlink:href="../belegung/C1.html"
-       id="a4879"
-       target="_parent">
+       target="_parent"
+       id="a4879">
       <g
          id="g4877">
         <a
            xlink:href="../belegung/C1.html"
-           id="a4638"
-           target="_parent">
+           target="_parent"
+           id="a4638">
           <path
              sodipodi:nodetypes="ccccc"
              inkscape:connector-curvature="0"
@@ -472,14 +472,14 @@
     </a>
     <a
        xlink:href="../belegung/C1.html"
-       id="a4892"
-       target="_parent">
+       target="_parent"
+       id="a4892">
       <g
          id="g4890">
         <a
            xlink:href="../belegung/C2.html"
-           id="a4641"
-           target="_parent">
+           target="_parent"
+           id="a4641">
           <path
              sodipodi:nodetypes="ccccc"
              inkscape:connector-curvature="0"
@@ -502,14 +502,14 @@
     </a>
     <a
        xlink:href="../belegung/F4.html"
-       id="a4905"
-       target="_parent">
+       target="_parent"
+       id="a4905">
       <g
          id="g4903">
         <a
            xlink:href="../belegung/F4.html"
-           id="a4644"
-           target="_parent">
+           target="_parent"
+           id="a4644">
           <path
              sodipodi:nodetypes="ccccc"
              inkscape:connector-curvature="0"
@@ -532,14 +532,14 @@
     </a>
     <a
        xlink:href="../belegung/F1.html"
-       id="a4918"
-       target="_parent">
+       target="_parent"
+       id="a4918">
       <g
          id="g4916">
         <a
            xlink:href="../belegung/F1.html"
-           id="a4647"
-           target="_parent">
+           target="_parent"
+           id="a4647">
           <path
              sodipodi:nodetypes="ccccc"
              inkscape:connector-curvature="0"
@@ -562,14 +562,14 @@
     </a>
     <a
        xlink:href="../belegung/F2.html"
-       id="a4931"
-       target="_parent">
+       target="_parent"
+       id="a4931">
       <g
          id="g4929">
         <a
            xlink:href="../belegung/F2.html"
-           id="a4650"
-           target="_parent">
+           target="_parent"
+           id="a4650">
           <path
              sodipodi:nodetypes="ccccc"
              inkscape:connector-curvature="0"
@@ -592,14 +592,14 @@
     </a>
     <a
        xlink:href="../belegung/F3.html"
-       id="a4944"
-       target="_parent">
+       target="_parent"
+       id="a4944">
       <g
          id="g4942">
         <a
            xlink:href="../belegung/F3.html"
-           id="a4653"
-           target="_parent">
+           target="_parent"
+           id="a4653">
           <path
              sodipodi:nodetypes="ccccc"
              inkscape:connector-curvature="0"
@@ -622,14 +622,14 @@
     </a>
     <a
        xlink:href="../belegung/I.html"
-       id="a4957"
-       target="_parent">
+       target="_parent"
+       id="a4957">
       <g
          id="g4955">
         <a
            xlink:href="../belegung/I.html"
-           id="a4656"
-           target="_parent">
+           target="_parent"
+           id="a4656">
           <path
              sodipodi:nodetypes="cccccc"
              inkscape:connector-curvature="0"
@@ -652,14 +652,14 @@
     </a>
     <a
        xlink:href="../belegung/M.html"
-       id="a4970"
-       target="_parent">
+       target="_parent"
+       id="a4970">
       <g
          id="g4968">
         <a
            xlink:href="../belegung/M.html"
-           id="a4659"
-           target="_parent">
+           target="_parent"
+           id="a4659">
           <path
              sodipodi:nodetypes="ccccc"
              inkscape:connector-curvature="0"
@@ -682,14 +682,14 @@
     </a>
     <a
        xlink:href="../belegung/L.html"
-       id="a4788"
-       target="_parent">
+       target="_parent"
+       id="a4788">
       <g
          id="g4786">
         <a
            xlink:href="../belegung/L.html"
-           id="a4617"
-           target="_parent">
+           target="_parent"
+           id="a4617">
           <path
              sodipodi:nodetypes="ccccc"
              inkscape:connector-curvature="0"
@@ -712,14 +712,14 @@
     </a>
     <a
        xlink:href="../belegung/Q3.html"
-       id="a4983"
-       target="_parent">
+       target="_parent"
+       id="a4983">
       <g
          id="g4981">
         <a
            xlink:href="../belegung/Q3.html"
-           id="a4662"
-           target="_parent">
+           target="_parent"
+           id="a4662">
           <path
              sodipodi:nodetypes="ccccc"
              inkscape:connector-curvature="0"
@@ -742,14 +742,14 @@
     </a>
     <a
        xlink:href="../belegung/O.html"
-       id="a4658"
-       target="_parent">
+       target="_parent"
+       id="a4658">
       <g
          id="g4656">
         <a
            xlink:href="../belegung/O.html"
-           id="a4614"
-           target="_parent">
+           target="_parent"
+           id="a4614">
           <path
              sodipodi:nodetypes="ccccc"
              inkscape:connector-curvature="0"
@@ -772,15 +772,15 @@
     </a>
     <a
        xlink:href="../belegung/Q2.html"
-       id="a5009"
-       target="_parent">
+       target="_parent"
+       id="a5009">
       <g
          id="g5007">
         <a
            xlink:href="../belegung/Q2.html"
-           style="fill:#000000;fill-opacity:0.00392157"
+           target="_parent"
            id="a4631"
-           target="_parent">
+           style="fill:#000000;fill-opacity:0.00392157">
           <path
              sodipodi:nodetypes="ccccc"
              inkscape:connector-curvature="0"
@@ -791,27 +791,27 @@
         <text
            xml:space="preserve"
            style="font-style:normal;font-weight:normal;font-size:9.68761539px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:0.24219041;stroke-opacity:1"
-           x="246.24161"
-           y="121.71439"
+           x="252.30743"
+           y="111.69873"
            id="text328-3-7-7"><tspan
              sodipodi:role="line"
-             x="246.24161"
-             y="121.71439"
+             x="252.30743"
+             y="111.69873"
              style="fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:0.24219041;stroke-opacity:1"
              id="tspan1153-4-8">Q2</tspan></text>
       </g>
     </a>
     <a
        xlink:href="../belegung/Q1.html"
-       id="a5022"
-       target="_parent">
+       target="_parent"
+       id="a5022">
       <g
          id="g5020">
         <a
            xlink:href="../belegung/Q1.html"
-           style="fill:#000000;fill-opacity:0.00392157"
+           target="_parent"
            id="a4628"
-           target="_parent">
+           style="fill:#000000;fill-opacity:0.00392157">
           <path
              sodipodi:nodetypes="cccc"
              inkscape:connector-curvature="0"
@@ -834,16 +834,16 @@
     </a>
     <a
        xlink:href="../belegung/Q4.html"
-       id="a4996"
+       target="_parent"
        transform="translate(-52.794174,-20.211227)"
-       target="_parent">
+       id="a4996">
       <g
          id="g4994">
         <a
            xlink:href="../belegung/Q4.html"
-           style="fill:#000000;fill-opacity:0.00392157"
+           target="_parent"
            id="a4625"
-           target="_parent">
+           style="fill:#000000;fill-opacity:0.00392157">
           <path
              sodipodi:nodetypes="ccccc"
              inkscape:connector-curvature="0"
@@ -866,8 +866,8 @@
     </a>
     <a
        xlink:href="../belegung/N1.html"
-       id="a4680"
-       target="_parent">
+       target="_parent"
+       id="a4680">
       <g
          id="g4669">
         <g
@@ -894,8 +894,8 @@
     </a>
     <a
        xlink:href="../belegung/N2.html"
-       id="a4643"
-       target="_parent">
+       target="_parent"
+       id="a4643">
       <g
          id="g4691">
         <path
@@ -919,15 +919,15 @@
     </a>
     <a
        xlink:href="../belegung/D2.html"
-       id="a4759"
-       target="_parent">
+       target="_parent"
+       id="a4759">
       <g
          id="g4757">
         <a
            xlink:href="../belegung/D2.html"
-           style="fill:#000000;fill-opacity:0.00392157"
+           target="_parent"
            id="a4593"
-           target="_parent">
+           style="fill:#000000;fill-opacity:0.00392157">
           <path
              sodipodi:nodetypes="ccccc"
              inkscape:connector-curvature="0"
@@ -937,8 +937,8 @@
         </a>
         <a
            xlink:href="../belegung/D2.html"
-           id="a4624"
-           target="_parent">
+           target="_parent"
+           id="a4624">
           <text
              id="text328-2-7"
              y="194.10388"
@@ -957,10 +957,10 @@
        id="g4745">
       <a
          xlink:href="../belegung/G3.html"
-         id="a4602-7"
-         style="fill:#000000;fill-opacity:0.00392157"
+         transform="matrix(1.6158784,-0.15024288,0.06947914,0.72670327,-96.832433,63.593038)"
          target="_parent"
-         transform="matrix(1.6158784,-0.15024288,0.06947914,0.72670327,-96.832433,63.593038)">
+         style="fill:#000000;fill-opacity:0.00392157"
+         id="a4602-7">
         <path
            sodipodi:nodetypes="ccccc"
            inkscape:connector-curvature="0"
@@ -987,15 +987,15 @@
     </g>
     <a
        xlink:href="../belegung/N3.html"
-       transform="matrix(0.49861614,0,0,0.43690197,91.788383,152.60832)"
+       target="_parent"
        id="a4658-5"
-       target="_parent">
+       transform="matrix(0.49861614,0,0,0.43690197,91.788383,152.60832)">
       <g
          id="g4656-6">
         <a
            xlink:href="../belegung/N3.html"
-           id="a4614-2"
-           target="_parent">
+           target="_parent"
+           id="a4614-2">
           <path
              sodipodi:nodetypes="ccccc"
              inkscape:connector-curvature="0"
@@ -1016,6 +1016,38 @@
              id="tspan1153-0-2">N3</tspan></text>
       </g>
     </a>
+  <a
+       xlink:href="../belegung/Q5.html"
+       target="_parent"
+       id="a4996v">  
+    <g
+       xlink:href="../belegung/Q5.html"
+       id="g1265">
+      <a
+         transform="matrix(0.57940922,0,0,0.70924125,90.613688,38.82439)"
+         style="fill:#000000;fill-opacity:0.00392157"
+         id="a4625-7"
+         target="_parent">
+        <path
+           style="fill:#000000;fill-opacity:0.00392157;stroke:#00fe00;stroke-width:0.37900001;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 267.30061,110.64602 11.19141,4.0157 -6.00478,9.99154 -11.29926,-4.07678 z"
+           id="rect3884-3-6-5-3-7-9-2-2-5"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="ccccc" />
+      </a>
+      <text
+         id="text328-3-7-7-8-3"
+         y="123.45689"
+         x="243.78358"
+         style="font-style:normal;font-weight:normal;font-size:4.57167244px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:0.11429182;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           id="tspan1153-4-8-4-5"
+           style="fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:0.11429182;stroke-opacity:1"
+           y="123.45689"
+           x="243.78358"
+           sodipodi:role="line">Q5</tspan></text>
+    </g>
+  </a>
   </g>
   <g
      inkscape:groupmode="layer"

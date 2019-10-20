@@ -57,20 +57,20 @@ public class HTMLGraveMapWriter {
         return new ByteArrayInputStream(sb.toString().getBytes());
     }
 
-    public void write(GraveMap graveMap, String dueDay) throws IOException {
+    public void write(GraveMap graveMap, String dueDay, boolean allData) throws IOException {
         File html = new File(dir, graveMap.getFieldName() + ".html");
         html.createNewFile();
         try (PrintWriter out = new PrintWriter(html)) {
-            writeHeader(out, graveMap.getField(), graveMap.getPlaceCount(), dueDay);
+            writeHeader(out, graveMap.getField(), graveMap.getPlaceCount(), dueDay, allData);
             // writeColGroup(out, placeMap);
             writeTableHeader(out, graveMap);
-            writeTableContent(out, graveMap);
+            writeTableContent(out, graveMap, allData);
             writeTableFooter(out, graveMap);
             writeFooter(out);
         }
     }
 
-    private void writeHeader(PrintWriter out, PlanElement field, int graveCount, String dueDay) {
+    private void writeHeader(PrintWriter out, PlanElement field, int graveCount, String dueDay, boolean allData) {
         out.println("<!doctype html>");
         out.println("<html>");
         out.println("  <head>");
@@ -88,11 +88,13 @@ public class HTMLGraveMapWriter {
             out.print("      <li><a class=\"active\" href=\"#\">Belegung - Feld ");
             out.print(field.getName());
             out.println("</a></li>");
-            out.print("      <li><a href=\"../laufzeit/");
-            out.print(field.getName());
-            out.print(".html\">Restlaufzeit - Feld ");
-            out.print(field.getName());
-            out.println("</a></li>");
+            if (allData) {
+                out.print("      <li><a href=\"../laufzeit/");
+                out.print(field.getName());
+                out.print(".html\">Restlaufzeit - Feld ");
+                out.print(field.getName());
+                out.println("</a></li>");
+            }
         } else {
             out.print("      <li><a href=\"../belegung/");
             out.print(field.getName());
@@ -105,8 +107,9 @@ public class HTMLGraveMapWriter {
         }
         out.println(
                 "      <li style=\"float: right\"><a href=\"mailto:johannes.ahlers@gmx.de?subject=Frage zum Friedhofsplan\">Hilfe</a></li>");
+        out.println("      <li style=\"float: right\"><a>Stand: " + dueDay + "</a></li>");
         out.println("    </ul>");
-        out.println("    <h1>Feld " + field.getLabel() + " (" + dueDay + ")</h1>");
+        // out.println(" <h1>Feld " + field.getLabel() + " (" + dueDay + ")</h1>");
         out.println("");
         out.println("    <table width=\"" + String.valueOf(graveCount * 140 + 40) + "\">");
     }
@@ -145,7 +148,7 @@ public class HTMLGraveMapWriter {
         out.println("      </tfoot>");
     }
 
-    private void writeTableContent(PrintWriter out, GraveMap graveMap) {
+    private void writeTableContent(PrintWriter out, GraveMap graveMap, boolean allData) {
         out.println("      <tbody>");
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         if (type == OutputType.RUNTIME) {
@@ -166,25 +169,21 @@ public class HTMLGraveMapWriter {
                     if (grave == null) {
                         sb.append("          <td/>");
                     } else {
-                        sb.append("          <td class=\"");
-                        sb.append(grave.getClassesStirng());
-                        if (grave.isRef()) {
-                            sb.append("\" id=\"");
-                            sb.append(grave.getGraveSite().getId().replace('/', '_'));
+                        sb.append("          <td class=\"").append(grave.getClassesStirng()).append("\"");
+                        if (allData) {
+                            if (grave.isRef()) {
+                                sb.append(" id=\"").append(grave.getGraveSite().getId().replace('/', '_')).append("\"");
+                            }
+                            sb.append(" style=\"cursor:pointer\" ");
+                            sb.append(" onclick=\"location.href='../grabst&auml;tten/").append(grave.getGraveSite().getFileName())
+                                    .append("'\" ");
                         }
-                        sb.append("\" style=\"cursor:pointer\" ");
-                        sb.append(" onclick=\"location.href='../grabst&auml;tten/").append(grave.getGraveSite().getFileName())
-                                .append("'\" ");
                         sb.append(">");
-                        // if (grave.isRef()) {
-                        // sb.append("data-owner=\"");
-                        // sb.append(escapeHtml4(grave.getReference()));
-                        // sb.append("\"");
-                        // }
-                        // sb.append(">");
 
-                        sb.append("<a href=\"../grabst&auml;tten/").append(grave.getGraveSite().getFileName())
-                                .append("\" style=\"text-decoration:none;color:black\"><div style=\"display: block;\">");
+                        if (allData) {
+                            sb.append("<a href=\"../grabst&auml;tten/").append(grave.getGraveSite().getFileName())
+                                    .append("\" style=\"text-decoration:none;color:black\"><div style=\"display: block;\">");
+                        }
                         if (grave.getDeceased() != null) {
                             sb.append(escapeHtml4(grave.getDeceased()));
                         }

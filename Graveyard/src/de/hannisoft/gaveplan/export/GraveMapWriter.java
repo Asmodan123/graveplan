@@ -12,16 +12,18 @@ import de.hannisoft.gaveplan.model.PlanElement;
 import de.hannisoft.gaveplan.properties.ElementsReader;
 
 public class GraveMapWriter {
-    public void write(String outputDir, Map<String, GraveMap> graveMaps, String dueDay) throws Exception {
+    public void write(String outputDir, Map<String, GraveMap> graveMaps, String dueDay, boolean allData) throws Exception {
         // PNGGraveMapWriter png = new PNGGraveMapWriter();
-        writeHtmlGraveMap(outputDir, graveMaps, OutputType.RUNTIME, dueDay);
-        writeHtmlGraveMap(outputDir, graveMaps, OutputType.REFERENCE, dueDay);
-        writeHtmlGraveSiteFiles(outputDir, graveMaps, dueDay);
-        writeHtmlSearchSiteFiles(outputDir, graveMaps, dueDay);
+        if (allData) {
+            writeHtmlGraveMap(outputDir, graveMaps, OutputType.RUNTIME, dueDay, true);
+            writeHtmlGraveSiteFiles(outputDir, graveMaps, dueDay);
+        }
+        writeHtmlGraveMap(outputDir, graveMaps, OutputType.REFERENCE, dueDay, allData);
+        writeHtmlSearchSiteFiles(outputDir, graveMaps, dueDay, allData);
     }
 
-    private void writeHtmlGraveMap(String outputDir, Map<String, GraveMap> placeMaps, OutputType type, String dueDay)
-            throws Exception {
+    private void writeHtmlGraveMap(String outputDir, Map<String, GraveMap> placeMaps, OutputType type, String dueDay,
+            boolean allData) throws Exception {
         switch (type) {
             case REFERENCE:
                 outputDir = outputDir + "belegung/";
@@ -35,7 +37,7 @@ public class GraveMapWriter {
         HTMLGraveMapWriter writer = new HTMLGraveMapWriter(outputDir, type);
         for (Entry<String, GraveMap> entry : placeMaps.entrySet()) {
             entry.getValue().finishEdit(fieldElements);
-            writer.write(entry.getValue(), dueDay);
+            writer.write(entry.getValue(), dueDay, allData);
         }
     }
 
@@ -47,9 +49,10 @@ public class GraveMapWriter {
         }
     }
 
-    private void writeHtmlSearchSiteFiles(String outputDir, Map<String, GraveMap> graveMaps, String dueDay) throws IOException {
+    private void writeHtmlSearchSiteFiles(String outputDir, Map<String, GraveMap> graveMaps, String dueDay, boolean allData)
+            throws IOException {
         File graveSiteDir = new File(outputDir, "suche");
-        HTMLSearchSiteWrite writer = new HTMLSearchSiteWrite(graveSiteDir);
+        HTMLSearchSiteWrite writer = new HTMLSearchSiteWrite(allData, graveSiteDir);
         writer.write(graveMaps, dueDay);
     }
 

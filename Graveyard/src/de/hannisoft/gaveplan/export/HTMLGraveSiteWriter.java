@@ -136,8 +136,9 @@ public class HTMLGraveSiteWriter {
         out.print("</a></li>");
         out.println(
                 "      <li style=\"float: right\"><a href=\"mailto:johannes.ahlers@gmx.de?subject=Frage zum Friedhofsplan\">Hilfe</a></li>");
+        out.println("      <li style=\"float: right\"><a>Stand: " + dueDay + "</a></li>");
         out.println("    </ul>");
-        out.println("    <h1>Gabst&auml;tte " + graveSite.getId() + " (" + dueDay + ")</h1>");
+        // out.println(" <h1>Gabst&auml;tte " + graveSite.getId() + " (" + dueDay + ")</h1>");
         out.println("    <h3>" + graveSite.getType().getName() + "</h3>");
         // out.println(" <table width=\"" + String.valueOf(graveCount * 140 + 40) + "\">");
     }

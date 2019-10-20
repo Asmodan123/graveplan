@@ -8,6 +8,7 @@ import de.hannisoft.gaveplan.excelimport.GraveSiteCriteriaFileReader;
 import de.hannisoft.gaveplan.excelimport.GraveSiteFileReader;
 import de.hannisoft.gaveplan.export.FileExporter;
 import de.hannisoft.gaveplan.export.GraveMapWriter;
+import de.hannisoft.gaveplan.export.HTMLRootPageWriter;
 import de.hannisoft.gaveplan.export.ZipCreator;
 import de.hannisoft.gaveplan.model.GraveMap;
 import de.hannisoft.gaveplan.model.GraveSite;
@@ -18,10 +19,11 @@ public class GravePlan {
     public static final String FILE_TOKEN_CRITERIA = "Auswahlkriterien_";
     public static final String FILE_ENDING = ".xls";
     public static String importDir = "/home/johannes/Dokumente/Friedhof/export/";
-    public static String outputDir = "/home/johannes/tmp/plan2/";
+    public static String outputDir = "/home/johannes/tmp/plan/";
+    public static String outputDirPublic = "/home/johannes/tmp/planPublic/";
     public static String timestamp = "20191020";
 
-    public void run(String importDir, String outputDir, String timestamp) throws Exception {
+    public void run(String importDir, String outputDir, String outputDir2, String timestamp) throws Exception {
         String graveSiteFile = importDir + FILE_TOKEN_GRAVE_SITE + timestamp + FILE_ENDING;
         String graveFile = importDir + FILE_TOKEN_GRAVE + timestamp + FILE_ENDING;
         String criteriaFile = importDir + FILE_TOKEN_CRITERIA + timestamp + FILE_ENDING;
@@ -37,21 +39,27 @@ public class GravePlan {
 
         String dueDay = timestamp.substring(6, 8) + "." + timestamp.substring(4, 6) + "." + timestamp.substring(0, 4);
         GraveMapWriter writer = new GraveMapWriter();
-        writer.write(outputDir, graveMaps, dueDay);
+        writer.write(outputDir, graveMaps, dueDay, true);
 
+        HTMLRootPageWriter rootPageWriter = new HTMLRootPageWriter();
+        rootPageWriter.write(outputDir, "Friedhofsplan.html", dueDay);
         exportAdditionalFiles(outputDir);
         //
         // PNGGraveMapWriter pngWriter = new PNGGraveMapWriter();
         // pngWriter.drawDefaultMap();
         //
         ZipCreator zipper = new ZipCreator();
-        zipper.zipFolder(outputDir, outputDir + "Lageplan_" + timestamp + ".zip");
+        zipper.zipFolder(outputDir, outputDir + "Friedhofsplan_" + timestamp + ".zip");
+        writer.write(outputDir2, graveMaps, dueDay, false);
+        rootPageWriter.write(outputDir2, "Friedhofsplan.html", dueDay);
+        exportAdditionalFiles(outputDir2);
+        zipper.zipFolder(outputDir2, outputDir2 + "Friedhofsplan_öffentlich_" + timestamp + ".zip");
     }
 
     private void exportAdditionalFiles(String outputDir) throws Exception {
         FileExporter exporter = new FileExporter();
         File destPath = new File(outputDir);
-        exporter.exportResource(destPath, "Friedhofsplan.html");
+        // exporter.exportResource(destPath, "Friedhofsplan.html");
 
         destPath = new File(outputDir, "plan");
         destPath.mkdirs();
@@ -74,7 +82,7 @@ public class GravePlan {
             timestamp = args[2];
         }
         GravePlan gravePlane = new GravePlan();
-        gravePlane.run(importDir, outputDir, timestamp);
+        gravePlane.run(importDir, outputDir, outputDirPublic, timestamp);
     }
 
 }

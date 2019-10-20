@@ -13,9 +13,11 @@ import de.hannisoft.gaveplan.model.Owner;
 
 public class HTMLSearchSiteWrite {
     private final File dir;
+    private final boolean allData;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
-    public HTMLSearchSiteWrite(File graveSiteDir) {
+    public HTMLSearchSiteWrite(boolean publicDataOnly, File graveSiteDir) {
+        this.allData = publicDataOnly;
         this.dir = graveSiteDir;
         this.dir.mkdirs();
         File[] files = dir.listFiles();
@@ -54,8 +56,9 @@ public class HTMLSearchSiteWrite {
         out.println("      <li><a class=\"active\" href=\"#\">Suche</a></li>");
         out.println(
                 "      <li style=\"float: right\"><a href=\"mailto:johannes.ahlers@gmx.de?subject=Frage zum Friedhofsplan\">Hilfe</a></li>");
+        out.println("      <li style=\"float: right\"><a>Stand: " + dueDay + "</a></li>");
         out.println("    </ul>");
-        out.println("    <h1>Suche auf dem Friedhof (Stand: " + dueDay + ")</h1>");
+        out.println("    <h1>Suche auf dem Friedhof</h1>");
         out.println(
                 "    <input type=\"text\" id=\"searchInput\" onkeyup=\"onSearchFieldKeyup()\" placeholder=\"Suchtext eingeben...\" title=\"Suchtext\">");
         out.println("    <table width=\"100%\">");
@@ -63,9 +66,11 @@ public class HTMLSearchSiteWrite {
         out.println("        <tr>");
         out.println("          <th>Grabstätte</th>");
         out.println("          <th>Grabart</th>");
-        out.println("          <th>Merkmale</th>");
-        out.println("          <th>Laufzeit bis</th>");
-        out.println("          <th>Nutzungsrecht</th>");
+        if (allData) {
+            out.println("          <th>Laufzeit bis</th>");
+            out.println("          <th>Nutzungsrecht</th>");
+            out.println("          <th>Merkmale</th>");
+        }
         out.println("          <th>Verstorbene</th>");
         out.println("        </tr>");
         out.println("      </thead>");
@@ -80,9 +85,11 @@ public class HTMLSearchSiteWrite {
                 out.println("\" style=\"display:none\">");
                 writeTD_Grabstaette(out, graveSite);
                 writeTD_Grabart(out, graveSite);
-                writeTD_Merkmale(out, graveSite);
-                writeTD_Laufzeit(out, graveSite);
-                writeTD_Nutzer(out, graveSite);
+                if (allData) {
+                    writeTD_Merkmale(out, graveSite);
+                    writeTD_Laufzeit(out, graveSite);
+                    writeTD_Nutzer(out, graveSite);
+                }
                 writeTD_Verstorbene(out, graveSite);
                 out.println("        </tr>");
             }

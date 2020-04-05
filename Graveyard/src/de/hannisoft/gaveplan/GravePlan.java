@@ -21,7 +21,7 @@ public class GravePlan {
     public static String importDir = "/home/johannes/Dokumente/Friedhof/export/";
     public static String outputDir = "/home/johannes/tmp/plan/";
     public static String outputDirPublic = "/home/johannes/tmp/planPublic/";
-    public static String timestamp = "20191112";
+    public static String timestamp = "20200331";
 
     public void run(String importDir, String outputDir, String outputDir2, String timestamp) throws Exception {
         String graveSiteFile = importDir + FILE_TOKEN_GRAVE_SITE + timestamp + FILE_ENDING;

@@ -37,7 +37,6 @@ public class GraveFileReader extends AbstractXLSFileReader {
             Sheet sheet = w.getSheet(0);
             initColumnMap(sheet, 1);
             DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-            DateFormat dobFormat = new SimpleDateFormat("yyyy-MM-dd");
             for (int i = 2; i < sheet.getRows(); i++) {
                 String graveId = getContent(COL_GARVE_ID, i);
                 emptyGraveSites.remove(graveId);
@@ -60,7 +59,7 @@ public class GraveFileReader extends AbstractXLSFileReader {
                             grave.setDateOfDeatch(format.parse(dateOfDeath));
                         }
                         if (dateOfBirth != null && !dateOfBirth.trim().isEmpty()) {
-                            grave.setDateOfBirth(dobFormat.parse(dateOfBirth));
+                            grave.setDateOfBirth(format.parse(dateOfBirth));
                         }
                         graveSite.getGraves().add(grave);
 

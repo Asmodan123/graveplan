@@ -18,10 +18,12 @@ public class GravePlan {
     public static final String FILE_TOKEN_GRAVE = "Verstorbene_";
     public static final String FILE_TOKEN_CRITERIA = "Auswahlkriterien_";
     public static final String FILE_ENDING = ".xls";
+    public static String timestamp = "20210314";
+    public static final String FILE_NAME = "Friedhofsplan_" + timestamp;
+    public static final String FILE_NAME2 = "Friedhofsplan_öffentlich_" + timestamp;
     public static String importDir = "/home/johannes/Dokumente/Friedhof/export/";
-    public static String outputDir = "/home/johannes/tmp/plan/";
-    public static String outputDirPublic = "/home/johannes/tmp/planPublic/";
-    public static String timestamp = "20200424";
+    public static String outputDir = "/home/johannes/tmp/plan/" + FILE_NAME + "/";
+    public static String outputDirPublic = "/home/johannes/tmp/plan/" + FILE_NAME2 + "/";
 
     public void run(String importDir, String outputDir, String outputDir2, String timestamp) throws Exception {
         String graveSiteFile = importDir + FILE_TOKEN_GRAVE_SITE + timestamp + FILE_ENDING;
@@ -49,11 +51,11 @@ public class GravePlan {
         // pngWriter.drawDefaultMap();
         //
         ZipCreator zipper = new ZipCreator();
-        zipper.zipFolder(outputDir, outputDir + "Friedhofsplan_" + timestamp + ".zip");
+        zipper.zipFolder(outputDir, outputDir + "../" + FILE_NAME + ".zip");
         writer.write(outputDir2, graveMaps, dueDay, false);
         rootPageWriter.write(outputDir2, "Friedhofsplan.html", dueDay);
         exportAdditionalFiles(outputDir2);
-        zipper.zipFolder(outputDir2, outputDir2 + "Friedhofsplan_öffentlich_" + timestamp + ".zip");
+        zipper.zipFolder(outputDir2, outputDir2 + "../" + FILE_NAME2 + ".zip");
     }
 
     private void exportAdditionalFiles(String outputDir) throws Exception {

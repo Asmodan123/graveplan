@@ -64,7 +64,8 @@
      id="layer1"
      transform="translate(0.21189949,-38.0919)">
     <image
-       xlink:href="../../../../tmp/plan/plan/satellit.png"
+       sodipodi:absref="/home/johannes/tmp/plan/plan/satellit.png"
+       xlink:href="satellit.png"
        sodipodi:insensitive="true"
        width="302.06512"
        height="258.98373"

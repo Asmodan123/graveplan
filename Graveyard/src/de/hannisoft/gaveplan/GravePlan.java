@@ -18,7 +18,7 @@ public class GravePlan {
     public static final String FILE_TOKEN_GRAVE = "Verstorbene_";
     public static final String FILE_TOKEN_CRITERIA = "Auswahlkriterien_";
     public static final String FILE_ENDING = ".xls";
-    public static String timestamp = "20220109";
+    public static String timestamp = "20240704";
     public static final String FILE_NAME = "Friedhofsplan_" + timestamp;
     public static final String FILE_NAME2 = "Friedhofsplan_öffentlich_" + timestamp;
     public static String importDir = "/home/johannes/Dokumente/Friedhof/export/";

@@ -8,14 +8,21 @@ class GraveSite(val field: String, val row: String, val place: String) {
         const val CRITERIA_GERAUEMT = "abgeräumt"
         const val CRITERIA_STELE = "Stele"
         private val NAME_SIZE_LEN = NAME_SIZE.length
+        fun createId(field: String, row: String, place: String): String = "$field/$row/$place"
     }
 
     val rowInt: Int = row.replace(Regex("[^0-9\\-]"), "").toInt()
     val placeInt: Int = place.replace(Regex("[^0-9\\-]"), "").toInt()
-    val id: String = "$field/$row/$place"
+    val id: String = createId(field, row, place)
     val fileName: String = "${field}_${row}_${place}.html"
 
     var type: GraveSiteType? = null
+    var typeAsString: String? = null
+        set(value) {
+            type = GraveSiteType.getTypeByName(value)
+            field = value
+        }
+
     var name: String? = null
         set(value) {
             field = value

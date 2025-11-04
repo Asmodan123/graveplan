@@ -22,22 +22,27 @@ class GraveSiteCriteriaFileReader {
             val sheet = workbook.getSheetAt(0)
             val headerMap = sheet.buildHeaderMap()
             for (rowIndex in 1..sheet.lastRowNum) {
-                val row = sheet.getRow(rowIndex) ?: continue
-                val crit1 = row.getValue(headerMap[COL_CRIT_1])
-                val crit2 = row.getValue(headerMap[COL_CRIT_2])
-                val crit3 = row.getValue(headerMap[COL_CRIT_3])
-                if (crit1.isEmpty() && crit2.isEmpty() && crit3.isEmpty()) {
-                    continue
-                }
+                try {
+                    val row = sheet.getRow(rowIndex) ?: continue
+                    val crit1 = row.getValue(headerMap[COL_CRIT_1])
+                    val crit2 = row.getValue(headerMap[COL_CRIT_2])
+                    val crit3 = row.getValue(headerMap[COL_CRIT_3])
+                    if (crit1.isEmpty() && crit2.isEmpty() && crit3.isEmpty()) {
+                        continue
+                    }
 
-                val field = row.getValue(headerMap[COL_FIELD])
-                val rowStr = row.getValue(headerMap[COL_ROW])
-                val placeStr = row.getValue(headerMap[COL_PLACE])
-                val graveId = GraveSite.createId(field, rowStr, placeStr)
-                graves[graveId]?.apply {
-                    addCriteria(crit1)
-                    addCriteria(crit2)
-                    addCriteria(crit3)
+                    val field = row.getValue(headerMap[COL_FIELD])
+                    val rowStr = row.getValue(headerMap[COL_ROW])
+                    val placeStr = row.getValue(headerMap[COL_PLACE])
+                    val graveId = GraveSite.createId(field, rowStr, placeStr)
+                    graves[graveId]?.apply {
+                        addCriteria(crit1)
+                        addCriteria(crit2)
+                        addCriteria(crit3)
+                    }
+                } catch (e: Exception) {
+                    System.err.println("${e.javaClass.simpleName} while reading grave site criteria from $inputFile at row $rowIndex: ${e.message}")
+                    throw e
                 }
             }
         }

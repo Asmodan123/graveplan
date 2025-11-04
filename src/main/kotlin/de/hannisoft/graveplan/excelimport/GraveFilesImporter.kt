@@ -1,16 +1,24 @@
 package de.hannisoft.de.hannisoft.graveplan.excelimport
 
+import de.hannisoft.de.hannisoft.graveplan.excelimport.GraveFilesImporter.Companion.format
+import de.hannisoft.de.hannisoft.graveplan.excelimport.GraveFilesImporter.Companion.format2
 import de.hannisoft.graveplan.excelimport.GraveFileReader
 import de.hannisoft.graveplan.excelimport.GraveSiteCriteriaFileReader
 import de.hannisoft.graveplan.model.GraveSite
 import java.io.File
+import java.text.DateFormat
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class GraveFilesImporter(importDir : String) {
     companion object {
         const val FILE_TOKEN_GRAVE_SITE: String = "Grabstätten_"
         const val FILE_TOKEN_GRAVE: String = "Verstorbene_"
         const val FILE_TOKEN_CRITERIA: String = "Auswahlkriterien_"
-        const val FILE_ENDING: String = ".xls"
+        const val FILE_ENDING: String = ".xlsx"
+        val format: DateFormat = SimpleDateFormat("dd/MM/yyyy")
+        val format2: DateFormat = SimpleDateFormat("dd.MM.yyyy")
     }
     val importDir: String = importDir.trimEnd('/') + '/'
     val graveSites = mutableMapOf<String, GraveSite>()
@@ -34,5 +42,15 @@ fun findNewestTimeString(importDir: String): String {
         }
         ?.maxOrNull()
         ?: ""
+}
 
+fun parseDateString(dateString: String): Date? {
+    if (dateString.isEmpty()) {
+        return null;
+    }
+    return try {
+        format.parse(dateString)
+    } catch (e: ParseException) {
+        format2.parse(dateString)
+    }
 }

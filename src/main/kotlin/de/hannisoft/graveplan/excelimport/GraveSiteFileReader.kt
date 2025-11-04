@@ -27,12 +27,11 @@ class GraveSiteFileReader() {
         const val COL_SALUTATION_LETTER: String = "Briefanrede"
     }
 
-    fun read(inputFile: String): Map<String, GraveSite> {
+    fun read(inputFile: File): Map<String, GraveSite> {
         val graves = mutableMapOf<String, GraveSite>()
-        val sourceFile = File(inputFile)
         val format: DateFormat = SimpleDateFormat("dd/MM/yyyy")
 
-        sourceFile.inputStream().use { fis ->
+        inputFile.inputStream().use { fis ->
             val workbook = WorkbookFactory.create(fis)
             val sheet = workbook.getSheetAt(0)
             val headerMap = sheet.buildHeaderMap()

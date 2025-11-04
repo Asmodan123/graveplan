@@ -16,10 +16,8 @@ class GraveSiteCriteriaFileReader {
         const val COL_CRIT_3: String = "Auswahlkriterium 3"
     }
 
-    fun read(inputFile: String, graves: Map<String, GraveSite>) {
-        val sourceFile = File(inputFile)
-
-        sourceFile.inputStream().use { fis ->
+    fun read(inputFile: File, graves: Map<String, GraveSite>) {
+        inputFile.inputStream().use { fis ->
             val workbook = WorkbookFactory.create(fis)
             val sheet = workbook.getSheetAt(0)
             val headerMap = sheet.buildHeaderMap()

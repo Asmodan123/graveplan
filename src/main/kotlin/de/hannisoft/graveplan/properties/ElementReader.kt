@@ -8,7 +8,7 @@ class ElementsReader {
     fun readElements(): MutableMap<Int, PlanElement> {
         val elements: MutableMap<Int, PlanElement> = HashMap<Int, PlanElement>()
         val props = Properties()
-        props.load(javaClass.getClassLoader().getResourceAsStream("plan/elements.properties"))
+        props.load(javaClass.getClassLoader().getResourceAsStream("raw/elements.properties"))
         for (prop in props.entries) {
             try {
                 val elementId = prop.key.toString().toInt()

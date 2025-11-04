@@ -10,7 +10,7 @@ class ElementPointsReader {
     @Throws(IOException::class)
     fun readElementPoints(elements: Map<Int, PlanElement>, points: Map<Int, Point> ) {
         val props = Properties()
-        props.load(javaClass.getClassLoader().getResourceAsStream("plan/elementPoints.properties"))
+        props.load(javaClass.getClassLoader().getResourceAsStream("raw/elementPoints.properties"))
         for (prop in props.entries) {
             try {
                 val elementId = prop.key.toString().toInt()

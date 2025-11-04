@@ -11,7 +11,7 @@ class PointsReader(private val xFactor: Double, private val yFactor: Double, pri
         var minY = 0
         var maxY = 0
         val props = Properties()
-        props.load(javaClass.getClassLoader().getResourceAsStream("plan/points.properties"))
+        props.load(javaClass.getClassLoader().getResourceAsStream("raw/points.properties"))
         for (prop in props.entries) {
             try {
                 val pointId = prop.key.toString().toInt()

@@ -1,4 +1,4 @@
-package de.hannisoft.de.hannisoft.graveplan.export
+package de.hannisoft.de.hannisoft.graveplan.writer
 
 import kotlinx.html.a
 import kotlinx.html.body
@@ -19,14 +19,15 @@ class HtmlRootPageWriter {
     fun write(outputDir: String, targetFile: String, dueDay: String) {
         val html = createHTML().html {
             head {
+                style = "object { width: 100%; height: 100% }"
                 link(rel = "icon", href = "plan/plan.ico", type = "image/x-icon")
-                link(rel = "stylesheet", href = "plan/js/bootstrap.min.css", type = "text/css")
+//                link(rel = "stylesheet", href = "plan/js/bootstrap.min.css", type = "text/css")
                 link(rel = "stylesheet", href = "plan/nav.css", type = "text/css")
                 title("Lageplan Friedhof Pattensen")
             }
             body {
-                script(src = "plan/js/bootstrap.bundle.min.js") {}
-                script(src = "plan/js/vis-network.min.js") {}
+//                script(src = "plan/js/bootstrap.bundle.min.js") {}
+//                script(src = "plan/js/vis-network.min.js") {}
                 h1(classes = "insideZip") {
                     +"""
                         Wenn dieser Text sichtbar ist, wurde der Friedhofplan unvollständig ausgeführt. Wahrscheinlich wurde diese Datei direkt aus dem  
@@ -36,7 +37,7 @@ class HtmlRootPageWriter {
                 }
                 ul {
                     li { a(classes = "active", href = "#") { +"Übersicht" } }
-                    li { a(href = "plan/suche/Suche.html") { +"Suche" } }
+                    li { a(href = "suche/Suche.html") { +"Suche" } }
                     li { style = "float: right"
                         a(href = "mailto:johannes.ahlers@gmx.de?subject=Frage zum Friedhofsplan") { +"Hilfe" }
                     }
@@ -45,7 +46,7 @@ class HtmlRootPageWriter {
                     }
                 }
                 htmlObject {
-                    data = "plan/Friehofsplan.svg"
+                    data = "plan/Friedhofsplan.svg"
                     type = "image/svg+xml"
                 }
             }

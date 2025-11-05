@@ -4,13 +4,13 @@ import java.util.*
 import kotlin.math.abs
 
 class GraveMap(private val fieldName: String) {
-    private var field: PlanElement? = null
+    private lateinit var field: PlanElement
     private val graveSites: MutableSet<GraveSite> = mutableSetOf()
 
-    private var rowCount: Int = -1
-    private var placeCount: Int = -1
-    private var deltaRow: Int = 0
-    private var deltaPlace: Int = 0
+    var rowCount: Int = -1
+    var placeCount: Int = -1
+    var deltaRow: Int = 0
+    var deltaPlace: Int = 0
     private var finished: Boolean = false
 
     private lateinit var graveArray: Array<Array<Grave?>>
@@ -31,12 +31,12 @@ class GraveMap(private val fieldName: String) {
             for (i in 0 until graveSite.rowSize) {
                 for (j in 0 until graveSite.placeSize) {
                     try {
-                        val grave = Grave(graveSite, graveSite.rowInt + i, graveSite.placeInt + j)
+                        val grave = Grave(graveSite, graveSite.rowInt + i, graveSite.placeInt + j, "")
                         if (!places.contains(graveSite.id)) {
                             graveSite.graves.add(grave)
                         }
                     } catch (e: Exception) {
-                        println("${e.javaClass.simpleName} while filling missing places of $graveSite into GraveMap: ${e.message}")
+                        System.err.println("${e.javaClass.simpleName} while filling missing places of $graveSite into GraveMap: ${e.message}")
                         e.printStackTrace()
                     }
                 }
@@ -45,17 +45,18 @@ class GraveMap(private val fieldName: String) {
     }
 
     private fun initMinMaxValues(fieldElements: Map<String, PlanElement>) {
-        field = fieldElements[fieldName]
-        if (field == null) {
+        val fieldElement = fieldElements[fieldName]
+        if (fieldElement == null) {
+            System.err.println("No field element found for field $fieldName")
             initMinMaxValuesFromGraves()
         } else {
-            println("Found FieldElement of GraveMap $field")
-            rowCount = field!!.maxRow - field!!.minRow + if (field!!.minRow < 0) 0 else 1
-            placeCount = field!!.maxPlace - field!!.minPlace + if (field!!.minPlace < 0) 0 else 1
-            deltaRow = if (field!!.minRow < 0) abs(field!!.minRow) else 0
-            deltaPlace = if (field!!.minPlace < 0) abs(field!!.minPlace) else 0
-            println("Initialized MinMaxValues of GraveMap $field: rowCount=$rowCount / placeCount=$placeCount / $deltaRow / deltaPlace=$deltaPlace")
+            field = fieldElement
+            rowCount = field.maxRow - field.minRow + if (field.minRow < 0) 0 else 1
+            placeCount = field.maxPlace - field.minPlace + if (field.minPlace < 0) 0 else 1
+            deltaRow = if (field.minRow < 0) abs(field.minRow) else 0
+            deltaPlace = if (field.minPlace < 0) abs(field.minPlace) else 0
         }
+        println("Initialized MinMaxValues of GraveMap $field: rowCount=$rowCount / placeCount=$placeCount / $deltaRow / deltaPlace=$deltaPlace")
     }
 
     private fun initMinMaxValuesFromGraves() {
@@ -75,7 +76,6 @@ class GraveMap(private val fieldName: String) {
                 maxPlace = maxOf(maxPlace, plc)
             }
         }
-        println("Found MinMaxValues of GraveMap $field: Rows=[$minRow, $maxRow] Grave=[$minPlace, $maxPlace]")
 
         rowCount = maxRow - minRow + if (minRow < 0) 0 else 1
         placeCount = maxPlace - minPlace + if (minPlace < 0) 0 else 1
@@ -83,7 +83,6 @@ class GraveMap(private val fieldName: String) {
         deltaPlace = if (minPlace < 0) abs(minPlace) else 0
 
         field = PlanElement(this.hashCode(), "feld", minRow, maxRow, minPlace, maxPlace, fieldName)
-        println("Initialized MinMaxValues of GraveMap $field: rowCount=$rowCount / placeCount=$placeCount / $deltaRow / deltaPlace=$deltaPlace")
     }
 
     private fun fillGraveArray() {
@@ -139,7 +138,7 @@ class GraveMap(private val fieldName: String) {
                         grave.addClass(GraveClass.S)
                     }
 
-                    if (!isBroached && grave.deceased == null) {
+                    if (!isBroached && grave.isEmpty()) {
                         grave.addClass(GraveClass.FREE)
                     }
 
@@ -178,9 +177,9 @@ class GraveMap(private val fieldName: String) {
 
     fun graveSites(): Set<GraveSite> = graveSites
 
-    fun getFieldName(): String = field?.name ?: fieldName
+    fun getFieldName(): String = field.name ?: fieldName
 
-    fun getField(): PlanElement? = field
+    fun getField(): PlanElement = field
 
     fun getGrave(row: Int, place: Int): Grave? = graveArray[row][place]
 }

@@ -5,42 +5,35 @@ import de.hannisoft.graveplan.model.PlanElement
 import java.util.*
 
 class ElementsReader {
-    fun readElements(): MutableMap<Int, PlanElement> {
-        val elements: MutableMap<Int, PlanElement> = HashMap<Int, PlanElement>()
+    fun readElements(): Map<Int, PlanElement> {
         val props = Properties()
         props.load(javaClass.getClassLoader().getResourceAsStream("raw/elements.properties"))
-        for (prop in props.entries) {
-            try {
-                val elementId = prop.key.toString().toInt()
-                val values = prop.value.toString().split(",")
-                val type = values[0]
-                val pEelement = PlanElement(elementId, type)
-                pEelement.minRow = values[1].toInt()
-                pEelement.maxRow = values[2].toInt()
-                pEelement.minPlace = values[3].toInt()
-                pEelement.maxPlace = values[4].toInt()
-                if (values.size > 5) {
-                    pEelement.name = values[5]
-                }
-                if (values.size > 6) {
-                    pEelement.title = values[6]
-                }
-                elements[elementId] = pEelement
-            } catch (e: Exception) {
-                println("Can't read ElementProperty: '$prop': ${e.message}")
-                e.printStackTrace()
-            }
-        }
-        return elements
+        return props.entries
+            .associate { (key, value) ->
+                key.toString().toInt() to
+                createPlanElement(key.toString(), value.toString()) }
     }
 
-    fun readElements(type: ElementType): MutableMap<String?, PlanElement?> {
-        val typeElements: MutableMap<String?, PlanElement?> = HashMap<String?, PlanElement?>()
-        for (element in readElements().values) {
-            if (type == element.type) {
-                typeElements[element.name] = element
-            }
+    fun createPlanElement(elementId: String, value: String): PlanElement {
+        val values = value.toString().split(",")
+        val type = values[0]
+        val pEelement = PlanElement(elementId.toInt(), type)
+        pEelement.minRow = values[1].toInt()
+        pEelement.maxRow = values[2].toInt()
+        pEelement.minPlace = values[3].toInt()
+        pEelement.maxPlace = values[4].toInt()
+        if (values.size > 5) {
+            pEelement.name = values[5]
         }
-        return typeElements
+        if (values.size > 6) {
+            pEelement.title = values[6]
+        }
+        return pEelement
     }
+
+    fun readElements(type: ElementType) =
+        readElements().values
+            .filter { element -> element.type == type }
+            .associateBy { element -> element.name!! }
+
 }

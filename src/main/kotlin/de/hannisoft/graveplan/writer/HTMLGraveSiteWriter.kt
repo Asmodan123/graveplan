@@ -1,4 +1,4 @@
-package de.hannisoft.de.hannisoft.graveplan.export
+package de.hannisoft.de.hannisoft.graveplan.writer
 
 import de.hannisoft.graveplan.model.GraveSite
 import kotlinx.html.*
@@ -6,10 +6,9 @@ import kotlinx.html.stream.createHTML
 import java.io.File
 
 class HTMLGraveSiteWriter(val outputDirString: String) {
-    val outputDir = File(outputDirString)
+    val outputDir = File(outputDirString, "grabstätten")
     init {
-        outputDir.mkdirs()
-        outputDir.listFiles()?.forEach { it.delete() }
+        initOutputDir(outputDir)
     }
 
     fun write(graveSite: Collection<GraveSite>, dueDay: String) {
@@ -90,7 +89,7 @@ class HTMLGraveSiteWriter(val outputDirString: String) {
             tr {
                 th(classes = "col") { +"Platz &rarr; Reihe &darr;" }
                 for (i in graveSite.placeSize - 1 downTo 0 ) {
-                    th { +"$graveSite.placeInt + i}" }
+                    th { +"${graveSite.placeInt + i}" }
                 }
             }
         }

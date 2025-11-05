@@ -20,7 +20,7 @@ class GraveFileReader {
         const val COL_FUNERAL_DATE: String = "Bestattungsdatum"
     }
 
-    fun read(inputFile: File, graves: Map<String, GraveSite>) {
+    fun read(inputFile: File, graves: Map<String, GraveSite>): Map<String, GraveMap> {
         val emptyGraveSites = graves.toMutableMap()
         val gravesMaps = mutableMapOf<String, GraveMap>()
 
@@ -50,8 +50,7 @@ class GraveFileReader {
                             dateOfDeath = row.getValue(headerMap[COL_FUNERAL_DATE])
                         }
                         val dateOfBirth = row.getValue(headerMap[COL_DOB])
-                        val grave = Grave(this, rowStr.toInt(), placeStr.toInt())
-                        grave.deceased = "$firstName $lastName"
+                        val grave = Grave(this, rowStr.toInt(), placeStr.toInt(), "$firstName $lastName")
                         grave.dateOfDeath = parseDateString(dateOfDeath)
                         grave.dateOfBirth = parseDateString(dateOfBirth)
                         this.graves.add(grave)
@@ -69,12 +68,14 @@ class GraveFileReader {
             }
         }
 
-        emptyGraveSites.values.forEach {
-            val field = it.field
-            val placeMap = gravesMaps[field] ?: GraveMap(field).also {
-                gravesMaps[field] = it
-            }
-            placeMap.addGraveSite(it)
+        emptyGraveSites.values.forEach { graveSite ->
+            val field = graveSite.field
+            val placeMap = gravesMaps[field] ?:
+                GraveMap(field).also { graveMap ->
+                    gravesMaps[field] = graveMap
+                }
+            placeMap.addGraveSite(graveSite)
         }
+        return gravesMaps
     }
 }

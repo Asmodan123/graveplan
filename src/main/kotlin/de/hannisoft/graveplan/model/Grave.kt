@@ -6,10 +6,9 @@ import java.util.Date
 class Grave(
     val graveSite: GraveSite,
     val row: Int,
-    val place: Int
+    val place: Int,
+    var deceased: String
 ) {
-    var deceased: String? = null
-
     var dateOfBirth: Date? = null
     var dateOfDeath: Date? = null
     private val classes: MutableSet<GraveClass> = mutableSetOf()
@@ -32,7 +31,7 @@ class Grave(
         classes.add(graveClass)
     }
 
-    fun isEmpty(): Boolean = deceased.isNullOrBlank()
+    fun isEmpty(): Boolean = deceased.trim().isEmpty()
 
     fun isRef(): Boolean = rowStr == graveSite.row && placeStr == graveSite.place
 

@@ -23,15 +23,15 @@ class GraveFilesImporter(importDir : String) {
     }
     val importDir: String = importDir.trimEnd('/') + '/'
     val graveSites = mutableMapOf<String, GraveSite>()
-    lateinit var timestring: String
+    lateinit var dueDate: String
     lateinit var gravesMap: Map<String, GraveMap>
 
-    fun import(timestring: String = findNewestTimeString(importDir)): GraveFilesImporter  {
-        this.timestring = timestring
-        println("Start import from $importDir with timestamp-suffix $timestring")
-        val graveSites = GraveSiteFileReader().read(File(importDir + FILE_TOKEN_GRAVE_SITE + timestring + FILE_ENDING))
-        gravesMap = GraveFileReader().read(File(importDir + FILE_TOKEN_GRAVE + timestring + FILE_ENDING), graveSites)
-        GraveSiteCriteriaFileReader().read(File(importDir + FILE_TOKEN_CRITERIA + timestring + FILE_ENDING), graveSites)
+    fun import(dueDateString: String = findNewestTimeString(importDir)): GraveFilesImporter  {
+        this.dueDate = dueDateString
+        println("Start import from $importDir with timestamp-suffix $dueDate")
+        val graveSites = GraveSiteFileReader().read(File(importDir + FILE_TOKEN_GRAVE_SITE + dueDateString + FILE_ENDING))
+        gravesMap = GraveFileReader().read(File(importDir + FILE_TOKEN_GRAVE + dueDateString + FILE_ENDING), graveSites)
+        GraveSiteCriteriaFileReader().read(File(importDir + FILE_TOKEN_CRITERIA + dueDateString + FILE_ENDING), graveSites)
         return this
     }
 }

@@ -3,14 +3,18 @@ package de.hannisoft.de.hannisoft.graveplan.writer
 import de.hannisoft.graveplan.model.GraveMap
 import java.nio.file.Files
 import java.nio.file.Path
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
-class GravePlanWriter(outputDir: String, var dueDate: String) {
+class GravePlanWriter(outputDir: String, timeStampString: String) {
 
     val outputDir: String = outputDir.trimEnd('/') + '/'
-    var outputDirPrivate: String = "${outputDir}Friedhofsplan_$dueDate/"
-    var outputDirPublic: String = "${outputDir}Friedhofsplan_öffentlich_$dueDate/"
+    val outputDirPrivate: String = "${outputDir}Friedhofsplan_$timeStampString/"
+    val outputDirPublic: String = "${outputDir}Friedhofsplan_öffentlich_$timeStampString/"
+    val dueDate: String = LocalDate.parse(timeStampString, DateTimeFormatter.ofPattern("yyyyMMdd"))
+                    .format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
 
     fun export(gravesMap: Map<String, GraveMap>) {
         export(outputDirPrivate, gravesMap, true)

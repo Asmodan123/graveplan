@@ -64,7 +64,7 @@ class HTMLGraveSiteWriter(outputDirString: String) {
 
     private fun BODY.writeCriteria(criterias: List<String>) {
         if (criterias.isNotEmpty()) {
-            +"Auswahlkriterien: ${criterias}"
+            +"Auswahlkriterien: $criterias"
         }
         br
     }

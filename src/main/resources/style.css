@@ -2,19 +2,20 @@ table {border-collapse: collapse;}
 
 th {border: 1px solid black; 
 	background-color: #D8D8D8; 
-	font-weight: bold; 
+	font-weight: bold;
+    font-size: large;
 	width: 80px;}
 
 th.col {width: 50px;}
 
 td {border: 1px solid black; 
 	text-align: center;
-	font-size: small; }
+	font-size: medium; }
 
 td.reihe {
 	background-color: #D8D8D8; 
 	font-weight: bold;
-	font-size: medium;}
+	font-size: large;}
 
 td.n { border-top: 3px solid red}
 td.w { border-left: 3px solid red}

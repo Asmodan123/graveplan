@@ -1,4 +1,4 @@
-package de.hannisoft.de.hannisoft.graveplan.writer
+package de.hannisoft.graveplan.writer
 
 import de.hannisoft.graveplan.model.ElementType
 import de.hannisoft.graveplan.model.GraveField

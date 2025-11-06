@@ -1,5 +1,6 @@
-package de.hannisoft.de.hannisoft.graveplan.writer
+package de.hannisoft.graveplan.writer
 
+import de.hannisoft.graveplan.model.Grave
 import de.hannisoft.graveplan.model.GraveField
 import de.hannisoft.graveplan.model.PlanElement
 import kotlinx.html.*
@@ -113,52 +114,64 @@ class HTMLGraveFieldWriter(outputDirString: String, val outputType: OutputType) 
     private fun TABLE.writeTableBody(graveField: GraveField, allData: Boolean) {
         tbody {
             for (i in graveField.rowCount - 1 downTo 0) {
-                var row = i - graveField.deltaRow
-                if (row >= 0) {
-                    row++
-                }
+                val rowString = buildRowString(i, graveField.deltaRow)
                 tr {
-                    td(classes = "reihe") { +String.format("%02d", row) }
+                    td(classes = "reihe") { +rowString }
                     for (j in graveField.placeCount - 1 downTo 0) {
-                        val grave = graveField.getGrave(i, j)
-                        if (grave == null) {
-                            td { }
-                        } else {
-                            td(classes = grave.getClassesString()) {
-                                id = if (grave.isRef()) grave.graveSite.id.replace('/','_') else ""
-                                style = "cursor:pointer"
-                                onClick = "location.href='../grabstätten/${grave.graveSite.fileName}'"
-                                if (allData) {
-                                    a(href = "../grabstätten/${grave.graveSite.fileName}") {
-                                        style = "text-decoration:none;color:black"
-                                        div {
-                                            style = "display: block;"
-                                            +grave.deceased
-                                            if (outputType == OutputType.REFERENCE) {
-                                                if (grave.dateOfBirth != null) {
-                                                    br
-                                                    +"* ${dateFormat.format(grave.dateOfBirth)}"
-                                                }
-                                                if (grave.dateOfDeath != null) {
-                                                    br
-                                                    +"+ ${dateFormat.format(grave.dateOfDeath)}"
-                                                }
-                                            } else {
-                                                if (grave.graveSite.validTo != null) {
-                                                    br
-                                                    +"bis ${dateFormat.format(grave.graveSite.validTo)}"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        writeGraveTableData(graveField.getGrave(i, j), allData)
                     }
-                    td(classes = "reihe") { +String.format("%02d", row) }
+                    td(classes = "reihe") { +rowString }
                 }
             }
         }
+    }
+
+    private fun TR.writeGraveTableData(grave: Grave?, allData: Boolean) {
+        td(classes = grave?.getClassesString()) {
+            grave?.let { grave ->
+                id = if (grave.isRef()) grave.graveSite.id.replace('/', '_') else ""
+                style = if (allData) "cursor:pointer" else ""
+                onClick = if (allData) "location.href='../grabstätten/${grave.graveSite.fileName}'" else ""
+                div {
+                    style = "display: block; text-decoration:none; color:black"
+                    writeGraveTableDataContent(grave)
+                }
+            }
+        }
+    }
+
+    private fun DIV.writeGraveTableDataContent(grave: Grave) {
+        if (grave.graveSite.isBroached()) {
+            +"GERÄUMT"
+            br
+            br
+            +"belegt bis ${dateFormat.format(grave.graveSite.validTo)}"
+        } else {
+            +grave.deceased
+            if (outputType == OutputType.REFERENCE) {
+                if (grave.dateOfBirth != null) {
+                    br
+                    +"* ${dateFormat.format(grave.dateOfBirth)}"
+                }
+                if (grave.dateOfDeath != null) {
+                    br
+                    +"+ ${dateFormat.format(grave.dateOfDeath)}"
+                }
+            } else {
+                if (grave.graveSite.validTo != null) {
+                    br
+                    +"bis ${dateFormat.format(grave.graveSite.validTo)}"
+                }
+            }
+        }
+    }
+
+    private fun buildRowString(rowIndex: Int, deltaRow: Int): String {
+        var row = rowIndex - deltaRow
+        if (row >= 0) {
+            row++
+        }
+        return String.format("%02d", row)
     }
 
     private fun TABLE.writeTableFooter(graveField: GraveField) {

@@ -1,4 +1,4 @@
-package de.hannisoft.de.hannisoft.graveplan.writer
+package de.hannisoft.graveplan.writer
 
 import de.hannisoft.graveplan.model.GraveField
 import de.hannisoft.graveplan.model.GraveSite
@@ -82,31 +82,43 @@ class HTMLSearchSiteWrite(outputDirString: String) {
                         style = "display:none;"
                         attributes["data-search"] = createSearchData(graveSite, allData)
                         td { a(href = "../belegung/${graveSite.field}.html#${graveSite.id.replace('/', '_')}") { +graveSite.field } }
-                        td {
-                            if (allData) {
-                                a(href = "../grabstätten/${graveSite.fileName}") { +"${graveSite.row}/${graveSite.place}" }
-                            } else {
-                                +"${graveSite.row}/${graveSite.place}"
-                            }
-                        }
-                        td(classes = "left") {
-                            +"${graveSite.type}"
-                            if (graveSite.size > 1) {
-                                +" (${graveSite.size})"
-                            }
-                        }
+                        tdGraveSite(allData, graveSite)
+                        tdGraveType(graveSite)
                         if (allData) {
                             td { +if (graveSite.validTo != null) dateFormat.format(graveSite.validTo) else ""  }
                             td(classes = "left") { +"${graveSite.owner?.firstName} ${graveSite.owner?.lastName}" }
                             td(classes = "left") { +graveSite.criterias.joinToString(" / ") }
                         }
-                        td(classes = "left") {
-                            +graveSite.graves
-                                .filter { grave -> !grave.isEmpty() }
-                                .joinToString(separator = ", ") { grave -> grave.deceased }
-                        }
+                        tdDeceased(graveSite)
                     }
                 }
+            }
+        }
+    }
+
+    private fun TR.tdDeceased(graveSite: GraveSite) {
+        td(classes = "left") {
+            +graveSite.graves
+                .filter { grave -> !grave.isEmpty() }
+                .joinToString(separator = ", ") { grave -> grave.deceased }
+        }
+    }
+
+    private fun TR.tdGraveType(graveSite: GraveSite) {
+        td(classes = "left") {
+            +"${graveSite.type}"
+            if (graveSite.size > 1) {
+                +" (${graveSite.size})"
+            }
+        }
+    }
+
+    private fun TR.tdGraveSite(allData: Boolean, graveSite: GraveSite) {
+        td {
+            if (allData) {
+                a(href = "../grabstätten/${graveSite.fileName}") { +"${graveSite.row}/${graveSite.place}" }
+            } else {
+                +"${graveSite.row}/${graveSite.place}"
             }
         }
     }

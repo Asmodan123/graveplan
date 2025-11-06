@@ -1,4 +1,4 @@
-package de.hannisoft.de.hannisoft.graveplan.writer
+package de.hannisoft.graveplan.writer
 
 import kotlinx.html.a
 import kotlinx.html.body

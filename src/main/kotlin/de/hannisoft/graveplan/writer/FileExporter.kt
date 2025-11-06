@@ -1,4 +1,4 @@
-package de.hannisoft.de.hannisoft.graveplan.writer
+package de.hannisoft.graveplan.writer
 
 import java.io.File
 import java.nio.file.Files

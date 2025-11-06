@@ -1,9 +1,7 @@
-package de.hannisoft.de.hannisoft.graveplan.excelimport
+package de.hannisoft.graveplan.excelimport
 
-import de.hannisoft.de.hannisoft.graveplan.excelimport.GraveFilesImporter.Companion.format
-import de.hannisoft.de.hannisoft.graveplan.excelimport.GraveFilesImporter.Companion.format2
-import de.hannisoft.graveplan.excelimport.GraveFileReader
-import de.hannisoft.graveplan.excelimport.GraveSiteCriteriaFileReader
+import de.hannisoft.graveplan.excelimport.GraveFilesImporter.Companion.format
+import de.hannisoft.graveplan.excelimport.GraveFilesImporter.Companion.format2
 import de.hannisoft.graveplan.model.GraveField
 import de.hannisoft.graveplan.model.GraveSite
 import java.io.File
@@ -48,11 +46,11 @@ fun findNewestTimeString(importDir: String): String {
 
 fun parseDateString(dateString: String): Date? {
     if (dateString.isEmpty()) {
-        return null;
+        return null
     }
     return try {
         format.parse(dateString)
-    } catch (e: ParseException) {
+    } catch (_: ParseException) {
         format2.parse(dateString)
     }
 }

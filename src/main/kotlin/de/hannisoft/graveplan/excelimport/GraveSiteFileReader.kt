@@ -1,4 +1,4 @@
-package de.hannisoft.de.hannisoft.graveplan.excelimport
+package de.hannisoft.graveplan.excelimport
 
 import de.hannisoft.graveplan.model.GraveSite
 import de.hannisoft.graveplan.model.Owner

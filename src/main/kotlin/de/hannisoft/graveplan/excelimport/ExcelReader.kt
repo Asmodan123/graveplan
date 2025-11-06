@@ -1,4 +1,4 @@
-package de.hannisoft.de.hannisoft.graveplan.excelimport
+package de.hannisoft.graveplan.excelimport
 
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.usermodel.Sheet

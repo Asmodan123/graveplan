@@ -1,4 +1,4 @@
-package de.hannisoft.de.hannisoft.graveplan.writer
+package de.hannisoft.graveplan.writer
 
 import de.hannisoft.graveplan.model.GraveSite
 import kotlinx.html.*
@@ -66,6 +66,7 @@ class HTMLGraveSiteWriter(outputDirString: String) {
         if (criterias.isNotEmpty()) {
             +"Auswahlkriterien: ${criterias}"
         }
+        br
     }
 
     private fun BODY.writeOwner(graveSite: GraveSite) {

@@ -104,52 +104,56 @@ class GraveField(private val fieldName: String) {
     private fun setGraveClasses() {
         graveArray.forEachIndexed { i, graveRow ->
             graveRow.forEachIndexed { j, grave ->
-                try {
-                    if (grave == null)
-                        return@forEachIndexed
-
-                    val graveSite = grave.graveSite
-
-                    val isBroached = graveSite.isBroached()
-                    if (isBroached) {
-                        grave.addClass(GraveClass.BROACHED)
-                    } else if (!grave.isEmpty()) {
-                        grave.addClass(GraveClass.BUSY)
-                    }
-
-                    if (graveSite.isStele()) {
-                        grave.addClass(GraveClass.STELE)
-                    }
-
-                    if (grave.isRef()) {
-                        grave.addClass(GraveClass.REF)
-                    }
-
-                    if (!hasNeighborGraveInEqualGraveSite(i, j + 1, graveSite)) {
-                        grave.addClass(GraveClass.W)
-                    }
-                    if (!hasNeighborGraveInEqualGraveSite(i, j - 1, graveSite)) {
-                        grave.addClass(GraveClass.O)
-                    }
-                    if (!hasNeighborGraveInEqualGraveSite(i + 1, j, graveSite)) {
-                        grave.addClass(GraveClass.N)
-                    }
-                    if (!hasNeighborGraveInEqualGraveSite(i - 1, j, graveSite)) {
-                        grave.addClass(GraveClass.S)
-                    }
-
-                    if (!isBroached && grave.isEmpty()) {
-                        grave.addClass(GraveClass.FREE)
-                    }
-
+                if (grave != null) {
+                    checkBroached(grave)
+                    checkStele(grave)
+                    checkRef(grave)
+                    checkNeighbors(grave, i, j)
                     addRuntime(grave)
-                } catch (e: Exception) {
-                    println("${e.javaClass.simpleName} while initialising Grave's classes of $grave: ${e.message}")
-                    e.printStackTrace()
                 }
             }
         }
     }
+
+    private fun checkBroached(grave: Grave) {
+        val isBroached = grave.graveSite.isBroached()
+        if (isBroached) {
+            grave.addClass(GraveClass.BROACHED)
+        } else if (!grave.isEmpty()) {
+            grave.addClass(GraveClass.BUSY)
+        }
+        if (!isBroached && grave.isEmpty()) {
+            grave.addClass(GraveClass.FREE)
+        }
+    }
+
+    private fun checkStele(grave: Grave) {
+        if (grave.graveSite.isStele()) {
+            grave.addClass(GraveClass.STELE)
+        }
+    }
+
+    private fun checkRef(grave: Grave) {
+        if (grave.isRef()) {
+            grave.addClass(GraveClass.REF)
+        }
+    }
+
+    private fun checkNeighbors(grave: Grave, row: Int, place: Int) {
+        if (!hasNeighborGraveInEqualGraveSite(row, place + 1, grave.graveSite)) {
+            grave.addClass(GraveClass.W)
+        }
+        if (!hasNeighborGraveInEqualGraveSite(row, place - 1, grave.graveSite)) {
+            grave.addClass(GraveClass.O)
+        }
+        if (!hasNeighborGraveInEqualGraveSite(row + 1, place, grave.graveSite)) {
+            grave.addClass(GraveClass.N)
+        }
+        if (!hasNeighborGraveInEqualGraveSite(row - 1, place, grave.graveSite)) {
+            grave.addClass(GraveClass.S)
+        }
+    }
+
 
     private fun addRuntime(grave: Grave?) {
         if (grave?.graveSite?.validFrom != null) {

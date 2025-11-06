@@ -1,7 +1,5 @@
 package de.hannisoft.graveplan.excelimport
 
-import de.hannisoft.de.hannisoft.graveplan.excelimport.buildHeaderMap
-import de.hannisoft.de.hannisoft.graveplan.excelimport.getValue
 import de.hannisoft.graveplan.model.GraveSite
 import org.apache.poi.ss.usermodel.WorkbookFactory
 import java.io.File

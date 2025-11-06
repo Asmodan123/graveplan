@@ -1,4 +1,4 @@
-package de.hannisoft.de.hannisoft.graveplan.writer
+package de.hannisoft.graveplan.writer
 
 import de.hannisoft.graveplan.model.GraveField
 import java.nio.file.Files
@@ -35,7 +35,7 @@ class GravePlanWriter(outputDir: String, timeStampString: String) {
             "plan/Friedhofsplan.svg"
         ))
         HtmlRootPageWriter().write(outputDir, "Friedhofsplan.html", dueDate)
-        GraveFieldWriter(outputDir).write(graveFields, dueDay = dueDate, allData = allData)
+        GraveFieldWriter(outputDir).write(graveFields, dueDate, allData)
         zipDirectory(outputDir)
     }
 

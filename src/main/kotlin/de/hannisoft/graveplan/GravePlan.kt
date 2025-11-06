@@ -1,7 +1,7 @@
-package de.hannisoft.de.hannisoft.graveplan
+package de.hannisoft.graveplan
 
-import de.hannisoft.de.hannisoft.graveplan.excelimport.GraveFilesImporter
-import de.hannisoft.de.hannisoft.graveplan.writer.GravePlanWriter
+import de.hannisoft.graveplan.excelimport.GraveFilesImporter
+import de.hannisoft.graveplan.writer.GravePlanWriter
 
 fun main() {
     val importDir = "/Users/jah/tmp/plan/MyHadesExport"

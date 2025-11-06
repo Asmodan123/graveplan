@@ -3,7 +3,7 @@ package de.hannisoft.graveplan.model
 import java.util.*
 import kotlin.math.abs
 
-class GraveMap(private val fieldName: String) {
+class GraveField(private val fieldName: String) {
     lateinit var field: PlanElement
     private val graveSites: MutableSet<GraveSite> = mutableSetOf()
 
@@ -36,7 +36,7 @@ class GraveMap(private val fieldName: String) {
                             graveSite.graves.add(grave)
                         }
                     } catch (e: Exception) {
-                        System.err.println("${e.javaClass.simpleName} while filling missing places of $graveSite into GraveMap: ${e.message}")
+                        System.err.println("${e.javaClass.simpleName} while filling missing places of $graveSite into GraveField: ${e.message}")
                         e.printStackTrace()
                     }
                 }
@@ -56,7 +56,7 @@ class GraveMap(private val fieldName: String) {
             deltaRow = if (field.minRow < 0) abs(field.minRow) else 0
             deltaPlace = if (field.minPlace < 0) abs(field.minPlace) else 0
         }
-        println("Initialized MinMaxValues of GraveMap $field: rowCount=$rowCount / placeCount=$placeCount / $deltaRow / deltaPlace=$deltaPlace")
+        println("Initialized MinMaxValues of GraveField $field: rowCount=$rowCount / placeCount=$placeCount / $deltaRow / deltaPlace=$deltaPlace")
     }
 
     private fun initMinMaxValuesFromGraves() {
@@ -94,7 +94,7 @@ class GraveMap(private val fieldName: String) {
                     val plc = deltaPlace + grave.place - if (grave.place > 0) 1 else 0
                     graveArray[row][plc] = grave
                 } catch (e: Exception) {
-                    println("${e.javaClass.simpleName} while filling Grave $grave into GraveMap: ${e.message}")
+                    println("${e.javaClass.simpleName} while filling Grave $grave into GraveField: ${e.message}")
                     e.printStackTrace()
                 }
             }

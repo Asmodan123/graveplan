@@ -1,6 +1,6 @@
 package de.hannisoft.de.hannisoft.graveplan.writer
 
-import de.hannisoft.graveplan.model.GraveMap
+import de.hannisoft.graveplan.model.GraveField
 import de.hannisoft.graveplan.model.GraveSite
 import kotlinx.html.*
 import kotlinx.html.stream.createHTML
@@ -11,7 +11,7 @@ class HTMLSearchSiteWrite(outputDirString: String) {
     val outputDir = File(outputDirString, "suche")
     private val dateFormat = SimpleDateFormat("dd.MM.yyyy")
 
-    fun write(graveMaps: Map<String, GraveMap>, dueDay: String, allData: Boolean) {
+    fun write(graveFields: Map<String, GraveField>, dueDay: String, allData: Boolean) {
         val html = createHTML().html {
             writeHeader()
             body {
@@ -27,7 +27,7 @@ class HTMLSearchSiteWrite(outputDirString: String) {
                 table {
                     style = "width: 100%;"
                     writeTableHeader(allData)
-                    writeTableBody(graveMaps, allData)
+                    writeTableBody(graveFields, allData)
                 }
             }
         }
@@ -73,11 +73,11 @@ class HTMLSearchSiteWrite(outputDirString: String) {
             }
         }
     }
-    private fun TABLE.writeTableBody(graveMap: Map<String, GraveMap>, allData: Boolean) {
+    private fun TABLE.writeTableBody(graveFields: Map<String, GraveField>, allData: Boolean) {
         tbody {
             id = "searchResult"
-            graveMap.values.forEach { graveMap ->
-                graveMap.graveSites().forEach { graveSite ->
+            graveFields.values.forEach { graveField ->
+                graveField.graveSites().forEach { graveSite ->
                     tr {
                         style = "display:none;"
                         attributes["data-search"] = createSearchData(graveSite, allData)

@@ -4,7 +4,7 @@ import de.hannisoft.de.hannisoft.graveplan.excelimport.buildHeaderMap
 import de.hannisoft.de.hannisoft.graveplan.excelimport.getValue
 import de.hannisoft.de.hannisoft.graveplan.excelimport.parseDateString
 import de.hannisoft.graveplan.model.Grave
-import de.hannisoft.graveplan.model.GraveMap
+import de.hannisoft.graveplan.model.GraveField
 import de.hannisoft.graveplan.model.GraveSite
 import org.apache.poi.ss.usermodel.WorkbookFactory
 import java.io.File
@@ -20,9 +20,9 @@ class GraveFileReader {
         const val COL_FUNERAL_DATE: String = "Bestattungsdatum"
     }
 
-    fun read(inputFile: File, graves: Map<String, GraveSite>): Map<String, GraveMap> {
+    fun read(inputFile: File, graves: Map<String, GraveSite>): Map<String, GraveField> {
         val emptyGraveSites = graves.toMutableMap()
-        val gravesMaps = mutableMapOf<String, GraveMap>()
+        val gravesMaps = mutableMapOf<String, GraveField>()
 
         inputFile.inputStream().use { fis ->
             val workbook = WorkbookFactory.create(fis)
@@ -56,7 +56,7 @@ class GraveFileReader {
                         this.graves.add(grave)
 
                         val field = this.field
-                        val placeMap = gravesMaps[field] ?: GraveMap(field).also {
+                        val placeMap = gravesMaps[field] ?: GraveField(field).also {
                             gravesMaps[field] = it
                         }
                         placeMap.addGraveSite(this)
@@ -71,8 +71,8 @@ class GraveFileReader {
         emptyGraveSites.values.forEach { graveSite ->
             val field = graveSite.field
             val placeMap = gravesMaps[field] ?:
-                GraveMap(field).also { graveMap ->
-                    gravesMaps[field] = graveMap
+                GraveField(field).also { graveField ->
+                    gravesMaps[field] = graveField
                 }
             placeMap.addGraveSite(graveSite)
         }

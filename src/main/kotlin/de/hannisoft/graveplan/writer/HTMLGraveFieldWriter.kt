@@ -1,13 +1,13 @@
 package de.hannisoft.de.hannisoft.graveplan.writer
 
-import de.hannisoft.graveplan.model.GraveMap
+import de.hannisoft.graveplan.model.GraveField
 import de.hannisoft.graveplan.model.PlanElement
 import kotlinx.html.*
 import kotlinx.html.stream.createHTML
 import java.io.File
 import java.text.SimpleDateFormat
 
-class HTMLGraveMapWriter(outputDirString: String, val outputType: OutputType) {
+class HTMLGraveFieldWriter(outputDirString: String, val outputType: OutputType) {
     val outputDir = File(outputDirString,
         if (outputType == OutputType.REFERENCE) "belegung" else "laufzeit")
     val dateFormat = SimpleDateFormat(
@@ -18,20 +18,20 @@ class HTMLGraveMapWriter(outputDirString: String, val outputType: OutputType) {
         writeStyleCss(outputDir)
     }
 
-    fun write(graveMap: GraveMap, dueDay: String, allData: Boolean) {
+    fun write(graveField: GraveField, dueDay: String, allData: Boolean) {
         val html = createHTML().html {
-            writeHeader(graveMap.field)
+            writeHeader(graveField.field)
             body {
-                writeNavBar(graveMap.field, dueDay, allData)
+                writeNavBar(graveField.field, dueDay, allData)
                 table {
-                    style = "width: ${graveMap.placeCount * 140 + 100}px; table-layout: fixed"
-                    writeTableHeader(graveMap)
-                    writeTableBody(graveMap, allData)
-                    writeTableFooter(graveMap)
+                    style = "width: ${graveField.placeCount * 140 + 100}px; table-layout: fixed"
+                    writeTableHeader(graveField)
+                    writeTableBody(graveField, allData)
+                    writeTableFooter(graveField)
                 }
             }
         }
-        File(outputDir, "${graveMap.getFieldName()}.html").writeText(html)
+        File(outputDir, "${graveField.getFieldName()}.html").writeText(html)
 
     }
 
@@ -87,7 +87,7 @@ class HTMLGraveMapWriter(outputDirString: String, val outputType: OutputType) {
         }
     }
 
-    private fun TABLE.writeTableHeader(graveMap: GraveMap) {
+    private fun TABLE.writeTableHeader(graveField: GraveField) {
         thead {
             tr {
                 th(classes = "col") {
@@ -95,8 +95,8 @@ class HTMLGraveMapWriter(outputDirString: String, val outputType: OutputType) {
                     br
                     +"Reihe ↓"
                 }
-                for (i in graveMap.placeCount - 1 downTo 0 ) {
-                    var place = i - graveMap.deltaPlace
+                for (i in graveField.placeCount - 1 downTo 0 ) {
+                    var place = i - graveField.deltaPlace
                     if (place >= 0)
                         place++
                     th { +String.format("%02d", place) }
@@ -110,17 +110,17 @@ class HTMLGraveMapWriter(outputDirString: String, val outputType: OutputType) {
         }
     }
 
-    private fun TABLE.writeTableBody(graveMap: GraveMap, allData: Boolean) {
+    private fun TABLE.writeTableBody(graveField: GraveField, allData: Boolean) {
         tbody {
-            for (i in graveMap.rowCount - 1 downTo 0) {
-                var row = i - graveMap.deltaRow
+            for (i in graveField.rowCount - 1 downTo 0) {
+                var row = i - graveField.deltaRow
                 if (row >= 0) {
                     row++
                 }
                 tr {
                     td(classes = "reihe") { +String.format("%02d", row) }
-                    for (j in graveMap.placeCount - 1 downTo 0) {
-                        val grave = graveMap.getGrave(i, j)
+                    for (j in graveField.placeCount - 1 downTo 0) {
+                        val grave = graveField.getGrave(i, j)
                         if (grave == null) {
                             td { }
                         } else {
@@ -161,7 +161,7 @@ class HTMLGraveMapWriter(outputDirString: String, val outputType: OutputType) {
         }
     }
 
-    private fun TABLE.writeTableFooter(graveMap: GraveMap) {
+    private fun TABLE.writeTableFooter(graveField: GraveField) {
         tfoot {
             tr {
                 th(classes = "reihe") {
@@ -169,8 +169,8 @@ class HTMLGraveMapWriter(outputDirString: String, val outputType: OutputType) {
                     br
                     +"Platz →"
                 }
-                for (i in graveMap.placeCount - 1 downTo 0 ) {
-                    var place = i - graveMap.deltaPlace
+                for (i in graveField.placeCount - 1 downTo 0 ) {
+                    var place = i - graveField.deltaPlace
                     if (place >= 0)
                         place++
                     th { +String.format("%02d", place) }

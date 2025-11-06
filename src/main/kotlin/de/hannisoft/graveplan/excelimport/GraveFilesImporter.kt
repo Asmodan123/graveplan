@@ -4,7 +4,7 @@ import de.hannisoft.de.hannisoft.graveplan.excelimport.GraveFilesImporter.Compan
 import de.hannisoft.de.hannisoft.graveplan.excelimport.GraveFilesImporter.Companion.format2
 import de.hannisoft.graveplan.excelimport.GraveFileReader
 import de.hannisoft.graveplan.excelimport.GraveSiteCriteriaFileReader
-import de.hannisoft.graveplan.model.GraveMap
+import de.hannisoft.graveplan.model.GraveField
 import de.hannisoft.graveplan.model.GraveSite
 import java.io.File
 import java.text.DateFormat
@@ -24,7 +24,7 @@ class GraveFilesImporter(importDir : String) {
     val importDir: String = importDir.trimEnd('/') + '/'
     val graveSites = mutableMapOf<String, GraveSite>()
     lateinit var dueDate: String
-    lateinit var gravesMap: Map<String, GraveMap>
+    lateinit var gravesMap: Map<String, GraveField>
 
     fun import(dueDateString: String = findNewestTimeString(importDir)): GraveFilesImporter  {
         this.dueDate = dueDateString

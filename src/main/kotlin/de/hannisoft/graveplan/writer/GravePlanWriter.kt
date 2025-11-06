@@ -1,6 +1,6 @@
 package de.hannisoft.de.hannisoft.graveplan.writer
 
-import de.hannisoft.graveplan.model.GraveMap
+import de.hannisoft.graveplan.model.GraveField
 import java.nio.file.Files
 import java.nio.file.Path
 import java.time.LocalDate
@@ -16,12 +16,12 @@ class GravePlanWriter(outputDir: String, timeStampString: String) {
     val dueDate: String = LocalDate.parse(timeStampString, DateTimeFormatter.ofPattern("yyyyMMdd"))
                     .format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
 
-    fun export(gravesMap: Map<String, GraveMap>) {
-        export(outputDirPrivate, gravesMap, true)
-        export(outputDirPublic, gravesMap, false)
+    fun export(graveFields: Map<String, GraveField>) {
+        export(outputDirPrivate, graveFields, true)
+        export(outputDirPublic, graveFields, false)
     }
 
-    private fun export(outputDir: String, gravesMap: Map<String, GraveMap>, allData: Boolean) {
+    private fun export(outputDir: String, graveFields: Map<String, GraveField>, allData: Boolean) {
         FileExporter().exportFiles(outputDir, listOf(
             "plan/js/bootstrap.min.css",
             "plan/js/bootstrap.bundle.min.js",
@@ -35,7 +35,7 @@ class GravePlanWriter(outputDir: String, timeStampString: String) {
             "plan/Friedhofsplan.svg"
         ))
         HtmlRootPageWriter().write(outputDir, "Friedhofsplan.html", dueDate)
-        GraveMapWriter(outputDir).write(gravesMap, dueDay = dueDate, allData = allData)
+        GraveFieldWriter(outputDir).write(graveFields, dueDay = dueDate, allData = allData)
         zipDirectory(outputDir)
     }
 

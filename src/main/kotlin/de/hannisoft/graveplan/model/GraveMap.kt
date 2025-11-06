@@ -4,7 +4,7 @@ import java.util.*
 import kotlin.math.abs
 
 class GraveMap(private val fieldName: String) {
-    private lateinit var field: PlanElement
+    lateinit var field: PlanElement
     private val graveSites: MutableSet<GraveSite> = mutableSetOf()
 
     var rowCount: Int = -1
@@ -27,12 +27,12 @@ class GraveMap(private val fieldName: String) {
 
     private fun fillupMissingGraves() {
         graveSites.forEach { graveSite ->
-            val places = graveSite.graves.map { it.id }.toSet()
+            val places = graveSite.graves.map { grave -> grave.id }.toSet()
             for (i in 0 until graveSite.rowSize) {
                 for (j in 0 until graveSite.placeSize) {
                     try {
                         val grave = Grave(graveSite, graveSite.rowInt + i, graveSite.placeInt + j, "")
-                        if (!places.contains(graveSite.id)) {
+                        if (!places.contains(grave.id)) {
                             graveSite.graves.add(grave)
                         }
                     } catch (e: Exception) {
@@ -178,8 +178,6 @@ class GraveMap(private val fieldName: String) {
     fun graveSites(): Set<GraveSite> = graveSites
 
     fun getFieldName(): String = field.name ?: fieldName
-
-    fun getField(): PlanElement = field
 
     fun getGrave(row: Int, place: Int): Grave? = graveArray[row][place]
 }

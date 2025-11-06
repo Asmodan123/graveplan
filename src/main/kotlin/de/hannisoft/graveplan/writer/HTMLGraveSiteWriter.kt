@@ -4,9 +4,12 @@ import de.hannisoft.graveplan.model.GraveSite
 import kotlinx.html.*
 import kotlinx.html.stream.createHTML
 import java.io.File
+import java.text.SimpleDateFormat
 
-class HTMLGraveSiteWriter(val outputDirString: String) {
+class HTMLGraveSiteWriter(outputDirString: String) {
     val outputDir = File(outputDirString, "grabstätten")
+    val dateFormat = SimpleDateFormat("dd.MM.yyyy")
+
     init {
         initOutputDir(outputDir)
     }
@@ -22,7 +25,7 @@ class HTMLGraveSiteWriter(val outputDirString: String) {
                     writeCriteria(graveSite.criterias)
                     writeOwner(graveSite)
                     table {
-                        style = "width: ${graveSite.placeSize * 140 + 40}px;"
+                        style = "width: ${graveSite.placeSize * 140 + 80}px;"
                         writeTableHeader(graveSite)
                         writeTableBody(graveSite)
                     }
@@ -45,7 +48,7 @@ class HTMLGraveSiteWriter(val outputDirString: String) {
         ul {
             li { a(href = "../Friedhofsplan.html") { +"Übersicht" } }
             li { a(href = "../suche/Suche.html") { +"Suche" } }
-            li { a(href = "../belegunng/${graveSite.field}.html#${graveSite.id.replace('/', '_')}") { +"Belegung - Feld ${graveSite.field}" } }
+            li { a(href = "../belegung/${graveSite.field}.html#${graveSite.id.replace('/', '_')}") { +"Belegung - Feld ${graveSite.field}" } }
             li { a(href = "../laufzeit/${graveSite.field}.html#${graveSite.id.replace('/', '_')}") { +"Restlaufzeit - Feld ${graveSite.field}" } }
             li { a(href = "#", classes = "active") { +"Grabstätte ${graveSite.id}" } }
             li {
@@ -66,11 +69,12 @@ class HTMLGraveSiteWriter(val outputDirString: String) {
     }
 
     private fun BODY.writeOwner(graveSite: GraveSite) {
-        +"Nutzungsrecht bis ${graveSite.validTo}"
+        +"Nutzungsrecht bis ${if (graveSite.validTo == null) "---" else dateFormat.format(graveSite.validTo)  }"
         br
         +"${graveSite.name}"
         br
 
+        br
         b { +"Nutzungsberechtigter:" }
         br
 
@@ -82,12 +86,18 @@ class HTMLGraveSiteWriter(val outputDirString: String) {
 
         +"${graveSite.owner?.zipAndTown}"
         br
+
+        br
     }
 
     private fun TABLE.writeTableHeader(graveSite: GraveSite) {
         thead {
             tr {
-                th(classes = "col") { +"Platz &rarr; Reihe &darr;" }
+                th(classes = "col") {
+                    +"Platz →"
+                    br
+                    +"Reihe ↓"
+                }
                 for (i in graveSite.placeSize - 1 downTo 0 ) {
                     th { +"${graveSite.placeInt + i}" }
                 }
@@ -100,19 +110,21 @@ class HTMLGraveSiteWriter(val outputDirString: String) {
             for (i in graveSite.rowSize - 1 downTo 0) {
                 val row = graveSite.rowInt + i
                 tr {
-                    td(classes = "row") { +graveSite.row }
+                    td(classes = "reihe") { +graveSite.row }
                     for (j in graveSite.placeSize - 1 downTo 0) {
                         val place = graveSite.placeInt + j
-                        graveSite.graves.find { it.place == place && it.row == row }?.let { grave ->
+                        graveSite.graves
+                            .find { grave -> grave.place == place && grave.row == row && grave.getClassesString().isNotEmpty()}
+                            ?.let { grave ->
                             td(classes = grave.getClassesString()) {
-                                grave.deceased?.let { +it }
+                                grave.deceased.let { +it }
                                 grave.dateOfBirth?.let {
                                     br
-                                    +"* ${it})"
+                                    +"* ${dateFormat.format(it)}"
                                 }
                                 grave.dateOfDeath?.let {
                                     br
-                                    +"+ ${it})"
+                                    +"+ ${dateFormat.format(it)}"
                                 }
                             }
                         }

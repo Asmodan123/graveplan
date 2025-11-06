@@ -8,7 +8,7 @@ fun main() {
     val outputDir = "/Users/jah/tmp/plan/"
     GraveFilesImporter(importDir)
         .import().apply {
-            GravePlanWriter(outputDir, this.timestring)
+            GravePlanWriter(outputDir, this.dueDate)
                 .export(this.gravesMap)
     }
 }

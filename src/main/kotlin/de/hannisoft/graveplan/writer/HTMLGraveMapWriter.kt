@@ -20,11 +20,11 @@ class HTMLGraveMapWriter(outputDirString: String, val outputType: OutputType) {
 
     fun write(graveMap: GraveMap, dueDay: String, allData: Boolean) {
         val html = createHTML().html {
-            writeHeader(graveMap.getField())
+            writeHeader(graveMap.field)
             body {
-                writeNavBar(graveMap.getField(), dueDay, allData)
+                writeNavBar(graveMap.field, dueDay, allData)
                 table {
-                    style = "width: ${graveMap.placeCount * 140 + 40}px;"
+                    style = "width: ${graveMap.placeCount * 140 + 100}px; table-layout: fixed"
                     writeTableHeader(graveMap)
                     writeTableBody(graveMap, allData)
                     writeTableFooter(graveMap)
@@ -58,7 +58,7 @@ class HTMLGraveMapWriter(outputDirString: String, val outputType: OutputType) {
     private fun HTML.writeHeader(field: PlanElement) {
         head {
             title("Feld ${field.getLabel()}")
-            link { rel = "stylesheet"; href = "../style.css"; type = "text/css" }
+            link { rel = "stylesheet"; href = "style.css"; type = "text/css" }
             link { rel = "stylesheet"; href = "../plan/nav.css"; type = "text/css" }
         }
     }
@@ -90,14 +90,22 @@ class HTMLGraveMapWriter(outputDirString: String, val outputType: OutputType) {
     private fun TABLE.writeTableHeader(graveMap: GraveMap) {
         thead {
             tr {
-                th(classes = "col") { +"Platz &rarr; Reihe &darr;" }
+                th(classes = "col") {
+                    +"Platz →"
+                    br
+                    +"Reihe ↓"
+                }
                 for (i in graveMap.placeCount - 1 downTo 0 ) {
                     var place = i - graveMap.deltaPlace
                     if (place >= 0)
                         place++
                     th { +String.format("%02d", place) }
                 }
-                th(classes = "col") { +"Platz &rarr; Reihe &darr;" }
+                th(classes = "col") {
+                    +"← Platz"
+                    br
+                    +"↓ Reihe"
+                }
             }
         }
     }
@@ -156,14 +164,22 @@ class HTMLGraveMapWriter(outputDirString: String, val outputType: OutputType) {
     private fun TABLE.writeTableFooter(graveMap: GraveMap) {
         tfoot {
             tr {
-                th(classes = "reihe") { +"Reihe&uarr; Platz &rarr;" }
+                th(classes = "reihe") {
+                    +"Reihe ↑"
+                    br
+                    +"Platz →"
+                }
                 for (i in graveMap.placeCount - 1 downTo 0 ) {
                     var place = i - graveMap.deltaPlace
                     if (place >= 0)
                         place++
                     th { +String.format("%02d", place) }
                 }
-                th(classes = "col") { +"Reihe&uarr; Platz &larr;" }
+                th(classes = "col") {
+                    +"↑ Reihe"
+                    br
+                    +"← Platz"
+                }
             }
         }
     }

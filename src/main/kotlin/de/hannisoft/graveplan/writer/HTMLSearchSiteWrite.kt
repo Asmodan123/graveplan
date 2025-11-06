@@ -84,7 +84,7 @@ class HTMLSearchSiteWrite(outputDirString: String) {
                         td { a(href = "../belegung/${graveSite.field}.html#${graveSite.id.replace('/', '_')}") { +graveSite.field } }
                         td {
                             if (allData) {
-                                a(href = "../grabstätten/${graveSite.fileName}.html") { +"${graveSite.row}/${graveSite.place}" }
+                                a(href = "../grabstätten/${graveSite.fileName}") { +"${graveSite.row}/${graveSite.place}" }
                             } else {
                                 +"${graveSite.row}/${graveSite.place}"
                             }

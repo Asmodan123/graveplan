@@ -4,8 +4,8 @@ import de.hannisoft.graveplan.excelimport.GraveFilesImporter
 import de.hannisoft.graveplan.writer.GravePlanWriter
 
 fun main() {
-    val importDir = "/Users/jah/tmp/plan/MyHadesExport"
-    val outputDir = "/Users/jah/tmp/plan/"
+    val importDir = "/Users/jahlers/tmp/plan/export/"
+    val outputDir = "/Users/jahlers/tmp/plan/"
     GraveFilesImporter(importDir)
         .import().apply {
             GravePlanWriter(outputDir, this.dueDate)

@@ -8,13 +8,20 @@ import java.io.File
 
 class GraveFileReader {
     companion object {
-        const val COL_GARVE_ID: String = "Grabstätte"
+        const val COL_FIELD: String = "Abteilung"
+        const val COL_ROW: String = "Block"
+        const val COL_GRAVE_SITE_PLACE: String = "Grab"
         const val COL_PLACE: String = "Grabstelle"
-        const val COL_LAST_NAME: String = "Nachname"
-        const val COL_FIRST_NAME: String = "Vorname"
-        const val COL_DOD: String = "Sterbedatum"
-        const val COL_DOB: String = "Geburtsdatum"
+        const val COL_LAST_NAME: String = "Name (VS)"
+        const val COL_FIRST_NAME: String = "Vorname (VS)"
+        const val COL_DOD: String = "Sterbedatum (VS)"
+        const val COL_DOB: String = "Geburtsdatum (VS)"
         const val COL_FUNERAL_DATE: String = "Bestattungsdatum"
+
+        private val REGULAR_PLACE = Regex("""-?\d+/-?\d+""")
+        // last "<row>/<place>" pair, optionally followed by non-digits like "b"
+        private val PLACE = Regex("""(-?\d+)\s*/\s*(-?\d+)\D*$""")
+        private val PLACE_SUFFIX = Regex("""\(.*\)""")
     }
 
     fun read(inputFile: File, graves: Map<String, GraveSite>): Map<String, GraveField> {
@@ -24,32 +31,37 @@ class GraveFileReader {
         inputFile.inputStream().use { fis ->
             val workbook = WorkbookFactory.create(fis)
             val sheet = workbook.getSheetAt(0)
-            var headerMap = sheet.buildHeaderMap()
-            var startRow = 1
-            if (headerMap.size < 5) {
-                // if the header map contains less than 5 columns, there is a "GroupingRow" above the current column header row, which must be ignored
-                headerMap = sheet.buildHeaderMap(1)
-                startRow = 2
-            }
-            for (rowIndex in startRow..sheet.lastRowNum) {
+            val headerMap = sheet.buildHeaderMap()
+            for (rowIndex in FIRST_DATA_ROW..sheet.lastRowNum) {
                 val row = sheet.getRow(rowIndex) ?: continue
-                val graveId = row.getValue(headerMap[COL_GARVE_ID])
+                val graveId = GraveSite.createId(
+                    row.getValue(headerMap[COL_FIELD]),
+                    row.getValue(headerMap[COL_ROW]),
+                    row.getValue(headerMap[COL_GRAVE_SITE_PLACE]))
+                if (graveId == "//") {
+                    continue
+                }
                 try {
                     emptyGraveSites.remove(graveId)
-                    graves[graveId]?.apply {
-                        val graveString = row.getValue(headerMap[COL_PLACE]).split("/")
-                        val rowStr = graveString[0].trim()
-                        val placeStr = graveString[1].trim().substring(0, 2)
+                    val graveSite = graves[graveId]
+                    if (graveSite == null) {
+                        System.err.println("No grave site $graveId found for row $rowIndex of $inputFile")
+                        continue
+                    }
+                    graveSite.apply {
+                        val placeString = row.getValue(headerMap[COL_PLACE])
+                        val (rowNo, placeNo) = parsePlace(placeString) ?: run {
+                            System.err.println("Invalid Grabstelle '$placeString' of grave site $graveId at row $rowIndex, skipping")
+                            return@apply
+                        }
+                        if (!REGULAR_PLACE.matches(placeString)) {
+                            println("Irregular Grabstelle '$placeString' of grave site $graveId read as $rowNo/$placeNo")
+                        }
                         val lastName = row.getValue(headerMap[COL_LAST_NAME])
                         val firstName = row.getValue(headerMap[COL_FIRST_NAME])
-                        var dateOfDeath = row.getValue(headerMap[COL_DOD])
-                        if (dateOfDeath.isEmpty()) {
-                            dateOfDeath = row.getValue(headerMap[COL_FUNERAL_DATE])
-                        }
-                        val dateOfBirth = row.getValue(headerMap[COL_DOB])
-                        val grave = Grave(this, rowStr.toInt(), placeStr.toInt(), "$firstName $lastName")
-                        grave.dateOfDeath = parseDateString(dateOfDeath)
-                        grave.dateOfBirth = parseDateString(dateOfBirth)
+                        val grave = Grave(this, rowNo, placeNo, "$firstName $lastName".trim())
+                        grave.dateOfDeath = row.getDate(headerMap[COL_DOD]) ?: row.getDate(headerMap[COL_FUNERAL_DATE])
+                        grave.dateOfBirth = row.getDate(headerMap[COL_DOB])
                         this.graves.add(grave)
 
                         val field = this.field
@@ -75,4 +87,10 @@ class GraveFileReader {
         }
         return gravesMaps
     }
+
+    // e.g. "01/09", "04 / 01", "17/-02", "03/02 (E3)", "14/02b", "Q3/12/12"
+    private fun parsePlace(placeString: String): Pair<Int, Int>? =
+        PLACE.find(placeString.replace(PLACE_SUFFIX, "").trim())?.let {
+            it.groupValues[1].toInt() to it.groupValues[2].toInt()
+        }
 }

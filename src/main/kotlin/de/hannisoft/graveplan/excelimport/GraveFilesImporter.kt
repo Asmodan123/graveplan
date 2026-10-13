@@ -12,9 +12,8 @@ import java.util.Date
 
 class GraveFilesImporter(importDir : String) {
     companion object {
-        const val FILE_TOKEN_GRAVE_SITE: String = "Grabstätten_"
-        const val FILE_TOKEN_GRAVE: String = "Verstorbene_"
-        const val FILE_TOKEN_CRITERIA: String = "Auswahlkriterien_"
+        const val FILE_TOKEN_GRAVE_SITE: String = "Grabstaetten_"
+        const val FILE_TOKEN_GRAVE: String = "Bestattungen_"
         const val FILE_ENDING: String = ".xlsx"
         val format: DateFormat = SimpleDateFormat("dd/MM/yyyy")
         val format2: DateFormat = SimpleDateFormat("dd.MM.yyyy")
@@ -29,7 +28,6 @@ class GraveFilesImporter(importDir : String) {
         println("Start import from $importDir with timestamp-suffix $dueDate")
         val graveSites = GraveSiteFileReader().read(File(importDir + FILE_TOKEN_GRAVE_SITE + dueDateString + FILE_ENDING))
         gravesMap = GraveFileReader().read(File(importDir + FILE_TOKEN_GRAVE + dueDateString + FILE_ENDING), graveSites)
-        GraveSiteCriteriaFileReader().read(File(importDir + FILE_TOKEN_CRITERIA + dueDateString + FILE_ENDING), graveSites)
         return this
     }
 }

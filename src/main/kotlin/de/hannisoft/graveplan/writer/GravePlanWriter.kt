@@ -11,8 +11,8 @@ import java.util.zip.ZipOutputStream
 class GravePlanWriter(outputDir: String, timeStampString: String) {
 
     val outputDir: String = outputDir.trimEnd('/') + '/'
-    val outputDirPrivate: String = "${outputDir}Friedhofsplan_$timeStampString/"
-    val outputDirPublic: String = "${outputDir}Friedhofsplan_öffentlich_$timeStampString/"
+    val outputDirPrivate: String = "${this.outputDir}Friedhofsplan_$timeStampString/"
+    val outputDirPublic: String = "${this.outputDir}Friedhofsplan_öffentlich_$timeStampString/"
     val dueDate: String = LocalDate.parse(timeStampString, DateTimeFormatter.ofPattern("yyyyMMdd"))
                     .format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
 

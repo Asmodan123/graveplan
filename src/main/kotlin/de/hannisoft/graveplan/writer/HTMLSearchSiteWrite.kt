@@ -36,6 +36,7 @@ class HTMLSearchSiteWrite(outputDirString: String) {
 
     private fun HTML.writeHeader() {
         head {
+            meta(charset = "utf-8")
             title("Suche")
             link { rel = "stylesheet"; href = "search.css"; type = "text/css" }
             link { rel = "stylesheet"; href = "../plan/nav.css"; type = "text/css" }
@@ -116,7 +117,7 @@ class HTMLSearchSiteWrite(outputDirString: String) {
     private fun TR.tdGraveSite(allData: Boolean, graveSite: GraveSite) {
         td {
             if (allData) {
-                a(href = "../grabstätten/${graveSite.fileName}") { +"${graveSite.row}/${graveSite.place}" }
+                a(href = "../grabstaetten/${graveSite.fileName}") { +"${graveSite.row}/${graveSite.place}" }
             } else {
                 +"${graveSite.row}/${graveSite.place}"
             }

@@ -58,6 +58,7 @@ class HTMLGraveFieldWriter(outputDirString: String, val outputType: OutputType) 
 
     private fun HTML.writeHeader(field: PlanElement) {
         head {
+            meta(charset = "utf-8")
             title("Feld ${field.getLabel()}")
             link { rel = "stylesheet"; href = "style.css"; type = "text/css" }
             link { rel = "stylesheet"; href = "../plan/nav.css"; type = "text/css" }
@@ -131,7 +132,7 @@ class HTMLGraveFieldWriter(outputDirString: String, val outputType: OutputType) 
             grave?.let { grave ->
                 id = if (grave.isRef()) grave.graveSite.id.replace('/', '_') else ""
                 style = if (allData) "cursor:pointer" else ""
-                onClick = if (allData) "location.href='../grabstätten/${grave.graveSite.fileName}'" else ""
+                onClick = if (allData) "location.href='../grabstaetten/${grave.graveSite.fileName}'" else ""
                 div {
                     style = "display: block; text-decoration:none; color:black"
                     writeGraveTableDataContent(grave)

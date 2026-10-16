@@ -1,24 +1,22 @@
 package de.hannisoft.graveplan.writer
 
 import de.hannisoft.graveplan.model.GraveField
-import java.nio.file.Files
-import java.nio.file.Path
+import de.hannisoft.graveplan.properties.WebsiteConfig
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.zip.ZipEntry
-import java.util.zip.ZipOutputStream
 
-class GravePlanWriter(outputDir: String, timeStampString: String) {
+class GravePlanWriter(outputDir: String, val timeStampString: String, val websiteConfig: WebsiteConfig) {
 
-    val outputDir: String = outputDir.trimEnd('/') + '/'
-    val outputDirPrivate: String = "${this.outputDir}Friedhofsplan_$timeStampString/"
-    val outputDirPublic: String = "${this.outputDir}Friedhofsplan_öffentlich_$timeStampString/"
+    val websiteDir: String = outputDir.trimEnd('/') + "/website/"
+    val outputDirPrivate: String = "$websiteDir$PLAN_DIR/$INTERNAL_DIR/$timeStampString/"
+    val outputDirPublic: String = "$websiteDir$PLAN_DIR/$PUBLIC_DIR/$timeStampString/"
     val dueDate: String = LocalDate.parse(timeStampString, DateTimeFormatter.ofPattern("yyyyMMdd"))
                     .format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
 
     fun export(graveFields: Map<String, GraveField>) {
         export(outputDirPrivate, graveFields, true)
         export(outputDirPublic, graveFields, false)
+        WebsiteWriter(websiteDir, websiteConfig).write(timeStampString, dueDate)
     }
 
     private fun export(outputDir: String, graveFields: Map<String, GraveField>, allData: Boolean) {
@@ -36,20 +34,6 @@ class GravePlanWriter(outputDir: String, timeStampString: String) {
         ))
         HtmlRootPageWriter().write(outputDir, "Friedhofsplan.html", dueDate)
         GraveFieldWriter(outputDir).write(graveFields, dueDate, allData)
-        zipDirectory(outputDir)
-    }
-
-    fun zipDirectory(sourceDir: String) {
-        val sourceDirPath = Path.of(sourceDir)
-        val zipFile = sourceDirPath.parent.resolve("${sourceDirPath.fileName}.zip")
-        ZipOutputStream(Files.newOutputStream(zipFile)).use { zipOut ->
-            Files.walk(sourceDirPath).filter { path -> !Files.isDirectory(path) }.forEach { file ->
-                val zipEntry = ZipEntry(sourceDirPath.relativize(file).toString().replace("\\", "/"))
-                zipOut.putNextEntry(zipEntry)
-                Files.newInputStream(file).use { input -> input.copyTo(zipOut) }
-                zipOut.closeEntry()
-            }
-        }
-        println("Created zip file ${zipFile.fileName}")
+        println("Created plan in $outputDir")
     }
 }

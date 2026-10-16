@@ -7,7 +7,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 
 class HTMLGraveSiteWriter(outputDirString: String) {
-    val outputDir = File(outputDirString, "grabstätten")
+    val outputDir = File(outputDirString, "grabstaetten")
     val dateFormat = SimpleDateFormat("dd.MM.yyyy")
 
     init {
@@ -37,6 +37,7 @@ class HTMLGraveSiteWriter(outputDirString: String) {
 
     private fun HTML.writeHeader(graveSite: GraveSite) {
         head {
+            meta(charset = "utf-8")
             title("Feld $graveSite.id")
             link { rel = "stylesheet"; href = "../belegung/style.css"; type = "text/css" }
             link { rel = "stylesheet"; href = "../plan/nav.css"; type = "text/css" }

@@ -2,12 +2,12 @@ package de.hannisoft.graveplan.writer
 
 import kotlinx.html.a
 import kotlinx.html.body
-import kotlinx.html.h1
 import kotlinx.html.head
 import kotlinx.html.html
 import kotlinx.html.htmlObject
 import kotlinx.html.li
 import kotlinx.html.link
+import kotlinx.html.meta
 import kotlinx.html.script
 import java.io.File
 import kotlinx.html.stream.createHTML
@@ -20,6 +20,7 @@ class HtmlRootPageWriter {
         val html = createHTML().html {
             head {
                 style = "object { width: 100%; height: 100% }"
+                meta(charset = "utf-8")
                 link(rel = "icon", href = "plan/plan.ico", type = "image/x-icon")
                 link(rel = "stylesheet", href = "plan/js/bootstrap.min.css", type = "text/css")
                 link(rel = "stylesheet", href = "plan/nav.css", type = "text/css")
@@ -28,13 +29,6 @@ class HtmlRootPageWriter {
             body {
                 script(src = "plan/js/bootstrap.bundle.min.js") {}
                 script(src = "plan/js/vis-network.min.js") {}
-                h1(classes = "insideZip") {
-                    +"""
-                        Wenn dieser Text sichtbar ist, wurde der Friedhofplan unvollständig ausgeführt. Wahrscheinlich wurde diese Datei direkt aus dem  
-                        Zip-Archiv geöffnet. Das funktioniert nicht! Das Archiv muss komplett in ein lokales Verzeichnis entpackt werden. 
-                        Dann kann die Einstiegs-Datei <u>Friedhofsplan.html</u> geöffnet werden.                        
-                    """.trimIndent()
-                }
                 ul {
                     li { a(classes = "active", href = "#") { +"Übersicht" } }
                     li { a(href = "suche/Suche.html") { +"Suche" } }

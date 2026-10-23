@@ -41,7 +41,7 @@ class HTMLGraveSiteWriter(outputDirString: String) {
             title("Feld $graveSite.id")
             link { rel = "stylesheet"; href = "../belegung/style.css"; type = "text/css" }
             link { rel = "stylesheet"; href = "../plan/nav.css"; type = "text/css" }
-
+            logoutScript("../plan")
         }
     }
 
@@ -52,6 +52,7 @@ class HTMLGraveSiteWriter(outputDirString: String) {
             li { a(href = "../belegung/${graveSite.field}.html#${graveSite.id.replace('/', '_')}") { +"Belegung - Feld ${graveSite.field}" } }
             li { a(href = "../laufzeit/${graveSite.field}.html#${graveSite.id.replace('/', '_')}") { +"Restlaufzeit - Feld ${graveSite.field}" } }
             li { a(href = "#", classes = "active") { +"Grabstätte ${graveSite.id}" } }
+            logoutItem("../plan")
             li {
                 style = "float: right"
                 a(href = "mailto:johannes.ahlers@gmx.de?subject=Frage zum Friedhofsplan") { +"Hilfe" }

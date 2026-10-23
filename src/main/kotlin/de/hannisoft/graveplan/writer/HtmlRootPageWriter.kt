@@ -24,6 +24,7 @@ class HtmlRootPageWriter {
                 link(rel = "icon", href = "plan/plan.ico", type = "image/x-icon")
                 link(rel = "stylesheet", href = "plan/js/bootstrap.min.css", type = "text/css")
                 link(rel = "stylesheet", href = "plan/nav.css", type = "text/css")
+                logoutScript("plan")
                 title("Lageplan Friedhof Pattensen")
             }
             body {
@@ -32,6 +33,7 @@ class HtmlRootPageWriter {
                 ul {
                     li { a(classes = "active", href = "#") { +"Übersicht" } }
                     li { a(href = "suche/Suche.html") { +"Suche" } }
+                    logoutItem("plan")
                     li { style = "float: right"
                         a(href = "mailto:johannes.ahlers@gmx.de?subject=Frage zum Friedhofsplan") { +"Hilfe" }
                     }

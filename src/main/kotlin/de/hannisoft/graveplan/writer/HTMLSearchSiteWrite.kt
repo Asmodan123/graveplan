@@ -41,6 +41,7 @@ class HTMLSearchSiteWrite(outputDirString: String) {
             link { rel = "stylesheet"; href = "search.css"; type = "text/css" }
             link { rel = "stylesheet"; href = "../plan/nav.css"; type = "text/css" }
             script(src = "search.js") {}
+            logoutScript("../plan")
         }
     }
 
@@ -48,6 +49,7 @@ class HTMLSearchSiteWrite(outputDirString: String) {
         ul {
             li { a(href = "../Friedhofsplan.html") { +"Übersicht" } }
             li { a(href = "#", classes = "active") { +"Suche" } }
+            logoutItem("../plan")
             li {
                 style = "float: right"
                 a(href = "mailto:johannes.ahlers@gmx.de?subject=Frage zum Friedhofsplan") { +"Hilfe" }

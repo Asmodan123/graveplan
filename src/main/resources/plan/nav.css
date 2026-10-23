@@ -32,6 +32,11 @@ li a:not([href]):not([class]) {
   color: white;
 }
 
+li a img.icon {
+  height: 1.2em;
+  vertical-align: middle;
+}
+
 li a:hover:not(.active) {
   background-color: #111;
 }

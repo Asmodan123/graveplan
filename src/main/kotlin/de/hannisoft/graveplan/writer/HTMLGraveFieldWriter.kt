@@ -62,6 +62,7 @@ class HTMLGraveFieldWriter(outputDirString: String, val outputType: OutputType) 
             title("Feld ${field.getLabel()}")
             link { rel = "stylesheet"; href = "style.css"; type = "text/css" }
             link { rel = "stylesheet"; href = "../plan/nav.css"; type = "text/css" }
+            logoutScript("../plan")
         }
     }
 
@@ -78,6 +79,7 @@ class HTMLGraveFieldWriter(outputDirString: String, val outputType: OutputType) 
                 li { a(href = "../belegung/${field.name}.html") { +"Belegung - Feld ${field.name}" } }
                 li { a(href = "#", classes = "active") { +"Restlaufzeit - Feld ${field.name}" } }
             }
+            logoutItem("../plan")
             li {
                 style = "float: right"
                 a(href = "mailto:johannes.ahlers@gmx.de?subject=Frage zum Friedhofsplan") { +"Hilfe" }

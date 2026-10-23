@@ -29,6 +29,8 @@ class GravePlanWriter(outputDir: String, val timeStampString: String, val websit
             "suche/search.js",
             "suche/searchicon.png",
             "plan/nav.css",
+            "plan/logout.js",
+            "plan/logout.svg",
             "plan/satellit.png",
             "plan/Friedhofsplan.svg"
         ))

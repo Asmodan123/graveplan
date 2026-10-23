@@ -50,10 +50,7 @@ class HTMLSearchSiteWrite(outputDirString: String) {
             li { a(href = "../Friedhofsplan.html") { +"Übersicht" } }
             li { a(href = "#", classes = "active") { +"Suche" } }
             logoutItem("../plan")
-            li {
-                style = "float: right"
-                a(href = "mailto:johannes.ahlers@gmx.de?subject=Frage zum Friedhofsplan") { +"Hilfe" }
-            }
+            helpItem()
             li {
                 style = "float: right"
                 a { +"Stand: $dueDay" }

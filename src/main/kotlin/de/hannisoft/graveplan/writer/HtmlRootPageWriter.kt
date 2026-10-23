@@ -34,9 +34,7 @@ class HtmlRootPageWriter {
                     li { a(classes = "active", href = "#") { +"Übersicht" } }
                     li { a(href = "suche/Suche.html") { +"Suche" } }
                     logoutItem("plan")
-                    li { style = "float: right"
-                        a(href = "mailto:johannes.ahlers@gmx.de?subject=Frage zum Friedhofsplan") { +"Hilfe" }
-                    }
+                    helpItem()
                     li { style = "float: right"
                         a { +"Stand: $dueDay" }
                     }

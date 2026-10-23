@@ -80,10 +80,7 @@ class HTMLGraveFieldWriter(outputDirString: String, val outputType: OutputType) 
                 li { a(href = "#", classes = "active") { +"Restlaufzeit - Feld ${field.name}" } }
             }
             logoutItem("../plan")
-            li {
-                style = "float: right"
-                a(href = "mailto:johannes.ahlers@gmx.de?subject=Frage zum Friedhofsplan") { +"Hilfe" }
-            }
+            helpItem()
             li {
                 style = "float: right"
                 a { +"Stand: $dueDay" }

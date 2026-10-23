@@ -53,10 +53,7 @@ class HTMLGraveSiteWriter(outputDirString: String) {
             li { a(href = "../laufzeit/${graveSite.field}.html#${graveSite.id.replace('/', '_')}") { +"Restlaufzeit - Feld ${graveSite.field}" } }
             li { a(href = "#", classes = "active") { +"Grabstätte ${graveSite.id}" } }
             logoutItem("../plan")
-            li {
-                style = "float: right"
-                a(href = "mailto:johannes.ahlers@gmx.de?subject=Frage zum Friedhofsplan") { +"Hilfe" }
-            }
+            helpItem()
             li {
                 style = "float: right"
                 a { +"Stand: $dueDay" }

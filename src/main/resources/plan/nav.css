@@ -27,6 +27,11 @@ li a {
   font-size: larger;
 }
 
+/* Bootstrap setzt bei <a> ohne href "color: inherit" */
+li a:not([href]):not([class]) {
+  color: white;
+}
+
 li a:hover:not(.active) {
   background-color: #111;
 }

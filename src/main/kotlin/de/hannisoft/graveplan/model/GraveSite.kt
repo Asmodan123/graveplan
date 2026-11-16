@@ -4,10 +4,9 @@ import java.util.*
 
 class GraveSite(val field: String, val row: String, val place: String) {
     companion object {
-        const val NAME_SIZE = "plangröße="
+        const val CRITERIA_PLAN_SIZE = "plangröße="
         const val CRITERIA_GERAUEMT = "abgeräumt"
         const val CRITERIA_STELE = "Stele"
-        private val NAME_SIZE_LEN = NAME_SIZE.length
         fun createId(field: String, row: String, place: String): String = "$field/$row/$place"
     }
 
@@ -24,24 +23,6 @@ class GraveSite(val field: String, val row: String, val place: String) {
         }
 
     var name: String? = null
-        set(value) {
-            field = value
-            if (value != null) {
-                try {
-                    val pos = value.lowercase(Locale.getDefault()).indexOf(NAME_SIZE)
-                    if (pos > -1) {
-                        rowSize = value.substring(pos + NAME_SIZE_LEN, pos + NAME_SIZE_LEN + 1).toInt()
-                        placeSize = value.substring(pos + NAME_SIZE_LEN + 1, pos + NAME_SIZE_LEN + 2).toInt()
-                    }
-                } catch (e: Exception) {
-                    println("Invalid GraveName '$value': ${e.message}")
-                    return
-                }
-            }
-            if (rowSize == 0 || placeSize == 0) {
-                println("Invalid GraveName '$value' on $this")
-            }
-        }
 
     var validFrom: Date? = null
     var validTo: Date? = null
@@ -57,7 +38,24 @@ class GraveSite(val field: String, val row: String, val place: String) {
 
     fun addCriteria(crit: String?) {
         if (crit.isNullOrBlank()) return
+        if (crit.lowercase(Locale.getDefault()).startsWith(CRITERIA_PLAN_SIZE)) {
+            // e.g. "PlanGröße=12" -> 1 row, 2 places; only used for the plan layout, not shown as criteria
+            setPlanSize(crit)
+            return
+        }
         criterias.add(crit)
+    }
+
+    fun hasPlanSize(): Boolean = rowSize > 0 && placeSize > 0
+
+    private fun setPlanSize(crit: String) {
+        val value = crit.substring(CRITERIA_PLAN_SIZE.length).trim()
+        if (value.length != 2 || !value.all { it.isDigit() } || value.contains('0')) {
+            System.err.println("Invalid criteria '$crit' on grave site $id: expected two digits (rows, places) greater than 0")
+            return
+        }
+        rowSize = value[0].digitToInt()
+        placeSize = value[1].digitToInt()
     }
 
     fun isBroached(): Boolean = criterias.contains(CRITERIA_GERAUEMT)

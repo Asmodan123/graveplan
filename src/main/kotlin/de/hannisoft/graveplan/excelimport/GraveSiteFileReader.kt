@@ -22,6 +22,8 @@ class GraveSiteFileReader() {
         const val COL_BUILDING_NO: String = "Hausnr (NB)"
         const val COL_ZIP: String = "PLZ (NB)"
         const val COL_CITY: String = "Ort (NB)"
+        const val COL_STATUS: String = "Status"
+        const val STATUS_FREE: String = "frei"
     }
 
     fun read(inputFile: File): Map<String, GraveSite> {
@@ -61,8 +63,15 @@ class GraveSiteFileReader() {
                     graveSite.validFrom = row.getDate(headerMap[COL_VALID_FROM])
                     graveSite.validTo = row.getDate(headerMap[COL_VALID_TO])
                     graveSite.size = graveCount
-                    // e.g. "abgeräumt, gesperrt"
+                    // e.g. "abgeräumt, gesperrt, PlanGröße=12"
                     row.getValue(headerMap[COL_CRITERIA]).split(",").forEach { graveSite.addCriteria(it.trim()) }
+                    // a free (empty or newly created) grave site has no name yet
+                    if (name.isBlank() && !row.getValue(headerMap[COL_STATUS]).trim().equals(STATUS_FREE, ignoreCase = true)) {
+                        System.err.println("Missing 'Grabname' on grave site ${graveSite.id} in $inputFile at row $rowIndex")
+                    }
+                    if (!graveSite.hasPlanSize()) {
+                        System.err.println("Missing or invalid criteria 'PlanGröße=<rows><places>' on grave site ${graveSite.id} in $inputFile at row $rowIndex")
+                    }
                     graves[graveSite.id] = graveSite
                 } catch (e: Exception) {
                     System.err.println("${e.javaClass.simpleName} while reading grave site from $inputFile at row $rowIndex: ${e.message}")

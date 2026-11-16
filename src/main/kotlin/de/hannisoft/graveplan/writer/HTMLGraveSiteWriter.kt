@@ -20,7 +20,10 @@ class HTMLGraveSiteWriter(outputDirString: String) {
                 writeHeader(graveSite)
                 body {
                     writeNavBar(graveSite, dueDay)
-                    h1 { +"Grabstätte ${graveSite.id}" }
+                    h1 {
+                        +"Grabstätte ${graveSite.id}"
+                        graveSite.name?.takeIf { it.isNotBlank() }?.let { +": $it" }
+                    }
                     h3 { +"${graveSite.typeAsString}" }
                     writeCriteria(graveSite.criterias)
                     writeOwner(graveSite)
@@ -70,8 +73,6 @@ class HTMLGraveSiteWriter(outputDirString: String) {
 
     private fun BODY.writeOwner(graveSite: GraveSite) {
         +"Nutzungsrecht bis ${if (graveSite.validTo == null) "---" else dateFormat.format(graveSite.validTo)  }"
-        br
-        +"${graveSite.name}"
         br
 
         br
